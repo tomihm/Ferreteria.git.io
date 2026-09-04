@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contacta a Ferretería Los Maestros y revisa la zona de despacho en el mapa.">
+  <title>Contacto | Ferretería Los Maestros</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="contenedor header__barra">
+      <a href="index.html" class="logo">🔧 FERRETERÍA <em>LOS MAESTROS</em></a>
+
+      <nav class="nav" id="navPrincipal" aria-label="Navegación principal">
+        <ul class="nav__lista">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </nav>
+
+      <div class="header__acciones">
+        <a href="carrito.html" class="carrito-icono" aria-label="Ver carrito de compras">
+          🛒<span class="carrito-contador">0</span>
+        </a>
+        <div id="zonaSesion" class="header__acciones"></div>
+        <button class="hamburguesa" id="btnHamburguesa" aria-label="Abrir menú" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="pagina-titulo">
+      <div class="contenedor">
+        <h1>Contacto y despacho</h1>
+        <p>Escríbenos o revisa si llegamos hasta tu obra.</p>
+      </div>
+    </section>
+
+    <section class="seccion">
+      <div class="contenedor">
+        <div class="grid grid--2">
+
+          <div class="formulario">
+            <h2 style="font-size:1.3rem;margin-bottom:14px">Envíanos un mensaje</h2>
+            <div id="mensajeContacto"></div>
+
+            <form id="formContacto" novalidate>
+              <div class="campo">
+                <label for="conNombre">Nombre</label>
+                <input type="text" id="conNombre" name="nombre" autocomplete="name">
+                <p class="campo__error" id="error-conNombre"></p>
+              </div>
+
+              <div class="campo">
+                <label for="conEmail">Correo electrónico</label>
+                <input type="email" id="conEmail" name="email" autocomplete="email">
+                <p class="campo__error" id="error-conEmail"></p>
+              </div>
+
+              <div class="campo">
+                <label for="conTelefono">Teléfono</label>
+                <input type="tel" id="conTelefono" name="telefono" placeholder="+569 1234 5678" autocomplete="tel">
+                <p class="campo__error" id="error-conTelefono"></p>
+              </div>
+
+              <div class="campo">
+                <label for="conMotivo">Motivo</label>
+                <select id="conMotivo" name="motivo">
+                  <option value="">Elige una opción</option>
+                  <option>Cotización de materiales</option>
+                  <option>Consulta de stock</option>
+                  <option>Estado de un pedido</option>
+                  <option>Cuenta corriente</option>
+                  <option>Otro</option>
+                </select>
+                <p class="campo__error" id="error-conMotivo"></p>
+              </div>
+
+              <div class="campo">
+                <label for="conMensaje">Mensaje</label>
+                <textarea id="conMensaje" name="mensaje" placeholder="Cuéntanos qué necesitas"></textarea>
+                <p class="campo__error" id="error-conMensaje"></p>
+                <p class="campo__ayuda"><span id="contadorCaracteres">0</span>/500 caracteres</p>
+              </div>
+
+              <button type="submit" class="btn btn--primario btn--bloque">Enviar mensaje</button>
+            </form>
+          </div>
+
+          <div>
+            <div class="categoria-card mb-3" style="text-align:left;border-top-color:var(--gris-900)">
+              <h3>Dónde estamos</h3>
+              <p style="margin-top:8px">Av. Balmaceda 1200, La Serena, Región de Coquimbo</p>
+              <p class="mt-1"><strong>+56 9 51 221 4455</strong><br>ventas@losmaestros.cl</p>
+              <p class="mt-1">Lunes a viernes 8:30–19:00<br>Sábado 9:00–14:00</p>
+            </div>
+
+            <h3 style="margin-bottom:10px">Zona de despacho</h3>
+            <p style="color:var(--gris-500);font-size:.9rem;margin-bottom:12px">Haz clic en el mapa sobre la dirección de tu obra para saber si está dentro del radio de 12 km.</p>
+            <div id="mapa"></div>
+            <div id="resultadoCobertura" class="alerta alerta--info mt-2">Todavía no marcas ningún punto en el mapa.</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="contenedor">
+      <div class="footer__grid">
+        <div>
+          <h4>Ferretería Los Maestros</h4>
+          <p style="font-size:.9rem">Materiales de construcción, herramientas y ferretería general en La Serena desde 2004.</p>
+        </div>
+        <div>
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Mi cuenta</h4>
+          <ul>
+            <li><a href="login.html">Iniciar sesión</a></li>
+            <li><a href="mis-pedidos.html">Mis pedidos</a></li>
+            <li><a href="carrito.html">Carrito</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul>
+            <li>Av. Balmaceda 1200, La Serena</li>
+            <li>+56 51 221 4455</li>
+            <li>ventas@losmaestros.cl</li>
+            <li>Lun a Vie 8:30–19:00 · Sáb 9:00–14:00</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__base">
+        <p>© 2026 Ferretería Los Maestros · Proyecto académico DSY1104 Desarrollo FullStack II · Duoc UC</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/validaciones.js"></script>
+  <script src="assets/js/mapa.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", initMapa);
+
+    Validar.enVivo("conNombre", (v) => Validar.longitudMinima(v, 3, "El nombre"));
+    Validar.enVivo("conEmail", Validar.email);
+    Validar.enVivo("conTelefono", Validar.telefono);
+    Validar.enVivo("conMensaje", (v) => Validar.longitudMinima(v, 15, "El mensaje"));
+
+    const areaMensaje = document.getElementById("conMensaje");
+    areaMensaje.setAttribute("maxlength", "500");
+    areaMensaje.addEventListener("input", () => {
+      document.getElementById("contadorCaracteres").textContent = areaMensaje.value.length;
+    });
+
+    document.getElementById("formContacto").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const validaciones = [
+        Validar.aplicar("conNombre", Validar.longitudMinima(document.getElementById("conNombre").value, 3, "El nombre")),
+        Validar.aplicar("conEmail", Validar.email(document.getElementById("conEmail").value)),
+        Validar.aplicar("conTelefono", Validar.telefono(document.getElementById("conTelefono").value)),
+        Validar.aplicar("conMotivo", Validar.requerido(document.getElementById("conMotivo").value)),
+        Validar.aplicar("conMensaje", Validar.longitudMinima(document.getElementById("conMensaje").value, 15, "El mensaje"))
+      ];
+
+      const contenedor = document.getElementById("mensajeContacto");
+
+      if (validaciones.includes(false)) {
+        contenedor.innerHTML = '<div class="alerta alerta--error">Revisa los campos marcados en rojo.</div>';
+        return;
+      }
+
+      contenedor.innerHTML = '<div class="alerta alerta--exito">Mensaje enviado. Te respondemos dentro del día hábil.</div>';
+      mostrarToast("Mensaje enviado", "exito");
+      e.target.reset();
+      document.getElementById("contadorCaracteres").textContent = "0";
+      document.querySelectorAll(".valido").forEach(el => el.classList.remove("valido"));
+    });
+  </script>
+
+</body>
+</html>
