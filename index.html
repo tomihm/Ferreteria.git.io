@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ferretería Los Maestros: materiales de construcción, herramientas y ferretería general en La Serena. Consulta stock en tiempo real y haz tu pedido en línea.">
+  <title>Ferretería Los Maestros | Inicio</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="contenedor header__barra">
+      <a href="index.html" class="logo">🔧 FERRETERÍA <em>LOS MAESTROS</em></a>
+
+      <nav class="nav" id="navPrincipal" aria-label="Navegación principal">
+        <ul class="nav__lista">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </nav>
+
+      <div class="header__acciones">
+        <a href="carrito.html" class="carrito-icono" aria-label="Ver carrito de compras">
+          🛒<span class="carrito-contador">0</span>
+        </a>
+        <div id="zonaSesion" class="header__acciones"></div>
+        <button class="hamburguesa" id="btnHamburguesa" aria-label="Abrir menú" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <div class="contenedor">
+        <h1>Todo para tu obra, en un solo lugar</h1>
+        <p>22 años en La Serena abasteciendo a contratistas y hogares. Mira el stock disponible y arma tu pedido sin tener que llamar por teléfono.</p>
+        <div class="hero__botones">
+          <a href="catalogo.html" class="btn btn--primario">Ver catálogo</a>
+          <a href="login.html" class="btn btn--borde">Entrar a mi cuenta</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion">
+      <div class="contenedor">
+        <h2 class="seccion__titulo">Qué vendemos</h2>
+        <p class="seccion__subtitulo">Más de 800 referencias en bodega</p>
+        <div class="grid grid--3" id="gridCategorias"></div>
+      </div>
+    </section>
+
+    <section class="seccion seccion--blanca">
+      <div class="contenedor">
+        <h2 class="seccion__titulo">Los más pedidos</h2>
+        <p class="seccion__subtitulo">Lo que se llevan nuestros maestros cada semana</p>
+        <div class="grid grid--4" id="gridDestacados"></div>
+        <div class="texto-centro mt-3">
+          <a href="catalogo.html" class="btn btn--primario">Ver todo el catálogo</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion">
+      <div class="contenedor">
+        <h2 class="seccion__titulo">Cómo funciona comprar aquí</h2>
+        <p class="seccion__subtitulo">Tres pasos entre tu obra y el material</p>
+        <div class="grid grid--3 mt-3">
+          <article class="categoria-card">
+            <div class="icono">📦</div>
+            <h3>Revisa el stock</h3>
+            <p>Cada producto muestra las unidades que hay en bodega ahora mismo. Si dice disponible, está.</p>
+          </article>
+          <article class="categoria-card">
+            <div class="icono">🛒</div>
+            <h3>Arma tu pedido</h3>
+            <p>Agrega lo que necesites al carrito y elige entre retirar en el mesón o pedir despacho.</p>
+          </article>
+          <article class="categoria-card">
+            <div class="icono">📄</div>
+            <h3>Paga como te acomode</h3>
+            <p>Al contado, o a fin de mes si tienes cuenta corriente habilitada como contratista.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion seccion--blanca">
+      <div class="contenedor">
+        <div class="grid grid--2" style="align-items:center">
+          <div>
+            <h2 style="font-size:1.7rem;margin-bottom:12px">¿Despachamos hasta tu obra?</h2>
+            <p style="color:var(--gris-700);margin-bottom:18px">Cubrimos 12 km a la redonda desde Av. Balmaceda, lo que incluye La Serena y buena parte de Coquimbo. Revisa tu dirección en el mapa antes de hacer el pedido.</p>
+            <a href="contacto.html" class="btn btn--primario">Ver mapa de cobertura</a>
+          </div>
+          <div class="categoria-card" style="border-top-color:var(--gris-900)">
+            <h3>Horario de atención</h3>
+            <p style="margin-top:10px">Lunes a viernes · 8:30 a 19:00<br>Sábado · 9:00 a 14:00<br>Domingo · cerrado</p>
+            <p class="mt-2"><strong>+56 51 221 4455</strong></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="contenedor">
+      <div class="footer__grid">
+        <div>
+          <h4>Ferretería Los Maestros</h4>
+          <p style="font-size:.9rem">Materiales de construcción, herramientas y ferretería general en La Serena desde 2004.</p>
+        </div>
+        <div>
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Mi cuenta</h4>
+          <ul>
+            <li><a href="login.html">Iniciar sesión</a></li>
+            <li><a href="mis-pedidos.html">Mis pedidos</a></li>
+            <li><a href="carrito.html">Carrito</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul>
+            <li>Av. Balmaceda 1200, La Serena</li>
+            <li>+56 51 221 4455</li>
+            <li>ventas@losmaestros.cl</li>
+            <li>Lun a Vie 8:30–19:00 · Sáb 9:00–14:00</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__base">
+        <p>© 2026 Ferretería Los Maestros · Proyecto académico DSY1104 Desarrollo FullStack II · Duoc UC</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/carrito.js"></script>
+  <script>
+    document.getElementById("gridCategorias").innerHTML = CATEGORIAS.map(c => `
+      <a href="catalogo.html?categoria=${c.id}" class="categoria-card">
+        <div class="icono">${c.icono}</div>
+        <h3>${c.nombre}</h3>
+        <p>Ver productos</p>
+      </a>`).join("");
+
+    const destacados = DB.getProductos().filter(p => p.stock > p.stockMinimo).slice(0, 4);
+    document.getElementById("gridDestacados").innerHTML = destacados.map(p => {
+      const est = estadoStock(p);
+      return `
+        <article class="tarjeta">
+          <div class="producto__img">${p.icono}</div>
+          <div class="tarjeta__cuerpo">
+            <p class="producto__codigo">${p.codigo}</p>
+            <h3 class="producto__nombre">${p.nombre}</h3>
+            <p class="producto__marca">${p.marca}</p>
+            <p class="producto__precio">${formatearPrecio(p.precio)}</p>
+            <span class="badge ${est.clase}">${est.texto}</span>
+            <div class="producto__acciones">
+              <a href="producto.html?id=${p.id}" class="btn btn--primario btn--bloque">Ver producto</a>
+            </div>
+          </div>
+        </article>`;
+    }).join("");
+  </script>
+
+</body>
+</html>
