@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Revisa tu carrito y confirma tu pedido en Ferretería Los Maestros.">
+  <title>Carrito | Ferretería Los Maestros</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="contenedor header__barra">
+      <a href="index.html" class="logo">🔧 FERRETERÍA <em>LOS MAESTROS</em></a>
+
+      <nav class="nav" id="navPrincipal" aria-label="Navegación principal">
+        <ul class="nav__lista">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </nav>
+
+      <div class="header__acciones">
+        <a href="carrito.html" class="carrito-icono" aria-label="Ver carrito de compras">
+          🛒<span class="carrito-contador">0</span>
+        </a>
+        <div id="zonaSesion" class="header__acciones"></div>
+        <button class="hamburguesa" id="btnHamburguesa" aria-label="Abrir menú" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="pagina-titulo">
+      <div class="contenedor">
+        <h1>Tu carrito</h1>
+        <p>Revisa las cantidades antes de confirmar. El stock se reserva recién al confirmar el pedido.</p>
+      </div>
+    </section>
+
+    <section class="seccion">
+      <div class="contenedor">
+        <div id="contenidoCarrito"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="contenedor">
+      <div class="footer__grid">
+        <div>
+          <h4>Ferretería Los Maestros</h4>
+          <p style="font-size:.9rem">Materiales de construcción, herramientas y ferretería general en La Serena desde 2004.</p>
+        </div>
+        <div>
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Mi cuenta</h4>
+          <ul>
+            <li><a href="login.html">Iniciar sesión</a></li>
+            <li><a href="mis-pedidos.html">Mis pedidos</a></li>
+            <li><a href="carrito.html">Carrito</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul>
+            <li>Av. Balmaceda 1200, La Serena</li>
+            <li>+56 51 221 4455</li>
+            <li>ventas@losmaestros.cl</li>
+            <li>Lun a Vie 8:30–19:00 · Sáb 9:00–14:00</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__base">
+        <p>© 2026 Ferretería Los Maestros · Proyecto académico DSY1104 Desarrollo FullStack II · Duoc UC</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/carrito.js"></script>
+  <script>
+    function renderizarCarrito() {
+      const carrito = DB.getCarrito();
+      const contenedor = document.getElementById("contenidoCarrito");
+      const usuario = Auth.usuarioActual();
+
+      if (carrito.length === 0) {
+        contenedor.innerHTML = `
+          <div class="vacio">
+            <div class="icono">🛒</div>
+            <h3>Todavía no agregas productos</h3>
+            <p>Explora el catálogo y arma tu pedido.</p>
+            <a href="catalogo.html" class="btn btn--primario mt-2">Ir al catálogo</a>
+          </div>`;
+        return;
+      }
+
+      const subtotal = Carrito.subtotal();
+
+      contenedor.innerHTML = `
+        <div class="carrito-layout">
+          <div>
+            <div class="tabla-scroll">
+              <table class="tabla">
+                <thead>
+                  <tr><th>Producto</th><th>Precio</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>
+                </thead>
+                <tbody>
+                  ${carrito.map(i => `
+                    <tr>
+                      <td>
+                        <strong>${i.icono || "🔩"} ${i.nombre}</strong><br>
+                        <small style="color:var(--gris-500)">${i.codigo} · por ${i.unidad}</small>
+                      </td>
+                      <td>${formatearPrecio(i.precio)}</td>
+                      <td>
+                        <input type="number" min="1" value="${i.cantidad}"
+                          onchange="Carrito.cambiarCantidad(${i.id}, this.value)">
+                      </td>
+                      <td><strong>${formatearPrecio(i.precio * i.cantidad)}</strong></td>
+                      <td><button class="btn btn--peligro btn--sm" onclick="Carrito.eliminar(${i.id})">Quitar</button></td>
+                    </tr>`).join("")}
+                </tbody>
+              </table>
+            </div>
+            <div class="flex-entre mt-3">
+              <a href="catalogo.html" class="btn btn--secundario">Seguir comprando</a>
+              <button class="btn btn--peligro" onclick="Carrito.vaciar()">Vaciar carrito</button>
+            </div>
+          </div>
+
+          <aside class="resumen">
+            <h2 style="font-size:1.2rem;margin-bottom:12px">Resumen del pedido</h2>
+
+            <div class="campo">
+              <label for="tipoEntrega">Cómo lo recibes</label>
+              <select id="tipoEntrega" onchange="actualizarResumen()">
+                <option value="retiro">Retiro en tienda (gratis)</option>
+                <option value="despacho">Despacho a domicilio</option>
+              </select>
+            </div>
+
+            <div class="campo oculto" id="campoDireccion">
+              <label for="direccionEntrega">Dirección de entrega</label>
+              <input type="text" id="direccionEntrega" placeholder="Calle, número, comuna"
+                     value="${usuario ? usuario.direccion : ""}">
+              <p class="campo__error" id="error-direccionEntrega"></p>
+              <p class="campo__ayuda">Cubrimos 12 km alrededor de la tienda. Revisa tu dirección en <a href="contacto.html" style="color:var(--naranja)">el mapa</a>.</p>
+            </div>
+
+            ${usuario && usuario.cuentaCorriente ? `
+              <div class="campo campo--check">
+                <input type="checkbox" id="usarCC" checked>
+                <label for="usarCC">Cargar a mi cuenta corriente</label>
+              </div>
+              <div class="alerta alerta--info" style="font-size:.85rem">
+                Saldo pendiente actual: <strong>${formatearPrecio(usuario.saldo)}</strong>. Se cobra a fin de mes.
+              </div>` : ""}
+
+            <div class="resumen__linea"><span>Subtotal</span><span>${formatearPrecio(subtotal)}</span></div>
+            <div class="resumen__linea"><span>Despacho</span><span id="lineaDespacho">Gratis</span></div>
+            <div class="resumen__total"><span>Total</span><span id="lineaTotal">${formatearPrecio(subtotal)}</span></div>
+
+            <button class="btn btn--primario btn--bloque mt-3" id="btnConfirmar">Confirmar pedido</button>
+            ${!usuario ? '<p class="campo__ayuda texto-centro mt-1">Necesitas iniciar sesión para confirmar.</p>' : ""}
+          </aside>
+        </div>`;
+
+      document.getElementById("btnConfirmar").addEventListener("click", confirmar);
+      actualizarResumen();
+    }
+
+    function actualizarResumen() {
+      const select = document.getElementById("tipoEntrega");
+      if (!select) return;
+
+      const esDespacho = select.value === "despacho";
+      document.getElementById("campoDireccion").classList.toggle("oculto", !esDespacho);
+
+      const subtotal = Carrito.subtotal();
+      const despacho = (esDespacho && subtotal < DESPACHO_GRATIS_DESDE) ? COSTO_DESPACHO : 0;
+
+      document.getElementById("lineaDespacho").textContent =
+        !esDespacho ? "Retiro en tienda" : despacho === 0 ? "Gratis" : formatearPrecio(despacho);
+      document.getElementById("lineaTotal").textContent = formatearPrecio(subtotal + despacho);
+    }
+
+    function confirmar() {
+      const usuario = Auth.usuarioActual();
+      if (!usuario) {
+        mostrarToast("Inicia sesión para confirmar tu pedido", "error");
+        setTimeout(() => location.href = "login.html?redirigir=carrito.html", 900);
+        return;
+      }
+
+      const entrega = document.getElementById("tipoEntrega").value;
+      const inputDireccion = document.getElementById("direccionEntrega");
+      const errorDireccion = document.getElementById("error-direccionEntrega");
+      let direccion = "";
+
+      if (entrega === "despacho") {
+        direccion = inputDireccion.value.trim();
+        if (direccion.length < 8) {
+          inputDireccion.classList.add("invalido");
+          errorDireccion.textContent = "Escribe la dirección completa: calle, número y comuna.";
+          errorDireccion.classList.add("visible");
+          inputDireccion.focus();
+          return;
+        }
+        inputDireccion.classList.remove("invalido");
+        errorDireccion.classList.remove("visible");
+      }
+
+      const checkCC = document.getElementById("usarCC");
+      const usarCC = checkCC ? checkCC.checked : false;
+
+      const resultado = Carrito.confirmarPedido(entrega, direccion, usarCC);
+
+      if (!resultado.ok) {
+        mostrarToast(resultado.mensaje, "error");
+        renderizarCarrito();
+        return;
+      }
+
+      document.getElementById("contenidoCarrito").innerHTML = `
+        <div class="vacio">
+          <div class="icono">✅</div>
+          <h2>Pedido #${resultado.pedido.id} confirmado</h2>
+          <p class="mt-1">Total: <strong>${formatearPrecio(resultado.pedido.total)}</strong> · ${resultado.pedido.pago}</p>
+          <p>${resultado.pedido.entrega === "retiro"
+            ? "Te avisamos cuando esté listo para retirar en el mesón."
+            : "Lo despachamos a " + resultado.pedido.direccion + "."}</p>
+          <div class="mt-3">
+            <a href="mis-pedidos.html" class="btn btn--primario">Ver mis pedidos</a>
+            <a href="catalogo.html" class="btn btn--secundario">Seguir comprando</a>
+          </div>
+        </div>`;
+    }
+
+    document.addEventListener("DOMContentLoaded", renderizarCarrito);
+  </script>
+
+</body>
+</html>

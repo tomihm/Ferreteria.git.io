@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Catálogo completo de Ferretería Los Maestros con stock disponible en tiempo real.">
+  <title>Catálogo | Ferretería Los Maestros</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="contenedor header__barra">
+      <a href="index.html" class="logo">🔧 FERRETERÍA <em>LOS MAESTROS</em></a>
+
+      <nav class="nav" id="navPrincipal" aria-label="Navegación principal">
+        <ul class="nav__lista">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </nav>
+
+      <div class="header__acciones">
+        <a href="carrito.html" class="carrito-icono" aria-label="Ver carrito de compras">
+          🛒<span class="carrito-contador">0</span>
+        </a>
+        <div id="zonaSesion" class="header__acciones"></div>
+        <button class="hamburguesa" id="btnHamburguesa" aria-label="Abrir menú" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="pagina-titulo">
+      <div class="contenedor">
+        <h1>Catálogo de productos</h1>
+        <p>Las cantidades que ves son las unidades que hay en bodega en este momento.</p>
+      </div>
+    </section>
+
+    <section class="seccion">
+      <div class="contenedor">
+
+        <form class="filtros" id="formFiltros" onsubmit="return false">
+          <div class="campo">
+            <label for="filtroBuscar">Buscar</label>
+            <input type="search" id="filtroBuscar" name="buscar" placeholder="Nombre, código o marca" autocomplete="off">
+          </div>
+          <div class="campo">
+            <label for="filtroCategoria">Categoría</label>
+            <select id="filtroCategoria" name="categoria"></select>
+          </div>
+          <div class="campo">
+            <label for="filtroStock">Disponibilidad</label>
+            <select id="filtroStock" name="stock">
+              <option value="">Todas</option>
+              <option value="disponible">Con stock</option>
+              <option value="bajo">Stock bajo</option>
+              <option value="agotado">Sin stock</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="filtroOrden">Ordenar por</label>
+            <select id="filtroOrden" name="orden">
+              <option value="nombre">Nombre A-Z</option>
+              <option value="precio-asc">Precio: menor a mayor</option>
+              <option value="precio-desc">Precio: mayor a menor</option>
+              <option value="stock">Más stock disponible</option>
+            </select>
+          </div>
+        </form>
+
+        <div class="flex-entre mb-3">
+          <p id="contadorResultados" style="color:var(--gris-500)"></p>
+          <button class="btn btn--secundario btn--sm" id="btnLimpiar">Limpiar filtros</button>
+        </div>
+
+        <div class="grid grid--4" id="gridProductos"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="contenedor">
+      <div class="footer__grid">
+        <div>
+          <h4>Ferretería Los Maestros</h4>
+          <p style="font-size:.9rem">Materiales de construcción, herramientas y ferretería general en La Serena desde 2004.</p>
+        </div>
+        <div>
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Mi cuenta</h4>
+          <ul>
+            <li><a href="login.html">Iniciar sesión</a></li>
+            <li><a href="mis-pedidos.html">Mis pedidos</a></li>
+            <li><a href="carrito.html">Carrito</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul>
+            <li>Av. Balmaceda 1200, La Serena</li>
+            <li>+56 51 221 4455</li>
+            <li>ventas@losmaestros.cl</li>
+            <li>Lun a Vie 8:30–19:00 · Sáb 9:00–14:00</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__base">
+        <p>© 2026 Ferretería Los Maestros · Proyecto académico DSY1104 Desarrollo FullStack II · Duoc UC</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/carrito.js"></script>
+  <script src="assets/js/catalogo.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", initCatalogo);</script>
+
+</body>
+</html>
