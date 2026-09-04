@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Historial de pedidos y estado de cuenta corriente.">
+  <title>Mis pedidos | Ferretería Los Maestros</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="contenedor header__barra">
+      <a href="index.html" class="logo">🔧 FERRETERÍA <em>LOS MAESTROS</em></a>
+
+      <nav class="nav" id="navPrincipal" aria-label="Navegación principal">
+        <ul class="nav__lista">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </nav>
+
+      <div class="header__acciones">
+        <a href="carrito.html" class="carrito-icono" aria-label="Ver carrito de compras">
+          🛒<span class="carrito-contador">0</span>
+        </a>
+        <div id="zonaSesion" class="header__acciones"></div>
+        <button class="hamburguesa" id="btnHamburguesa" aria-label="Abrir menú" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="pagina-titulo">
+      <div class="contenedor">
+        <h1 id="tituloPagina">Mis pedidos</h1>
+        <p id="subtituloPagina">Historial de compras y estado de cada pedido.</p>
+      </div>
+    </section>
+
+    <section class="seccion">
+      <div class="contenedor">
+        <div id="bloqueCuenta" class="mb-3"></div>
+        <div id="listaPedidos"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="contenedor">
+      <div class="footer__grid">
+        <div>
+          <h4>Ferretería Los Maestros</h4>
+          <p style="font-size:.9rem">Materiales de construcción, herramientas y ferretería general en La Serena desde 2004.</p>
+        </div>
+        <div>
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Mi cuenta</h4>
+          <ul>
+            <li><a href="login.html">Iniciar sesión</a></li>
+            <li><a href="mis-pedidos.html">Mis pedidos</a></li>
+            <li><a href="carrito.html">Carrito</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul>
+            <li>Av. Balmaceda 1200, La Serena</li>
+            <li>+56 51 221 4455</li>
+            <li>ventas@losmaestros.cl</li>
+            <li>Lun a Vie 8:30–19:00 · Sáb 9:00–14:00</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__base">
+        <p>© 2026 Ferretería Los Maestros · Proyecto académico DSY1104 Desarrollo FullStack II · Duoc UC</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/carrito.js"></script>
+  <script>
+    const usuario = Auth.proteger(["cliente", "contratista", "admin", "vendedor"]);
+
+    if (usuario) {
+      const actual = Auth.refrescarSesion();
+      document.getElementById("subtituloPagina").textContent = `${actual.nombre} · ${actual.email}`;
+
+      const bloque = document.getElementById("bloqueCuenta");
+      if (actual.cuentaCorriente) {
+        bloque.innerHTML = `
+          <div class="kpi-grid">
+            <div class="kpi">
+              <p class="kpi__label">Saldo pendiente</p>
+              <p class="kpi__valor">${formatearPrecio(actual.saldo)}</p>
+            </div>
+            <div class="kpi">
+              <p class="kpi__label">Modalidad</p>
+              <p class="kpi__valor" style="font-size:1.1rem">Cuenta corriente</p>
+            </div>
+            <div class="kpi">
+              <p class="kpi__label">Fecha de cobro</p>
+              <p class="kpi__valor" style="font-size:1.1rem">Fin de mes</p>
+            </div>
+            <div class="kpi">
+              <p class="kpi__label">Contacto de cobranza</p>
+              <p class="kpi__valor" style="font-size:1.1rem">+56 51 221 4455</p>
+            </div>
+          </div>`;
+      } else {
+        bloque.innerHTML = `
+          <div class="alerta alerta--info">
+            Tu cuenta compra al contado. Si compras seguido para obra, pide al administrador que te habilite cuenta corriente.
+          </div>`;
+      }
+
+      
+      const pedidos = DB.getPedidos()
+        .filter(p => p.usuarioId === actual.id)
+        .sort((a, b) => b.id - a.id);
+
+      const lista = document.getElementById("listaPedidos");
+
+      if (pedidos.length === 0) {
+        lista.innerHTML = `
+          <div class="vacio">
+            <div class="icono">📋</div>
+            <h3>Aún no tienes pedidos</h3>
+            <p>Cuando compres, aquí verás el detalle y el estado de cada uno.</p>
+            <a href="catalogo.html" class="btn btn--primario mt-2">Ir al catálogo</a>
+          </div>`;
+      } else {
+        const colorEstado = {
+          "Pendiente": "badge--neutro",
+          "En preparación": "badge--info",
+          "Listo para retiro": "badge--stock",
+          "En reparto": "badge--info",
+          "Entregado": "badge--stock",
+          "Anulado": "badge--agotado"
+        };
+
+        lista.innerHTML = pedidos.map(p => `
+          <article class="tarjeta mb-3">
+            <div class="tarjeta__cuerpo">
+              <div class="flex-entre mb-2">
+                <div>
+                  <h3 style="font-size:1.1rem">Pedido #${p.id}</h3>
+                  <p style="font-size:.85rem;color:var(--gris-500)">${formatearFecha(p.fecha)} · ${p.entrega === "retiro" ? "Retiro en tienda" : "Despacho a " + p.direccion}</p>
+                </div>
+                <span class="badge ${colorEstado[p.estado] || "badge--neutro"}">${p.estado}</span>
+              </div>
+
+              <div class="tabla-scroll">
+                <table class="tabla" style="min-width:420px">
+                  <thead><tr><th>Producto</th><th>Cantidad</th><th>Precio</th><th>Subtotal</th></tr></thead>
+                  <tbody>
+                    ${p.items.map(i => `
+                      <tr>
+                        <td>${i.nombre}</td>
+                        <td>${i.cantidad}</td>
+                        <td>${formatearPrecio(i.precio)}</td>
+                        <td>${formatearPrecio(i.precio * i.cantidad)}</td>
+                      </tr>`).join("")}
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="flex-entre mt-2">
+                <span class="badge badge--neutro">${p.pago}</span>
+                <strong style="font-size:1.15rem">Total: ${formatearPrecio(p.total)}</strong>
+              </div>
+            </div>
+          </article>`).join("");
+      }
+    }
+  </script>
+
+</body>
+</html>
