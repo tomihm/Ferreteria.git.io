@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Inicia sesión o crea tu cuenta en Ferretería Los Maestros.">
+  <title>Iniciar sesión | Ferretería Los Maestros</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="contenedor header__barra">
+      <a href="index.html" class="logo">🔧 FERRETERÍA <em>LOS MAESTROS</em></a>
+
+      <nav class="nav" id="navPrincipal" aria-label="Navegación principal">
+        <ul class="nav__lista">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </nav>
+
+      <div class="header__acciones">
+        <a href="carrito.html" class="carrito-icono" aria-label="Ver carrito de compras">
+          🛒<span class="carrito-contador">0</span>
+        </a>
+        <div id="zonaSesion" class="header__acciones"></div>
+        <button class="hamburguesa" id="btnHamburguesa" aria-label="Abrir menú" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="seccion">
+      <div class="contenedor">
+        <div class="formulario formulario--angosto">
+
+          <div class="tabs">
+            <button type="button" id="tabLogin" class="activo">Entrar</button>
+            <button type="button" id="tabRegistro">Crear cuenta</button>
+          </div>
+
+
+          <form id="formLogin" novalidate>
+            <h1 style="font-size:1.4rem;margin-bottom:4px">Entra a tu cuenta</h1>
+            <p style="color:var(--gris-500);font-size:.9rem;margin-bottom:18px">Para ver tus pedidos y tu cuenta corriente.</p>
+
+            <div id="mensajeLogin"></div>
+
+            <div class="campo">
+              <label for="loginEmail">Correo electrónico</label>
+              <input type="email" id="loginEmail" name="email" autocomplete="email" placeholder="nombre@correo.cl">
+              <p class="campo__error" id="error-loginEmail"></p>
+            </div>
+
+            <div class="campo">
+              <label for="loginPassword">Contraseña</label>
+              <input type="password" id="loginPassword" name="password" autocomplete="current-password">
+              <p class="campo__error" id="error-loginPassword"></p>
+            </div>
+
+            <button type="submit" class="btn btn--primario btn--bloque">Entrar</button>
+          </form>
+
+          
+          <form id="formRegistro" class="oculto" novalidate>
+            <h1 style="font-size:1.4rem;margin-bottom:4px">Crea tu cuenta</h1>
+            <p style="color:var(--gris-500);font-size:.9rem;margin-bottom:18px">Toma un minuto y te deja comprar en línea.</p>
+
+            <div id="mensajeRegistro"></div>
+
+            <div class="campo">
+              <label for="regNombre">Nombre y apellido</label>
+              <input type="text" id="regNombre" name="nombre" autocomplete="name">
+              <p class="campo__error" id="error-regNombre"></p>
+            </div>
+
+            <div class="campo">
+              <label for="regRut">RUT</label>
+              <input type="text" id="regRut" name="rut" placeholder="12.345.678-9" maxlength="12">
+              <p class="campo__error" id="error-regRut"></p>
+            </div>
+
+            <div class="campo">
+              <label for="regEmail">Correo electrónico</label>
+              <input type="email" id="regEmail" name="email" autocomplete="email">
+              <p class="campo__error" id="error-regEmail"></p>
+            </div>
+
+            <div class="campo">
+              <label for="regTelefono">Teléfono</label>
+              <input type="tel" id="regTelefono" name="telefono" placeholder="+569 1234 5678" autocomplete="tel">
+              <p class="campo__error" id="error-regTelefono"></p>
+            </div>
+
+            <div class="campo">
+              <label for="regDireccion">Dirección</label>
+              <input type="text" id="regDireccion" name="direccion" placeholder="Calle, número, comuna" autocomplete="street-address">
+              <p class="campo__error" id="error-regDireccion"></p>
+            </div>
+
+            <div class="campo">
+              <label for="regPassword">Contraseña</label>
+              <input type="password" id="regPassword" name="password" autocomplete="new-password">
+              <p class="campo__error" id="error-regPassword"></p>
+              <p class="campo__ayuda">Mínimo 8 caracteres, con una mayúscula, una minúscula y un número.</p>
+            </div>
+
+            <div class="campo">
+              <label for="regPassword2">Repite la contraseña</label>
+              <input type="password" id="regPassword2" name="password2" autocomplete="new-password">
+              <p class="campo__error" id="error-regPassword2"></p>
+            </div>
+
+            <div class="campo campo--check">
+              <input type="checkbox" id="regContratista">
+              <label for="regContratista">Soy contratista o maestro de obra</label>
+            </div>
+
+            <button type="submit" class="btn btn--primario btn--bloque">Crear cuenta</button>
+          </form>
+
+          <div class="alerta alerta--info mt-3" style="font-size:.84rem">
+            <strong>Cuentas de prueba</strong><br>
+            Administrador: admin@losmaestros.cl / Admin123!<br>
+            Vendedor: vendedor@losmaestros.cl / Vende123!<br>
+            Contratista con cuenta corriente: contratista@correo.cl / Contra123!<br>
+            Cliente: cliente@correo.cl / Client123!
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="contenedor">
+      <div class="footer__grid">
+        <div>
+          <h4>Ferretería Los Maestros</h4>
+          <p style="font-size:.9rem">Materiales de construcción, herramientas y ferretería general en La Serena desde 2004.</p>
+        </div>
+        <div>
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Mi cuenta</h4>
+          <ul>
+            <li><a href="login.html">Iniciar sesión</a></li>
+            <li><a href="mis-pedidos.html">Mis pedidos</a></li>
+            <li><a href="carrito.html">Carrito</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul>
+            <li>Av. Balmaceda 1200, La Serena</li>
+            <li>+56 51 221 4455</li>
+            <li>ventas@losmaestros.cl</li>
+            <li>Lun a Vie 8:30–19:00 · Sáb 9:00–14:00</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__base">
+        <p>© 2026 Ferretería Los Maestros · Proyecto académico DSY1104 Desarrollo FullStack II · Duoc UC</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/validaciones.js"></script>
+  <script>
+    const formLogin = document.getElementById("formLogin");
+    const formRegistro = document.getElementById("formRegistro");
+    const tabLogin = document.getElementById("tabLogin");
+    const tabRegistro = document.getElementById("tabRegistro");
+
+    tabLogin.addEventListener("click", () => {
+      formLogin.classList.remove("oculto");
+      formRegistro.classList.add("oculto");
+      tabLogin.classList.add("activo");
+      tabRegistro.classList.remove("activo");
+    });
+
+    tabRegistro.addEventListener("click", () => {
+      formRegistro.classList.remove("oculto");
+      formLogin.classList.add("oculto");
+      tabRegistro.classList.add("activo");
+      tabLogin.classList.remove("activo");
+    });
+
+
+    Validar.enVivo("loginEmail", Validar.email);
+    Validar.enVivo("regNombre", (v) => Validar.longitudMinima(v, 3, "El nombre"));
+    Validar.enVivo("regRut", Validar.rut);
+    Validar.enVivo("regEmail", Validar.email);
+    Validar.enVivo("regTelefono", Validar.telefono);
+    Validar.enVivo("regDireccion", (v) => Validar.longitudMinima(v, 8, "La dirección"));
+    Validar.enVivo("regPassword", Validar.password);
+    Validar.enVivo("regPassword2", (v) => Validar.confirmarPassword(v, document.getElementById("regPassword").value));
+    Validar.formatearRut("regRut");
+
+    function mostrarMensaje(idContenedor, texto, tipo) {
+      document.getElementById(idContenedor).innerHTML =
+        `<div class="alerta alerta--${tipo}">${texto}</div>`;
+    }
+
+
+    formLogin.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+
+      const okEmail = Validar.aplicar("loginEmail", Validar.email(email));
+      const okPass = Validar.aplicar("loginPassword", Validar.requerido(password));
+      if (!okEmail || !okPass) return;
+
+      const resultado = Auth.iniciarSesion(email, password);
+
+      if (!resultado.ok) {
+        mostrarMensaje("mensajeLogin", resultado.mensaje, "error");
+        return;
+      }
+
+      mostrarMensaje("mensajeLogin", `Bienvenido, ${resultado.usuario.nombre}. Entrando…`, "exito");
+
+      const destino = new URLSearchParams(location.search).get("redirigir");
+      setTimeout(() => {
+        if (destino) location.href = destino;
+        else if (resultado.usuario.rol === "admin" || resultado.usuario.rol === "vendedor") location.href = "admin.html";
+        else location.href = "mis-pedidos.html";
+      }, 800);
+    });
+
+    // ---- Enviar registro ----
+    formRegistro.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const datos = {
+        nombre: document.getElementById("regNombre").value.trim(),
+        rut: document.getElementById("regRut").value.trim(),
+        email: document.getElementById("regEmail").value.trim(),
+        telefono: document.getElementById("regTelefono").value.trim(),
+        direccion: document.getElementById("regDireccion").value.trim(),
+        password: document.getElementById("regPassword").value,
+        esContratista: document.getElementById("regContratista").checked
+      };
+
+      const validaciones = [
+        Validar.aplicar("regNombre", Validar.longitudMinima(datos.nombre, 3, "El nombre")),
+        Validar.aplicar("regRut", Validar.rut(datos.rut)),
+        Validar.aplicar("regEmail", Validar.email(datos.email)),
+        Validar.aplicar("regTelefono", Validar.telefono(datos.telefono)),
+        Validar.aplicar("regDireccion", Validar.longitudMinima(datos.direccion, 8, "La dirección")),
+        Validar.aplicar("regPassword", Validar.password(datos.password)),
+        Validar.aplicar("regPassword2", Validar.confirmarPassword(document.getElementById("regPassword2").value, datos.password))
+      ];
+
+      if (validaciones.includes(false)) {
+        mostrarMensaje("mensajeRegistro", "Revisa los campos marcados en rojo.", "error");
+        return;
+      }
+
+      const resultado = Auth.registrar(datos);
+
+      if (!resultado.ok) {
+        mostrarMensaje("mensajeRegistro", resultado.mensaje, "error");
+        return;
+      }
+
+      mostrarMensaje("mensajeRegistro", "Cuenta creada. Entrando…", "exito");
+      Auth.iniciarSesion(datos.email, datos.password);
+      setTimeout(() => location.href = "mis-pedidos.html", 900);
+    });
+  </script>
+
+</body>
+</html>
