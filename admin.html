@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Panel de administración de Ferretería Los Maestros.">
+  <title>Panel | Ferretería Los Maestros</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="contenedor header__barra">
+      <a href="index.html" class="logo">🔧 FERRETERÍA <em>LOS MAESTROS</em></a>
+
+      <nav class="nav" id="navPrincipal" aria-label="Navegación principal">
+        <ul class="nav__lista">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </nav>
+
+      <div class="header__acciones">
+        <a href="carrito.html" class="carrito-icono" aria-label="Ver carrito de compras">
+          🛒<span class="carrito-contador">0</span>
+        </a>
+        <div id="zonaSesion" class="header__acciones"></div>
+        <button class="hamburguesa" id="btnHamburguesa" aria-label="Abrir menú" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="pagina-titulo">
+      <div class="contenedor flex-entre">
+        <div>
+          <h1>Panel de gestión</h1>
+          <p><span id="nombrePanel"></span> · <span id="rolPanel"></span></p>
+        </div>
+        <button class="btn btn--secundario btn--sm" id="btnRestaurar">Restaurar datos de demo</button>
+      </div>
+    </section>
+
+    <section class="seccion">
+      <div class="contenedor">
+        <div class="admin">
+
+          <nav class="admin__menu" aria-label="Secciones del panel">
+            <button data-panel="panelResumen" class="activo">Resumen</button>
+            <button data-panel="panelInventario">Inventario</button>
+            <button data-panel="panelPedidos">Pedidos</button>
+            <button data-panel="panelUsuarios" id="btnTabUsuarios">Usuarios</button>
+            <button data-panel="panelReportes">Reportes</button>
+          </nav>
+
+          <div>
+
+            <div class="panel activo" id="panelResumen">
+              <h2>Resumen del día</h2>
+              <div class="kpi-grid">
+                <div class="kpi"><p class="kpi__label">Productos en catálogo</p><p class="kpi__valor" id="kpiProductos">0</p></div>
+                <div class="kpi"><p class="kpi__label">Pedidos registrados</p><p class="kpi__valor" id="kpiPedidos">0</p></div>
+                <div class="kpi"><p class="kpi__label">Clientes</p><p class="kpi__valor" id="kpiClientes">0</p></div>
+                <div class="kpi"><p class="kpi__label">Ventas acumuladas</p><p class="kpi__valor" id="kpiVentas">$0</p></div>
+              </div>
+              <h3 style="margin-bottom:12px">Alertas de reposición</h3>
+              <div id="alertasStock"></div>
+            </div>
+
+            <div class="panel" id="panelInventario">
+              <h2>Inventario</h2>
+              <div class="campo mb-3">
+                <label for="buscarInventario">Buscar producto</label>
+                <input type="search" id="buscarInventario" placeholder="Nombre o código"
+                       oninput="renderInventario(this.value)">
+              </div>
+              <div class="tabla-scroll">
+                <table class="tabla">
+                  <thead>
+                    <tr><th>Código</th><th>Producto</th><th>Precio</th><th>Stock</th><th>Mínimo</th><th>Estado</th><th></th></tr>
+                  </thead>
+                  <tbody id="tablaInventario"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="panel" id="panelPedidos">
+              <h2>Pedidos</h2>
+              <div class="campo mb-3">
+                <label for="filtroEstadoPedido">Filtrar por estado</label>
+                <select id="filtroEstadoPedido" onchange="renderPedidos(this.value)">
+                  <option value="">Todos los estados</option>
+                  <option>Pendiente</option>
+                  <option>En preparación</option>
+                  <option>Listo para retiro</option>
+                  <option>En reparto</option>
+                  <option>Entregado</option>
+                  <option>Anulado</option>
+                </select>
+              </div>
+              <div class="tabla-scroll">
+                <table class="tabla">
+                  <thead>
+                    <tr><th>N°</th><th>Cliente</th><th>Fecha</th><th>Detalle</th><th>Entrega</th><th>Total</th><th>Estado</th></tr>
+                  </thead>
+                  <tbody id="tablaPedidos"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="panel" id="panelUsuarios">
+              <h2>Usuarios del sistema</h2>
+              <p style="color:var(--gris-500);margin-bottom:16px">Cambia roles, habilita cuenta corriente o desactiva cuentas.</p>
+              <div class="tabla-scroll">
+                <table class="tabla">
+                  <thead>
+                    <tr><th>RUT</th><th>Usuario</th><th>Rol</th><th>Cuenta corriente</th><th>Estado</th><th>Acciones</th></tr>
+                  </thead>
+                  <tbody id="tablaUsuarios"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="panel" id="panelReportes">
+              <h2>Reportes</h2>
+
+              <h3 style="margin:18px 0 10px">Productos más vendidos</h3>
+              <div class="tabla-scroll">
+                <table class="tabla">
+                  <thead><tr><th>#</th><th>Producto</th><th>Unidades vendidas</th></tr></thead>
+                  <tbody id="tablaMasVendidos"></tbody>
+                </table>
+              </div>
+
+              <h3 style="margin:26px 0 10px">Clientes más frecuentes</h3>
+              <div class="tabla-scroll">
+                <table class="tabla">
+                  <thead><tr><th>#</th><th>Cliente</th><th>Pedidos</th><th>Monto total</th></tr></thead>
+                  <tbody id="tablaTopClientes"></tbody>
+                </table>
+              </div>
+
+              <h3 style="margin:26px 0 10px">Cuentas corrientes por cobrar</h3>
+              <div class="tabla-scroll">
+                <table class="tabla">
+                  <thead><tr><th>RUT</th><th>Cliente</th><th>Teléfono</th><th>Saldo</th></tr></thead>
+                  <tbody id="tablaDeudores"></tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="contenedor">
+      <div class="footer__grid">
+        <div>
+          <h4>Ferretería Los Maestros</h4>
+          <p style="font-size:.9rem">Materiales de construcción, herramientas y ferretería general en La Serena desde 2004.</p>
+        </div>
+        <div>
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Mi cuenta</h4>
+          <ul>
+            <li><a href="login.html">Iniciar sesión</a></li>
+            <li><a href="mis-pedidos.html">Mis pedidos</a></li>
+            <li><a href="carrito.html">Carrito</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul>
+            <li>Av. Balmaceda 1200, La Serena</li>
+            <li>+56 51 221 4455</li>
+            <li>ventas@losmaestros.cl</li>
+            <li>Lun a Vie 8:30–19:00 · Sáb 9:00–14:00</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__base">
+        <p>© 2026 Ferretería Los Maestros · Proyecto académico DSY1104 Desarrollo FullStack II · Duoc UC</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/admin.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", initAdmin);</script>
+
+</body>
+</html>
