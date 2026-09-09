@@ -34,4 +34,97 @@ const Validar = {
 
     return dv === dvEsperado ? null : "El RUT no es válido. Revisa el dígito verificador.";
   }
-};
+}
+  }
+
+  telefono(valor) {
+    const limpio = valor.replace(/\s/g, "");
+    if (!limpio) return "Escribe un teléfono de contacto.";
+    return /^(\+56)?9\d{8}$/.test(limpio) ? null : "Usa el formato +569 1234 5678";
+  }
+
+  password(valor) {
+    if (!valor) return "Crea una contraseña.";
+    if (valor.length < 8) return "Debe tener al menos 8 caracteres.";
+    if (!/[A-Z]/.test(valor)) return "Debe incluir al menos una mayúscula.";
+    if (!/[a-z]/.test(valor)) return "Debe incluir al menos una minúscula.";
+    if (!/\d/.test(valor)) return "Debe incluir al menos un número.";
+    return null;
+  },
+
+  confirmarPassword(valor, original) {
+    if (!valor) return "Repite la contraseña.";
+    return valor === original ? null : "Las contraseñas no coinciden.";
+  },
+
+  longitudMinima(valor, minimo, etiqueta = "Este campo") {
+    if (!valor.trim()) return "Este campo es obligatorio.";
+    return valor.trim().length >= minimo ? null : `${etiqueta} debe tener al menos ${minimo} caracteres.`;
+  },
+
+  // ------------------ Interfaz ------------------
+
+  // Marca el campo en rojo o verde y muestra u oculta el mensaje
+  aplicar(idCampo, mensajeError) {
+    const input = document.getElementById(idCampo);
+    const error = document.getElementById("error-" + idCampo);
+    if (!input) return true;
+
+    if (mensajeError) {
+      input.classList.add("invalido");
+      input.classList.remove("valido");
+      input.setAttribute("aria-invalid", "true");
+      if (error) {
+        error.textContent = mensajeError;
+        error.classList.add("visible");
+      }
+      return false;
+    }
+
+    input.classList.remove("invalido");
+    input.classList.add("valido");
+    input.setAttribute("aria-invalid", "false");
+    if (error) {
+      error.textContent = "";
+      error.classList.remove("visible");
+    }
+    return true;
+  }
+
+  // Valida al salir del campo, y mientras se escribe si ya estaba marcado en rojo
+  enVivo(idCampo, funcionValidadora) {
+    const input = document.getElementById(idCampo);
+    if (!input) return;
+
+    const revisar = () => Validar.aplicar(idCampo, funcionValidadora(input.value));
+
+    input.addEventListener("blur", revisar);
+    input.addEventListener("input", () => {
+      if (input.classList.contains("invalido")) revisar();
+    });
+  }
+
+  // Da formato al RUT mientras el usuario escribe: 12.345.678-9
+  formatearRut(idCampo) {
+    const input = document.getElementById(idCampo);
+    if (!input) return;
+
+    input.addEventListener("input", () => {
+      let v = input.value.replace(/[^0-9kK]/g, "").toUpperCase();
+      if (v.length <= 1) {
+        input.value = v;
+        return;
+      }
+      const dv = v.slice(-1);
+      let cuerpo = v.slice(0, -1).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      input.value = cuerpo + "-" + dv;
+    });
+  }
+
+  // Muestra un aviso general arriba del formulario
+  mensajeGeneral(idContenedor, texto, tipo) {
+    const contenedor = document.getElementById(idContenedor);
+    if (contenedor) {
+      contenedor.innerHTML = `<div class="alerta alerta--${tipo}">${texto}</div>`;
+    }
+  }
