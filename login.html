@@ -175,5 +175,64 @@
     </div>
   </footer>
 
+  <script src="assets/js/validaciones.js"></script>
+  <script>
+    // ---- Validación mientras el usuario escribe ----
+    Validar.enVivo("loginEmail", Validar.email);
+    Validar.enVivo("regNombre", (v) => Validar.longitudMinima(v, 3, "El nombre"));
+    Validar.enVivo("regRut", Validar.rut);
+    Validar.enVivo("regEmail", Validar.email);
+    Validar.enVivo("regTelefono", Validar.telefono);
+    Validar.enVivo("regDireccion", (v) => Validar.longitudMinima(v, 8, "La dirección"));
+    Validar.enVivo("regPassword", Validar.password);
+    Validar.enVivo("regPassword2", (v) =>
+      Validar.confirmarPassword(v, document.getElementById("regPassword").value));
+
+    Validar.formatearRut("regRut");
+
+    // ---- Envío del formulario de inicio de sesión ----
+    document.getElementById("formLogin").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+
+      const okEmail = Validar.aplicar("loginEmail", Validar.email(email));
+      const okPassword = Validar.aplicar("loginPassword", Validar.requerido(password));
+
+      if (!okEmail || !okPassword) {
+        Validar.mensajeGeneral("mensajeLogin", "Revisa los campos marcados en rojo.", "error");
+        return;
+      }
+
+      Validar.mensajeGeneral("mensajeLogin",
+        "Datos correctos. La autenticación se conectará al backend en la siguiente etapa.", "exito");
+    });
+
+    // ---- Envío del formulario de registro ----
+    document.getElementById("formRegistro").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const password = document.getElementById("regPassword").value;
+
+      const resultados = [
+        Validar.aplicar("regNombre", Validar.longitudMinima(document.getElementById("regNombre").value, 3, "El nombre")),
+        Validar.aplicar("regRut", Validar.rut(document.getElementById("regRut").value)),
+        Validar.aplicar("regEmail", Validar.email(document.getElementById("regEmail").value)),
+        Validar.aplicar("regTelefono", Validar.telefono(document.getElementById("regTelefono").value)),
+        Validar.aplicar("regDireccion", Validar.longitudMinima(document.getElementById("regDireccion").value, 8, "La dirección")),
+        Validar.aplicar("regPassword", Validar.password(password)),
+        Validar.aplicar("regPassword2", Validar.confirmarPassword(document.getElementById("regPassword2").value, password))
+      ];
+
+      if (resultados.includes(false)) {
+        Validar.mensajeGeneral("mensajeRegistro", "Revisa los campos marcados en rojo.", "error");
+        return;
+      }
+
+      Validar.mensajeGeneral("mensajeRegistro",
+        "Todos los datos son válidos. El registro se guardará en la base de datos en la siguiente etapa.", "exito");
+    });
+  </script>
 </body>
 </html>
