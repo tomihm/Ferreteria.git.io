@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Detalle de producto de Ferretería Los Maestros.">
-  <title>Producto | Ferretería Los Maestros</title>
+  <meta name="description" content="Taladro Percutor Bosch 750W en Ferretería Los Maestros.">
+  <title>Taladro Percutor 750W | Ferretería Los Maestros</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -13,21 +13,25 @@
     <div class="contenedor header__barra">
       <a href="index.html" class="logo">🔧 FERRETERÍA <em>LOS MAESTROS</em></a>
 
-      <nav class="nav" id="navPrincipal" aria-label="Navegación principal">
+      <input type="checkbox" id="menuToggle">
+
+      <nav class="nav" aria-label="Navegación principal">
         <ul class="nav__lista">
           <li><a href="index.html">Inicio</a></li>
           <li><a href="catalogo.html">Catálogo</a></li>
           <li><a href="nosotros.html">Nosotros</a></li>
           <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="mis-pedidos.html">Mis pedidos</a></li>
+          <li><a href="admin.html">Panel</a></li>
         </ul>
       </nav>
 
       <div class="header__acciones">
         <a href="carrito.html" class="carrito-icono" aria-label="Ver carrito de compras">
-          🛒<span class="carrito-contador">0</span>
+          🛒<span class="carrito-contador">3</span>
         </a>
-        <div id="zonaSesion" class="header__acciones"></div>
-        <button class="hamburguesa" id="btnHamburguesa" aria-label="Abrir menú" aria-expanded="false">☰</button>
+        <a href="login.html" class="btn btn--primario btn--sm">Iniciar sesión</a>
+        <label for="menuToggle" class="hamburguesa" aria-label="Abrir menú">☰</label>
       </div>
     </div>
   </header>
@@ -36,14 +40,50 @@
     <section class="seccion">
       <div class="contenedor">
         <p class="mb-3"><a href="catalogo.html" style="color:var(--naranja);font-weight:600">← Volver al catálogo</a></p>
-        <div id="detalleProducto"></div>
+
+        <div class="detalle">
+          <div class="detalle__img">🔩</div>
+
+          <div>
+            <p class="producto__codigo">HER-001 · Herramientas Eléctricas</p>
+            <h1 style="font-size:1.8rem;margin:6px 0">Taladro Percutor 750W</h1>
+            <p class="producto__marca mb-2">Marca Bosch · se vende por unidad</p>
+            <span class="badge badge--stock">Disponible: 14</span>
+            <p class="producto__precio" style="font-size:2rem">$54.990</p>
+            <p style="color:var(--gris-700);margin-bottom:20px">Taladro percutor con mandril de 13 mm, velocidad variable y giro reversible. Sirve para perforar hormigón, madera y metal. Incluye empuñadura lateral y tope de profundidad.</p>
+
+            <form class="formulario" style="padding:20px">
+              <div class="campo">
+                <label for="cantidad">Cantidad (unidades)</label>
+                <input type="number" id="cantidad" name="cantidad" value="1" min="1" max="14">
+                <p class="campo__ayuda">Máximo 14 unidades según el stock actual.</p>
+              </div>
+              <button type="submit" class="btn btn--primario btn--bloque">Agregar al carrito</button>
+            </form>
+
+            <div class="alerta alerta--info mt-3">
+              Retiro en tienda el mismo día, o despacho a domicilio dentro de 12 km. Sobre $150.000 el despacho es gratis.
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="seccion seccion--blanca">
       <div class="contenedor">
-        <h2 class="seccion__titulo">También de esta categoría</h2>
-        <div class="grid grid--4 mt-3" id="gridRelacionados"></div>
+        <h2 class="seccion__titulo">Ficha técnica</h2>
+        <div class="tabla-scroll mt-3" style="max-width:700px;margin:0 auto">
+          <table class="tabla" style="min-width:auto">
+            <tbody>
+              <tr><th style="width:40%">Potencia</th><td>750 W</td></tr>
+              <tr><th>Mandril</th><td>13 mm con llave</td></tr>
+              <tr><th>Velocidad</th><td>0 a 3.000 rpm, variable</td></tr>
+              <tr><th>Percusión</th><td>48.000 golpes por minuto</td></tr>
+              <tr><th>Peso</th><td>1,9 kg</td></tr>
+              <tr><th>Garantía</th><td>12 meses directa con el importador</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
   </main>
@@ -70,6 +110,7 @@
             <li><a href="login.html">Iniciar sesión</a></li>
             <li><a href="mis-pedidos.html">Mis pedidos</a></li>
             <li><a href="carrito.html">Carrito</a></li>
+            <li><a href="admin.html">Panel de gestión</a></li>
           </ul>
         </div>
         <div>
@@ -87,105 +128,6 @@
       </div>
     </div>
   </footer>
-
-  <script src="assets/js/data.js"></script>
-  <script src="assets/js/auth.js"></script>
-  <script src="assets/js/app.js"></script>
-  <script src="assets/js/carrito.js"></script>
-  <script>
-    const idProducto = new URLSearchParams(location.search).get("id");
-    const producto = DB.getProducto(idProducto);
-    const contenedor = document.getElementById("detalleProducto");
-
-    if (!producto) {
-      contenedor.innerHTML = `
-        <div class="vacio">
-          <div class="icono">📭</div>
-          <h3>No encontramos este producto</h3>
-          <p>Puede que ya no esté en el catálogo.</p>
-          <a href="catalogo.html" class="btn btn--primario mt-2">Ir al catálogo</a>
-        </div>`;
-    } else {
-      document.title = producto.nombre + " | Ferretería Los Maestros";
-      const est = estadoStock(producto);
-      const agotado = producto.stock <= 0;
-
-      contenedor.innerHTML = `
-        <div class="detalle">
-          <div class="detalle__img">${producto.icono}</div>
-          <div>
-            <p class="producto__codigo">${producto.codigo} · ${nombreCategoria(producto.categoria)}</p>
-            <h1 style="font-size:1.8rem;margin:6px 0">${producto.nombre}</h1>
-            <p class="producto__marca mb-2">Marca ${producto.marca} · se vende por ${producto.unidad}</p>
-            <span class="badge ${est.clase}">${est.texto}</span>
-            <p class="producto__precio" style="font-size:2rem">${formatearPrecio(producto.precio)}</p>
-            <p style="color:var(--gris-700);margin-bottom:20px">${producto.descripcion}</p>
-
-            <div class="formulario" style="padding:20px">
-              <div class="campo">
-                <label for="cantidad">Cantidad (${producto.unidad})</label>
-                <input type="number" id="cantidad" value="1" min="1" max="${producto.stock}" ${agotado ? "disabled" : ""}>
-                <p class="campo__error" id="error-cantidad"></p>
-                <p class="campo__ayuda">Máximo ${producto.stock} ${producto.unidad}(s) según el stock actual.</p>
-              </div>
-              <button class="btn btn--primario btn--bloque" id="btnAgregar" ${agotado ? "disabled" : ""}>
-                ${agotado ? "Sin stock por ahora" : "Agregar al carrito"}
-              </button>
-            </div>
-
-            <div class="alerta alerta--info mt-3">
-              Retiro en tienda el mismo día, o despacho a domicilio dentro de 12 km. Sobre $150.000 el despacho es gratis.
-            </div>
-          </div>
-        </div>`;
-
-      if (!agotado) {
-        document.getElementById("btnAgregar").addEventListener("click", () => {
-          const input = document.getElementById("cantidad");
-          const cantidad = parseInt(input.value, 10);
-          const error = document.getElementById("error-cantidad");
-
-          if (isNaN(cantidad) || cantidad < 1) {
-            input.classList.add("invalido");
-            error.textContent = "Escribe una cantidad de al menos 1.";
-            error.classList.add("visible");
-            return;
-          }
-          if (cantidad > producto.stock) {
-            input.classList.add("invalido");
-            error.textContent = `Solo quedan ${producto.stock} unidades.`;
-            error.classList.add("visible");
-            return;
-          }
-
-          input.classList.remove("invalido");
-          error.classList.remove("visible");
-          Carrito.agregar(producto.id, cantidad);
-        });
-      }
-
-      const relacionados = DB.getProductos()
-        .filter(p => p.categoria === producto.categoria && p.id !== producto.id)
-        .slice(0, 4);
-
-      document.getElementById("gridRelacionados").innerHTML = relacionados.map(p => {
-        const e = estadoStock(p);
-        return `
-          <article class="tarjeta">
-            <div class="producto__img">${p.icono}</div>
-            <div class="tarjeta__cuerpo">
-              <p class="producto__codigo">${p.codigo}</p>
-              <h3 class="producto__nombre">${p.nombre}</h3>
-              <p class="producto__precio">${formatearPrecio(p.precio)}</p>
-              <span class="badge ${e.clase}">${e.texto}</span>
-              <div class="producto__acciones">
-                <a href="producto.html?id=${p.id}" class="btn btn--secundario btn--bloque">Ver detalle</a>
-              </div>
-            </div>
-          </article>`;
-      }).join("");
-    }
-  </script>
 
 </body>
 </html>
