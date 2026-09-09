@@ -99,6 +99,42 @@
               <a href="catalogo.html" class="btn btn--secundario">Seguir comprando</a>
               <button class="btn btn--peligro">Vaciar carrito</button>
             </div>
+            <aside class="resumen">
+            <h2 style="font-size:1.2rem;margin-bottom:12px">Resumen del pedido</h2>
+
+            <form>
+              <div class="campo">
+                <label for="tipoEntrega">Cómo lo recibes</label>
+                <select id="tipoEntrega" name="entrega">
+                  <option value="retiro">Retiro en tienda (gratis)</option>
+                  <option value="despacho">Despacho a domicilio</option>
+                </select>
+              </div>
+
+              <div class="campo">
+                <label for="direccionEntrega">Dirección de entrega</label>
+                <input type="text" id="direccionEntrega" name="direccion"
+                       placeholder="Calle, número, comuna" autocomplete="street-address">
+                <p class="campoayuda">Solo si eliges despacho. Cubrimos 12 km alrededor de la tienda; revísalo en <a href="contacto.html" style="color:var(--naranja)">el mapa</a>.</p>
+              </div>
+
+              <div class="campo campo--check">
+                <input type="checkbox" id="usarCC" name="cuentaCorriente">
+                <label for="usarCC">Cargar a mi cuenta corriente</label>
+              </div>
+
+              <div class="resumenlinea"><span>Subtotal</span><span>$188.760</span></div>
+              <div class="resumenlinea"><span>Despacho</span><span>Gratis</span></div>
+              <div class="resumenlinea" style="color:var(--gris-500)"><span>3 productos</span><span>24 unidades</span></div>
+              <div class="resumen__total"><span>Total</span><span>$188.760</span></div>
+
+              <button type="submit" class="btn btn--primario btn--bloque mt-3">Confirmar pedido</button>
+            </form>
+
+            <div class="alerta alerta--info mt-3" style="font-size:.85rem">
+              El despacho es gratis en compras sobre $150.000. Bajo ese monto tiene un costo de $6.990.
+            </div>
+          </aside>
           </div>
 
         </div>
