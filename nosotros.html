@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Historia y equipo de Ferretería Los Maestros, negocio familiar de La Serena con 22 años de trayectoria.">
+  <meta name="description" content="Historia y equipo de Ferretería Los Maestros, negocio familiar de La Serena.">
   <title>Nosotros | Ferretería Los Maestros</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -13,21 +13,25 @@
     <div class="contenedor header__barra">
       <a href="index.html" class="logo">🔧 FERRETERÍA <em>LOS MAESTROS</em></a>
 
-      <nav class="nav" id="navPrincipal" aria-label="Navegación principal">
+      <input type="checkbox" id="menuToggle">
+
+      <nav class="nav" aria-label="Navegación principal">
         <ul class="nav__lista">
           <li><a href="index.html">Inicio</a></li>
           <li><a href="catalogo.html">Catálogo</a></li>
           <li><a href="nosotros.html">Nosotros</a></li>
           <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="mis-pedidos.html">Mis pedidos</a></li>
+          <li><a href="admin.html">Panel</a></li>
         </ul>
       </nav>
 
       <div class="header__acciones">
         <a href="carrito.html" class="carrito-icono" aria-label="Ver carrito de compras">
-          🛒<span class="carrito-contador">0</span>
+          🛒<span class="carrito-contador">3</span>
         </a>
-        <div id="zonaSesion" class="header__acciones"></div>
-        <button class="hamburguesa" id="btnHamburguesa" aria-label="Abrir menú" aria-expanded="false">☰</button>
+        <a href="login.html" class="btn btn--primario btn--sm">Iniciar sesión</a>
+        <label for="menuToggle" class="hamburguesa" aria-label="Abrir menú">☰</label>
       </div>
     </div>
   </header>
@@ -55,7 +59,7 @@
             <p style="margin-bottom:14px">Durante años el inventario vivió en una planilla Excel que se actualizaba al final del día, y las cuentas corrientes en un cuaderno. Eso funcionaba cuando éramos más chicos.</p>
             <p style="margin-bottom:14px">Con 30 a 50 llamadas diarias solo para consultar stock, el teléfono dejó de dar abasto. Este sitio resuelve eso: el stock se ve en línea, el pedido queda registrado y la cuenta corriente se lleva sola.</p>
             <div class="alerta alerta--info">
-              Este sitio es la primera etapa de un sistema mayor, que en las siguientes fases suma microservicios, base de datos e infraestructura en la nube.
+              Este sitio es la primera etapa de un sistema mayor. Las siguientes fases suman microservicios en Spring Boot, base de datos MySQL e infraestructura en AWS.
             </div>
           </article>
         </div>
@@ -88,7 +92,7 @@
     <section class="seccion">
       <div class="contenedor">
         <h2 class="seccion__titulo">Consejos de obra</h2>
-        <p class="seccion__subtitulo">Cómo calcular el cemento que necesitas para un radier</p>
+        <p class="seccion__subtitulo">Cómo calcular el material que necesitas antes de comprar</p>
         <div style="max-width:760px;margin:0 auto">
           <div class="video-responsive">
             <iframe src="https://www.youtube.com/embed/aqz-KE-bpKQ"
@@ -105,10 +109,19 @@
         <h2 class="seccion__titulo">Números de la ferretería</h2>
         <div class="kpi-grid mt-3">
           <div class="kpi"><p class="kpi__label">Años atendiendo</p><p class="kpi__valor">22</p></div>
-          <div class="kpi"><p class="kpi__label">Referencias en catálogo</p><p class="kpi__valor">800+</p></div>
+          <div class="kpi"><p class="kpi__label">Referencias en catálogo</p><p class="kpi__valor">832</p></div>
           <div class="kpi"><p class="kpi__label">Radio de despacho</p><p class="kpi__valor">12 km</p></div>
           <div class="kpi"><p class="kpi__label">Personas en el equipo</p><p class="kpi__valor">4</p></div>
         </div>
+      </div>
+    </section>
+
+    <section class="seccion">
+      <div class="contenedor texto-centro">
+        <h2 class="seccion__titulo">¿Necesitas material para tu próxima obra?</h2>
+        <p class="seccion__subtitulo">Revisa el catálogo o escríbenos y te cotizamos.</p>
+        <a href="catalogo.html" class="btn btn--primario">Ver catálogo</a>
+        <a href="contacto.html" class="btn btn--borde">Contactar</a>
       </div>
     </section>
   </main>
@@ -135,6 +148,7 @@
             <li><a href="login.html">Iniciar sesión</a></li>
             <li><a href="mis-pedidos.html">Mis pedidos</a></li>
             <li><a href="carrito.html">Carrito</a></li>
+            <li><a href="admin.html">Panel de gestión</a></li>
           </ul>
         </div>
         <div>
@@ -152,10 +166,6 @@
       </div>
     </div>
   </footer>
-
-  <script src="assets/js/data.js"></script>
-  <script src="assets/js/auth.js"></script>
-  <script src="assets/js/app.js"></script>
 
 </body>
 </html>
