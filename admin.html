@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Panel de administración de Ferretería Los Maestros.">
-  <title>Panel | Ferretería Los Maestros</title>
+  <meta name="description" content="Panel de gestión de Ferretería Los Maestros.">
+  <title>Panel de gestión | Ferretería Los Maestros</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -13,33 +13,34 @@
     <div class="contenedor header__barra">
       <a href="index.html" class="logo">🔧 FERRETERÍA <em>LOS MAESTROS</em></a>
 
-      <nav class="nav" id="navPrincipal" aria-label="Navegación principal">
+      <input type="checkbox" id="menuToggle">
+
+      <nav class="nav" aria-label="Navegación principal">
         <ul class="nav__lista">
           <li><a href="index.html">Inicio</a></li>
           <li><a href="catalogo.html">Catálogo</a></li>
           <li><a href="nosotros.html">Nosotros</a></li>
           <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="mis-pedidos.html">Mis pedidos</a></li>
+          <li><a href="admin.html">Panel</a></li>
         </ul>
       </nav>
 
       <div class="header__acciones">
         <a href="carrito.html" class="carrito-icono" aria-label="Ver carrito de compras">
-          🛒<span class="carrito-contador">0</span>
+          🛒<span class="carrito-contador">3</span>
         </a>
-        <div id="zonaSesion" class="header__acciones"></div>
-        <button class="hamburguesa" id="btnHamburguesa" aria-label="Abrir menú" aria-expanded="false">☰</button>
+        <a href="login.html" class="btn btn--primario btn--sm">Iniciar sesión</a>
+        <label for="menuToggle" class="hamburguesa" aria-label="Abrir menú">☰</label>
       </div>
     </div>
   </header>
 
   <main>
     <section class="pagina-titulo">
-      <div class="contenedor flex-entre">
-        <div>
-          <h1>Panel de gestión</h1>
-          <p><span id="nombrePanel"></span> · <span id="rolPanel"></span></p>
-        </div>
-        <button class="btn btn--secundario btn--sm" id="btnRestaurar">Restaurar datos de demo</button>
+      <div class="contenedor">
+        <h1>Panel de gestión</h1>
+        <p>Carlos Muñoz · Administrador</p>
       </div>
     </section>
 
@@ -48,97 +49,214 @@
         <div class="admin">
 
           <nav class="admin__menu" aria-label="Secciones del panel">
-            <button data-panel="panelResumen" class="activo">Resumen</button>
-            <button data-panel="panelInventario">Inventario</button>
-            <button data-panel="panelPedidos">Pedidos</button>
-            <button data-panel="panelUsuarios" id="btnTabUsuarios">Usuarios</button>
-            <button data-panel="panelReportes">Reportes</button>
+            <a href="#resumen">Resumen</a>
+            <a href="#inventario">Inventario</a>
+            <a href="#pedidos">Pedidos</a>
+            <a href="#usuarios">Usuarios</a>
+            <a href="#reportes">Reportes</a>
           </nav>
 
           <div>
 
-            <div class="panel activo" id="panelResumen">
-              <h2>Resumen del día</h2>
+            <!-- ============ RESUMEN ============ -->
+            <section class="bloque-admin" id="resumen">
+              <h2>Resumen</h2>
               <div class="kpi-grid">
-                <div class="kpi"><p class="kpi__label">Productos en catálogo</p><p class="kpi__valor" id="kpiProductos">0</p></div>
-                <div class="kpi"><p class="kpi__label">Pedidos registrados</p><p class="kpi__valor" id="kpiPedidos">0</p></div>
-                <div class="kpi"><p class="kpi__label">Clientes</p><p class="kpi__valor" id="kpiClientes">0</p></div>
-                <div class="kpi"><p class="kpi__label">Ventas acumuladas</p><p class="kpi__valor" id="kpiVentas">$0</p></div>
+                <div class="kpi"><p class="kpi__label">Productos en catálogo</p><p class="kpi__valor">832</p></div>
+                <div class="kpi"><p class="kpi__label">Pedidos del mes</p><p class="kpi__valor">47</p></div>
+                <div class="kpi"><p class="kpi__label">Clientes activos</p><p class="kpi__valor">128</p></div>
+                <div class="kpi"><p class="kpi__label">Ventas del mes</p><p class="kpi__valor">$4.382.150</p></div>
               </div>
-              <h3 style="margin-bottom:12px">Alertas de reposición</h3>
-              <div id="alertasStock"></div>
-            </div>
 
-            <div class="panel" id="panelInventario">
-              <h2>Inventario</h2>
-              <div class="campo mb-3">
-                <label for="buscarInventario">Buscar producto</label>
-                <input type="search" id="buscarInventario" placeholder="Nombre o código"
-                       oninput="renderInventario(this.value)">
+              <div class="alerta alerta--warning">
+                6 productos alcanzaron el punto de reposición y necesitan pedido a proveedor.
               </div>
+
               <div class="tabla-scroll">
                 <table class="tabla">
                   <thead>
-                    <tr><th>Código</th><th>Producto</th><th>Precio</th><th>Stock</th><th>Mínimo</th><th>Estado</th><th></th></tr>
+                    <tr><th>Código</th><th>Producto</th><th>Stock actual</th><th>Mínimo</th><th>Estado</th></tr>
                   </thead>
-                  <tbody id="tablaInventario"></tbody>
+                  <tbody>
+                    <tr><td>GEN-003</td><td>Guantes de Cabritilla</td><td><strong>2</strong></td><td>25</td><td><span class="badge badge--bajo">Reponer</span></td></tr>
+                    <tr><td>HER-004</td><td>Atornillador Inalámbrico 12V</td><td><strong>3</strong></td><td>6</td><td><span class="badge badge--bajo">Reponer</span></td></tr>
+                    <tr><td>MAN-004</td><td>Huincha de Medir 5m</td><td><strong>4</strong></td><td>20</td><td><span class="badge badge--bajo">Reponer</span></td></tr>
+                    <tr><td>ELE-004</td><td>Enchufe Doble Embutido</td><td><strong>5</strong></td><td>20</td><td><span class="badge badge--bajo">Reponer</span></td></tr>
+                    <tr><td>CON-005</td><td>Fierro Estriado 8mm x 6m</td><td><strong>8</strong></td><td>25</td><td><span class="badge badge--bajo">Reponer</span></td></tr>
+                    <tr><td>GEN-006</td><td>Escalera Tijera Aluminio</td><td><strong>0</strong></td><td>4</td><td><span class="badge badge--agotado">Sin stock</span></td></tr>
+                  </tbody>
                 </table>
               </div>
-            </div>
+            </section>
 
-            <div class="panel" id="panelPedidos">
+            <!-- ============ INVENTARIO ============ -->
+            <section class="bloque-admin" id="inventario">
+              <h2>Inventario</h2>
+
+              <form class="campo mb-3">
+                <label for="buscarInventario">Buscar producto</label>
+                <input type="search" id="buscarInventario" name="buscar" placeholder="Nombre o código">
+              </form>
+
+              <div class="tabla-scroll">
+                <table class="tabla">
+                  <thead>
+                    <tr><th>Código</th><th>Producto</th><th>Precio</th><th>Stock</th><th>Mínimo</th><th>Estado</th><th>Acción</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>CON-001</td><td>Saco de Cemento Melón 25kg</td><td>$5.490</td>
+                      <td><input type="number" value="120" min="0" aria-label="Stock cemento"></td><td>30</td>
+                      <td><span class="badge badge--stock">Disponible</span></td>
+                      <td><button class="btn btn--primario btn--sm">Guardar</button></td>
+                    </tr>
+                    <tr>
+                      <td>CON-005</td><td>Fierro Estriado 8mm x 6m</td><td>$4.290</td>
+                      <td><input type="number" value="8" min="0" aria-label="Stock fierro"></td><td>25</td>
+                      <td><span class="badge badge--bajo">Stock bajo</span></td>
+                      <td><button class="btn btn--primario btn--sm">Guardar</button></td>
+                    </tr>
+                    <tr>
+                      <td>HER-001</td><td>Taladro Percutor 750W</td><td>$54.990</td>
+                      <td><input type="number" value="14" min="0" aria-label="Stock taladro"></td><td>5</td>
+                      <td><span class="badge badge--stock">Disponible</span></td>
+                      <td><button class="btn btn--primario btn--sm">Guardar</button></td>
+                    </tr>
+                    <tr>
+                      <td>MAN-004</td><td>Huincha de Medir 5m</td><td>$4.990</td>
+                      <td><input type="number" value="4" min="0" aria-label="Stock huincha"></td><td>20</td>
+                      <td><span class="badge badge--bajo">Stock bajo</span></td>
+                      <td><button class="btn btn--primario btn--sm">Guardar</button></td>
+                    </tr>
+                    <tr>
+                      <td>GEN-006</td><td>Escalera Tijera Aluminio</td><td>$42.990</td>
+                      <td><input type="number" value="0" min="0" aria-label="Stock escalera"></td><td>4</td>
+                      <td><span class="badge badge--agotado">Sin stock</span></td>
+                      <td><button class="btn btn--primario btn--sm">Guardar</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <!-- ============ PEDIDOS ============ -->
+            <section class="bloque-admin" id="pedidos">
               <h2>Pedidos</h2>
-              <div class="campo mb-3">
-                <label for="filtroEstadoPedido">Filtrar por estado</label>
-                <select id="filtroEstadoPedido" onchange="renderPedidos(this.value)">
+
+              <form class="campo mb-3">
+                <label for="filtroEstado">Filtrar por estado</label>
+                <select id="filtroEstado" name="estado">
                   <option value="">Todos los estados</option>
                   <option>Pendiente</option>
                   <option>En preparación</option>
                   <option>Listo para retiro</option>
                   <option>En reparto</option>
                   <option>Entregado</option>
-                  <option>Anulado</option>
                 </select>
-              </div>
+              </form>
+
               <div class="tabla-scroll">
                 <table class="tabla">
                   <thead>
-                    <tr><th>N°</th><th>Cliente</th><th>Fecha</th><th>Detalle</th><th>Entrega</th><th>Total</th><th>Estado</th></tr>
+                    <tr><th>N°</th><th>Cliente</th><th>Fecha</th><th>Entrega</th><th>Total</th><th>Pago</th><th>Estado</th></tr>
                   </thead>
-                  <tbody id="tablaPedidos"></tbody>
+                  <tbody>
+                    <tr>
+                      <td>#1003</td><td>María Rojas</td><td>01-09-2026</td><td>Retiro en tienda</td>
+                      <td><strong>$14.940</strong></td><td>Contado</td>
+                      <td><select aria-label="Estado del pedido 1003"><option selected>Pendiente</option><option>En preparación</option><option>Listo para retiro</option><option>Entregado</option></select></td>
+                    </tr>
+                    <tr>
+                      <td>#1002</td><td>Juan Pérez</td><td>28-08-2026</td><td>Retiro en tienda</td>
+                      <td><strong>$78.960</strong></td><td>Cuenta corriente</td>
+                      <td><select aria-label="Estado del pedido 1002"><option>Pendiente</option><option selected>En preparación</option><option>Listo para retiro</option><option>Entregado</option></select></td>
+                    </tr>
+                    <tr>
+                      <td>#1001</td><td>Juan Pérez</td><td>20-08-2026</td><td>Despacho</td>
+                      <td><strong>$109.800</strong></td><td>Cuenta corriente</td>
+                      <td><select aria-label="Estado del pedido 1001"><option>Pendiente</option><option>En preparación</option><option>En reparto</option><option selected>Entregado</option></select></td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
-            </div>
+            </section>
 
-            <div class="panel" id="panelUsuarios">
-              <h2>Usuarios del sistema</h2>
+            <!-- ============ USUARIOS ============ -->
+            <section class="bloque-admin" id="usuarios">
+              <h2>Usuarios</h2>
               <p style="color:var(--gris-500);margin-bottom:16px">Cambia roles, habilita cuenta corriente o desactiva cuentas.</p>
+
               <div class="tabla-scroll">
                 <table class="tabla">
                   <thead>
                     <tr><th>RUT</th><th>Usuario</th><th>Rol</th><th>Cuenta corriente</th><th>Estado</th><th>Acciones</th></tr>
                   </thead>
-                  <tbody id="tablaUsuarios"></tbody>
+                  <tbody>
+                    <tr>
+                      <td>11.111.111-1</td>
+                      <td>Carlos Muñoz<br><small style="color:var(--gris-500)">admin@losmaestros.cl</small></td>
+                      <td><select aria-label="Rol de Carlos"><option selected>Administrador</option><option>Vendedor</option><option>Contratista</option><option>Cliente</option></select></td>
+                      <td><span class="badge badge--neutro">No tiene</span></td>
+                      <td><span class="badge badge--stock">Activa</span></td>
+                      <td><button class="btn btn--borde btn--sm">Editar</button></td>
+                    </tr>
+                    <tr>
+                      <td>22.222.222-2</td>
+                      <td>Pedro Muñoz<br><small style="color:var(--gris-500)">vendedor@losmaestros.cl</small></td>
+                      <td><select aria-label="Rol de Pedro"><option>Administrador</option><option selected>Vendedor</option><option>Contratista</option><option>Cliente</option></select></td>
+                      <td><span class="badge badge--neutro">No tiene</span></td>
+                      <td><span class="badge badge--stock">Activa</span></td>
+                      <td><button class="btn btn--borde btn--sm">Editar</button></td>
+                    </tr>
+                    <tr>
+                      <td>33.333.333-3</td>
+                      <td>Juan Pérez<br><small style="color:var(--gris-500)">contratista@correo.cl</small></td>
+                      <td><select aria-label="Rol de Juan"><option>Administrador</option><option>Vendedor</option><option selected>Contratista</option><option>Cliente</option></select></td>
+                      <td><span class="badge badge--info">$188.760</span></td>
+                      <td><span class="badge badge--stock">Activa</span></td>
+                      <td><button class="btn btn--borde btn--sm">Editar</button></td>
+                    </tr>
+                    <tr>
+                      <td>44.444.444-4</td>
+                      <td>María Rojas<br><small style="color:var(--gris-500)">cliente@correo.cl</small></td>
+                      <td><select aria-label="Rol de María"><option>Administrador</option><option>Vendedor</option><option>Contratista</option><option selected>Cliente</option></select></td>
+                      <td><span class="badge badge--neutro">No tiene</span></td>
+                      <td><span class="badge badge--stock">Activa</span></td>
+                      <td><button class="btn btn--borde btn--sm">Editar</button></td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
-            </div>
+            </section>
 
-            <div class="panel" id="panelReportes">
+            <!-- ============ REPORTES ============ -->
+            <section class="bloque-admin" id="reportes">
               <h2>Reportes</h2>
 
               <h3 style="margin:18px 0 10px">Productos más vendidos</h3>
-              <div class="tabla-scroll">
+              <div class="tabla-scroll mb-3">
                 <table class="tabla">
-                  <thead><tr><th>#</th><th>Producto</th><th>Unidades vendidas</th></tr></thead>
-                  <tbody id="tablaMasVendidos"></tbody>
+                  <thead><tr><th>#</th><th>Producto</th><th>Unidades vendidas</th><th>Monto</th></tr></thead>
+                  <tbody>
+                    <tr><td>1</td><td>Saco de Cemento Melón 25kg</td><td><strong>412</strong></td><td>$2.261.880</td></tr>
+                    <tr><td>2</td><td>Ladrillo Fiscal</td><td><strong>2.850</strong></td><td>$1.396.500</td></tr>
+                    <tr><td>3</td><td>Ampolleta LED 12W E27</td><td><strong>186</strong></td><td>$463.140</td></tr>
+                    <tr><td>4</td><td>Tornillo Volcanita 6x1"</td><td><strong>94</strong></td><td>$328.060</td></tr>
+                    <tr><td>5</td><td>Silicona Transparente 280ml</td><td><strong>71</strong></td><td>$304.590</td></tr>
+                  </tbody>
                 </table>
               </div>
 
               <h3 style="margin:26px 0 10px">Clientes más frecuentes</h3>
-              <div class="tabla-scroll">
+              <div class="tabla-scroll mb-3">
                 <table class="tabla">
                   <thead><tr><th>#</th><th>Cliente</th><th>Pedidos</th><th>Monto total</th></tr></thead>
-                  <tbody id="tablaTopClientes"></tbody>
+                  <tbody>
+                    <tr><td>1</td><td>Constructora Andes Ltda.</td><td>18</td><td>$1.842.300</td></tr>
+                    <tr><td>2</td><td>Juan Pérez</td><td>12</td><td>$986.450</td></tr>
+                    <tr><td>3</td><td>Maestro Rodrigo Silva</td><td>9</td><td>$612.800</td></tr>
+                    <tr><td>4</td><td>María Rojas</td><td>5</td><td>$148.920</td></tr>
+                  </tbody>
                 </table>
               </div>
 
@@ -146,10 +264,14 @@
               <div class="tabla-scroll">
                 <table class="tabla">
                   <thead><tr><th>RUT</th><th>Cliente</th><th>Teléfono</th><th>Saldo</th></tr></thead>
-                  <tbody id="tablaDeudores"></tbody>
+                  <tbody>
+                    <tr><td>76.543.210-8</td><td>Constructora Andes Ltda.</td><td>+56 9 8877 6655</td><td><strong>$542.180</strong></td></tr>
+                    <tr><td>33.333.333-3</td><td>Juan Pérez</td><td>+56 9 1122 3344</td><td><strong>$188.760</strong></td></tr>
+                    <tr><td>15.876.432-K</td><td>Maestro Rodrigo Silva</td><td>+56 9 4455 6677</td><td><strong>$97.340</strong></td></tr>
+                  </tbody>
                 </table>
               </div>
-            </div>
+            </section>
 
           </div>
         </div>
@@ -179,6 +301,7 @@
             <li><a href="login.html">Iniciar sesión</a></li>
             <li><a href="mis-pedidos.html">Mis pedidos</a></li>
             <li><a href="carrito.html">Carrito</a></li>
+            <li><a href="admin.html">Panel de gestión</a></li>
           </ul>
         </div>
         <div>
@@ -196,12 +319,6 @@
       </div>
     </div>
   </footer>
-
-  <script src="assets/js/data.js"></script>
-  <script src="assets/js/auth.js"></script>
-  <script src="assets/js/app.js"></script>
-  <script src="assets/js/admin.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", initAdmin);</script>
 
 </body>
 </html>
