@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Contacta a Ferretería Los Maestros y revisa la zona de despacho en el mapa.">
+  <meta name="description" content="Contacta a Ferretería Los Maestros y revisa la zona de despacho.">
   <title>Contacto | Ferretería Los Maestros</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -14,21 +13,25 @@
     <div class="contenedor header__barra">
       <a href="index.html" class="logo">🔧 FERRETERÍA <em>LOS MAESTROS</em></a>
 
-      <nav class="nav" id="navPrincipal" aria-label="Navegación principal">
+      <input type="checkbox" id="menuToggle">
+
+      <nav class="nav" aria-label="Navegación principal">
         <ul class="nav__lista">
           <li><a href="index.html">Inicio</a></li>
           <li><a href="catalogo.html">Catálogo</a></li>
           <li><a href="nosotros.html">Nosotros</a></li>
           <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="mis-pedidos.html">Mis pedidos</a></li>
+          <li><a href="admin.html">Panel</a></li>
         </ul>
       </nav>
 
       <div class="header__acciones">
         <a href="carrito.html" class="carrito-icono" aria-label="Ver carrito de compras">
-          🛒<span class="carrito-contador">0</span>
+          🛒<span class="carrito-contador">3</span>
         </a>
-        <div id="zonaSesion" class="header__acciones"></div>
-        <button class="hamburguesa" id="btnHamburguesa" aria-label="Abrir menú" aria-expanded="false">☰</button>
+        <a href="login.html" class="btn btn--primario btn--sm">Iniciar sesión</a>
+        <label for="menuToggle" class="hamburguesa" aria-label="Abrir menú">☰</label>
       </div>
     </div>
   </header>
@@ -83,7 +86,7 @@
 
               <div class="campo">
                 <label for="conMensaje">Mensaje</label>
-                <textarea id="conMensaje" name="mensaje" placeholder="Cuéntanos qué necesitas"></textarea>
+                <textarea id="conMensaje" name="mensaje" maxlength="500" placeholder="Cuéntanos qué necesitas"></textarea>
                 <p class="campo__error" id="error-conMensaje"></p>
                 <p class="campo__ayuda"><span id="contadorCaracteres">0</span>/500 caracteres</p>
               </div>
@@ -96,14 +99,23 @@
             <div class="categoria-card mb-3" style="text-align:left;border-top-color:var(--gris-900)">
               <h3>Dónde estamos</h3>
               <p style="margin-top:8px">Av. Balmaceda 1200, La Serena, Región de Coquimbo</p>
-              <p class="mt-1"><strong>+56 9 51 221 4455</strong><br>ventas@losmaestros.cl</p>
-              <p class="mt-1">Lunes a viernes 8:30–19:00<br>Sábado 9:00–14:00</p>
+              <p class="mt-1"><strong>+56 51 221 4455</strong><br>ventas@losmaestros.cl</p>
+              <p class="mt-1">Lunes a viernes 8:30–19:00<br>Sábado 9:00–14:00<br>Domingo cerrado</p>
             </div>
 
             <h3 style="margin-bottom:10px">Zona de despacho</h3>
-            <p style="color:var(--gris-500);font-size:.9rem;margin-bottom:12px">Haz clic en el mapa sobre la dirección de tu obra para saber si está dentro del radio de 12 km.</p>
-            <div id="mapa"></div>
-            <div id="resultadoCobertura" class="alerta alerta--info mt-2">Todavía no marcas ningún punto en el mapa.</div>
+            <p style="color:var(--gris-500);font-size:.9rem;margin-bottom:12px">Despachamos dentro de un radio de 12 km desde la tienda, lo que cubre La Serena y buena parte de Coquimbo.</p>
+
+            <div class="mapa-marco">
+              <iframe
+                src="https://www.openstreetmap.org/export/embed.html?bbox=-71.35%2C-29.98%2C-71.15%2C-29.83&amp;layer=mapnik&amp;marker=-29.9027%2C-71.2519"
+                title="Mapa de ubicación de Ferretería Los Maestros"
+                loading="lazy"></iframe>
+            </div>
+
+            <div class="alerta alerta--info mt-2">
+              ¿Tu obra queda fuera del radio? Llámanos y coordinamos un despacho especial según el volumen del pedido.
+            </div>
           </div>
 
         </div>
@@ -133,6 +145,7 @@
             <li><a href="login.html">Iniciar sesión</a></li>
             <li><a href="mis-pedidos.html">Mis pedidos</a></li>
             <li><a href="carrito.html">Carrito</a></li>
+            <li><a href="admin.html">Panel de gestión</a></li>
           </ul>
         </div>
         <div>
@@ -151,30 +164,25 @@
     </div>
   </footer>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="assets/js/data.js"></script>
-  <script src="assets/js/auth.js"></script>
-  <script src="assets/js/app.js"></script>
   <script src="assets/js/validaciones.js"></script>
-  <script src="assets/js/mapa.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", initMapa);
-
+    // ---- Validación mientras el usuario escribe ----
     Validar.enVivo("conNombre", (v) => Validar.longitudMinima(v, 3, "El nombre"));
     Validar.enVivo("conEmail", Validar.email);
     Validar.enVivo("conTelefono", Validar.telefono);
     Validar.enVivo("conMensaje", (v) => Validar.longitudMinima(v, 15, "El mensaje"));
 
+    // ---- Contador de caracteres del mensaje ----
     const areaMensaje = document.getElementById("conMensaje");
-    areaMensaje.setAttribute("maxlength", "500");
-    areaMensaje.addEventListener("input", () => {
+    areaMensaje.addEventListener("input", function () {
       document.getElementById("contadorCaracteres").textContent = areaMensaje.value.length;
     });
 
-    document.getElementById("formContacto").addEventListener("submit", (e) => {
+    // ---- Envío del formulario ----
+    document.getElementById("formContacto").addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const validaciones = [
+      const resultados = [
         Validar.aplicar("conNombre", Validar.longitudMinima(document.getElementById("conNombre").value, 3, "El nombre")),
         Validar.aplicar("conEmail", Validar.email(document.getElementById("conEmail").value)),
         Validar.aplicar("conTelefono", Validar.telefono(document.getElementById("conTelefono").value)),
@@ -182,18 +190,16 @@
         Validar.aplicar("conMensaje", Validar.longitudMinima(document.getElementById("conMensaje").value, 15, "El mensaje"))
       ];
 
-      const contenedor = document.getElementById("mensajeContacto");
-
-      if (validaciones.includes(false)) {
-        contenedor.innerHTML = '<div class="alerta alerta--error">Revisa los campos marcados en rojo.</div>';
+      if (resultados.includes(false)) {
+        Validar.mensajeGeneral("mensajeContacto", "Revisa los campos marcados en rojo.", "error");
         return;
       }
 
-      contenedor.innerHTML = '<div class="alerta alerta--exito">Mensaje enviado. Te respondemos dentro del día hábil.</div>';
-      mostrarToast("Mensaje enviado", "exito");
-      e.target.reset();
+      Validar.mensajeGeneral("mensajeContacto",
+        "Mensaje válido. El envío se conectará al backend en la siguiente etapa.", "exito");
+      this.reset();
       document.getElementById("contadorCaracteres").textContent = "0";
-      document.querySelectorAll(".valido").forEach(el => el.classList.remove("valido"));
+      document.querySelectorAll(".valido").forEach(function (el) { el.classList.remove("valido"); });
     });
   </script>
 
