@@ -13,21 +13,25 @@
     <div class="contenedor header__barra">
       <a href="index.html" class="logo">🔧 FERRETERÍA <em>LOS MAESTROS</em></a>
 
-      <nav class="nav" id="navPrincipal" aria-label="Navegación principal">
+      <input type="checkbox" id="menuToggle">
+
+      <nav class="nav" aria-label="Navegación principal">
         <ul class="nav__lista">
           <li><a href="index.html">Inicio</a></li>
           <li><a href="catalogo.html">Catálogo</a></li>
           <li><a href="nosotros.html">Nosotros</a></li>
           <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="mis-pedidos.html">Mis pedidos</a></li>
+          <li><a href="admin.html">Panel</a></li>
         </ul>
       </nav>
 
       <div class="header__acciones">
         <a href="carrito.html" class="carrito-icono" aria-label="Ver carrito de compras">
-          🛒<span class="carrito-contador">0</span>
+          🛒<span class="carrito-contador">3</span>
         </a>
-        <div id="zonaSesion" class="header__acciones"></div>
-        <button class="hamburguesa" id="btnHamburguesa" aria-label="Abrir menú" aria-expanded="false">☰</button>
+        <a href="login.html" class="btn btn--primario btn--sm">Iniciar sesión</a>
+        <label for="menuToggle" class="hamburguesa" aria-label="Abrir menú">☰</label>
       </div>
     </div>
   </header>
@@ -37,15 +41,15 @@
       <div class="contenedor">
         <div class="formulario formulario--angosto">
 
-          <div class="tabs">
-            <button type="button" id="tabLogin" class="activo">Entrar</button>
-            <button type="button" id="tabRegistro">Crear cuenta</button>
-          </div>
+          <nav class="tabs">
+            <a href="login.html" class="activo">Entrar</a>
+            <a href="#registro">Crear cuenta</a>
+          </nav>
 
-
+          <!-- ============ INICIO DE SESIÓN ============ -->
           <form id="formLogin" novalidate>
             <h1 style="font-size:1.4rem;margin-bottom:4px">Entra a tu cuenta</h1>
-            <p style="color:var(--gris-500);font-size:.9rem;margin-bottom:18px">Para ver tus pedidos y tu cuenta corriente.</p>
+            <p style="color:var(--gris-500);font-size:.9rem;margin-bottom:18px">Para revisar tus pedidos y tu cuenta corriente.</p>
 
             <div id="mensajeLogin"></div>
 
@@ -64,9 +68,11 @@
             <button type="submit" class="btn btn--primario btn--bloque">Entrar</button>
           </form>
 
-          
-          <form id="formRegistro" class="oculto" novalidate>
-            <h1 style="font-size:1.4rem;margin-bottom:4px">Crea tu cuenta</h1>
+          <hr style="margin:34px 0;border:0;border-top:2px solid var(--gris-200)">
+
+          <!-- ============ REGISTRO ============ -->
+          <form id="formRegistro" novalidate>
+            <h2 id="registro" style="font-size:1.4rem;margin-bottom:4px;scroll-margin-top:90px">Crea tu cuenta</h2>
             <p style="color:var(--gris-500);font-size:.9rem;margin-bottom:18px">Toma un minuto y te deja comprar en línea.</p>
 
             <div id="mensajeRegistro"></div>
@@ -81,6 +87,7 @@
               <label for="regRut">RUT</label>
               <input type="text" id="regRut" name="rut" placeholder="12.345.678-9" maxlength="12">
               <p class="campo__error" id="error-regRut"></p>
+              <p class="campo__ayuda">Se valida el dígito verificador.</p>
             </div>
 
             <div class="campo">
@@ -115,20 +122,12 @@
             </div>
 
             <div class="campo campo--check">
-              <input type="checkbox" id="regContratista">
+              <input type="checkbox" id="regContratista" name="contratista">
               <label for="regContratista">Soy contratista o maestro de obra</label>
             </div>
 
             <button type="submit" class="btn btn--primario btn--bloque">Crear cuenta</button>
           </form>
-
-          <div class="alerta alerta--info mt-3" style="font-size:.84rem">
-            <strong>Cuentas de prueba</strong><br>
-            Administrador: admin@losmaestros.cl / Admin123!<br>
-            Vendedor: vendedor@losmaestros.cl / Vende123!<br>
-            Contratista con cuenta corriente: contratista@correo.cl / Contra123!<br>
-            Cliente: cliente@correo.cl / Client123!
-          </div>
 
         </div>
       </div>
@@ -157,6 +156,7 @@
             <li><a href="login.html">Iniciar sesión</a></li>
             <li><a href="mis-pedidos.html">Mis pedidos</a></li>
             <li><a href="carrito.html">Carrito</a></li>
+            <li><a href="admin.html">Panel de gestión</a></li>
           </ul>
         </div>
         <div>
@@ -174,116 +174,6 @@
       </div>
     </div>
   </footer>
-
-  <script src="assets/js/data.js"></script>
-  <script src="assets/js/auth.js"></script>
-  <script src="assets/js/app.js"></script>
-  <script src="assets/js/validaciones.js"></script>
-  <script>
-    const formLogin = document.getElementById("formLogin");
-    const formRegistro = document.getElementById("formRegistro");
-    const tabLogin = document.getElementById("tabLogin");
-    const tabRegistro = document.getElementById("tabRegistro");
-
-    tabLogin.addEventListener("click", () => {
-      formLogin.classList.remove("oculto");
-      formRegistro.classList.add("oculto");
-      tabLogin.classList.add("activo");
-      tabRegistro.classList.remove("activo");
-    });
-
-    tabRegistro.addEventListener("click", () => {
-      formRegistro.classList.remove("oculto");
-      formLogin.classList.add("oculto");
-      tabRegistro.classList.add("activo");
-      tabLogin.classList.remove("activo");
-    });
-
-
-    Validar.enVivo("loginEmail", Validar.email);
-    Validar.enVivo("regNombre", (v) => Validar.longitudMinima(v, 3, "El nombre"));
-    Validar.enVivo("regRut", Validar.rut);
-    Validar.enVivo("regEmail", Validar.email);
-    Validar.enVivo("regTelefono", Validar.telefono);
-    Validar.enVivo("regDireccion", (v) => Validar.longitudMinima(v, 8, "La dirección"));
-    Validar.enVivo("regPassword", Validar.password);
-    Validar.enVivo("regPassword2", (v) => Validar.confirmarPassword(v, document.getElementById("regPassword").value));
-    Validar.formatearRut("regRut");
-
-    function mostrarMensaje(idContenedor, texto, tipo) {
-      document.getElementById(idContenedor).innerHTML =
-        `<div class="alerta alerta--${tipo}">${texto}</div>`;
-    }
-
-
-    formLogin.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const email = document.getElementById("loginEmail").value;
-      const password = document.getElementById("loginPassword").value;
-
-      const okEmail = Validar.aplicar("loginEmail", Validar.email(email));
-      const okPass = Validar.aplicar("loginPassword", Validar.requerido(password));
-      if (!okEmail || !okPass) return;
-
-      const resultado = Auth.iniciarSesion(email, password);
-
-      if (!resultado.ok) {
-        mostrarMensaje("mensajeLogin", resultado.mensaje, "error");
-        return;
-      }
-
-      mostrarMensaje("mensajeLogin", `Bienvenido, ${resultado.usuario.nombre}. Entrando…`, "exito");
-
-      const destino = new URLSearchParams(location.search).get("redirigir");
-      setTimeout(() => {
-        if (destino) location.href = destino;
-        else if (resultado.usuario.rol === "admin" || resultado.usuario.rol === "vendedor") location.href = "admin.html";
-        else location.href = "mis-pedidos.html";
-      }, 800);
-    });
-
-    // ---- Enviar registro ----
-    formRegistro.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const datos = {
-        nombre: document.getElementById("regNombre").value.trim(),
-        rut: document.getElementById("regRut").value.trim(),
-        email: document.getElementById("regEmail").value.trim(),
-        telefono: document.getElementById("regTelefono").value.trim(),
-        direccion: document.getElementById("regDireccion").value.trim(),
-        password: document.getElementById("regPassword").value,
-        esContratista: document.getElementById("regContratista").checked
-      };
-
-      const validaciones = [
-        Validar.aplicar("regNombre", Validar.longitudMinima(datos.nombre, 3, "El nombre")),
-        Validar.aplicar("regRut", Validar.rut(datos.rut)),
-        Validar.aplicar("regEmail", Validar.email(datos.email)),
-        Validar.aplicar("regTelefono", Validar.telefono(datos.telefono)),
-        Validar.aplicar("regDireccion", Validar.longitudMinima(datos.direccion, 8, "La dirección")),
-        Validar.aplicar("regPassword", Validar.password(datos.password)),
-        Validar.aplicar("regPassword2", Validar.confirmarPassword(document.getElementById("regPassword2").value, datos.password))
-      ];
-
-      if (validaciones.includes(false)) {
-        mostrarMensaje("mensajeRegistro", "Revisa los campos marcados en rojo.", "error");
-        return;
-      }
-
-      const resultado = Auth.registrar(datos);
-
-      if (!resultado.ok) {
-        mostrarMensaje("mensajeRegistro", resultado.mensaje, "error");
-        return;
-      }
-
-      mostrarMensaje("mensajeRegistro", "Cuenta creada. Entrando…", "exito");
-      Auth.iniciarSesion(datos.email, datos.password);
-      setTimeout(() => location.href = "mis-pedidos.html", 900);
-    });
-  </script>
 
 </body>
 </html>
