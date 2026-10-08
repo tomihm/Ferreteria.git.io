@@ -1,21 +1,21 @@
-
 const Validar = {
 
   // ------------------ Reglas ------------------
 
   requerido(valor) {
-    return valor.trim().length > 0 ? null : "Este campo es obligatorio.";
+    return (valor ?? "").trim().length > 0 ? null : "Este campo es obligatorio.";
   },
 
   email(valor) {
+    const texto = (valor ?? "").trim();
     const patron = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
-    if (!valor.trim()) return "Escribe tu correo electrónico.";
-    return patron.test(valor.trim()) ? null : "El correo debe tener el formato nombre@dominio.cl";
+    if (!texto) return "Escribe tu correo electrónico.";
+    return patron.test(texto) ? null : "El correo debe tener el formato nombre@dominio.com";
   },
 
   // Valida RUT chileno calculando el dígito verificador
   rut(valor) {
-    const limpio = valor.replace(/[.\-]/g, "").toUpperCase();
+    const limpio = (valor ?? "").replace(/[.\-\s]/g, "").toUpperCase();
     if (!limpio) return "Escribe tu RUT.";
     if (!/^\d{7,8}[0-9K]$/.test(limpio)) return "Formato inválido. Usa 12.345.678-9";
 
@@ -33,15 +33,13 @@ const Validar = {
     const dvEsperado = resto === 11 ? "0" : resto === 10 ? "K" : String(resto);
 
     return dv === dvEsperado ? null : "El RUT no es válido. Revisa el dígito verificador.";
-  }
-}
-  }
+  },
 
   telefono(valor) {
-    const limpio = valor.replace(/\s/g, "");
+    const limpio = (valor ?? "").replace(/\s/g, "");
     if (!limpio) return "Escribe un teléfono de contacto.";
-    return /^(\+56)?9\d{8}$/.test(limpio) ? null : "Usa el formato +569 1234 5678";
-  }
+    return /^(\+?56)?9\d{8}$/.test(limpio) ? null : "Usa el formato +569 1234 5678";
+  },
 
   password(valor) {
     if (!valor) return "Crea una contraseña.";
@@ -58,8 +56,9 @@ const Validar = {
   },
 
   longitudMinima(valor, minimo, etiqueta = "Este campo") {
-    if (!valor.trim()) return "Este campo es obligatorio.";
-    return valor.trim().length >= minimo ? null : `${etiqueta} debe tener al menos ${minimo} caracteres.`;
+    const texto = (valor ?? "").trim();
+    if (!texto) return "Este campo es obligatorio.";
+    return texto.length >= minimo ? null : `${etiqueta} debe tener al menos ${minimo} caracteres.`;
   },
 
   // ------------------ Interfaz ------------------
@@ -89,7 +88,7 @@ const Validar = {
       error.classList.remove("visible");
     }
     return true;
-  }
+  },
 
   // Valida al salir del campo, y mientras se escribe si ya estaba marcado en rojo
   enVivo(idCampo, funcionValidadora) {
@@ -102,7 +101,7 @@ const Validar = {
     input.addEventListener("input", () => {
       if (input.classList.contains("invalido")) revisar();
     });
-  }
+  },
 
   // Da formato al RUT mientras el usuario escribe: 12.345.678-9
   formatearRut(idCampo) {
@@ -110,21 +109,26 @@ const Validar = {
     if (!input) return;
 
     input.addEventListener("input", () => {
-      let v = input.value.replace(/[^0-9kK]/g, "").toUpperCase();
+      const v = input.value.replace(/[^0-9kK]/g, "").toUpperCase();
       if (v.length <= 1) {
         input.value = v;
         return;
       }
       const dv = v.slice(-1);
-      let cuerpo = v.slice(0, -1).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      const cuerpo = v.slice(0, -1).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
       input.value = cuerpo + "-" + dv;
     });
-  }
+  },
 
-  // Muestra un aviso general arriba del formulario
+  // Muestra un aviso general arriba del formulario (textContent evita inyección de HTML)
   mensajeGeneral(idContenedor, texto, tipo) {
     const contenedor = document.getElementById(idContenedor);
-    if (contenedor) {
-      contenedor.innerHTML = `<div class="alerta alerta--${tipo}">${texto}</div>`;
-    }
-  }
+    if (!contenedor) return;
+
+    contenedor.textContent = "";
+    const alerta = document.createElement("div");
+    alerta.className = `alerta alerta--${tipo}`;
+    alerta.textContent = texto;
+    contenedor.appendChild(alerta);
+  },
+};
