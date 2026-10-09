@@ -4,9 +4,9 @@ function Header(){
     return(
         <header className="header">
                 <div className="contenedor header__barra">
-                    <a href="index.html" className="logo">
-                        🔧 FERRETERÍA <em>LOS MAESTROS</em>
-                    </a>
+                <NavLink to="/" className="logo">
+                    🔧 FERRETERÍA <em>LOS MAESTROS</em>
+                </NavLink>
                     <input type="checkbox" id="menuToggle" />
                     <nav className="nav" aria-label="Navegación principal">
                         <ul className="nav__lista">
