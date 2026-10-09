@@ -1,0 +1,168 @@
+function Catalogo() {
+    return (
+        <>
+            <main>
+                <section className="pagina-titulo">
+                    <div className="contenedor">
+                        <h1>Catálogo de productos</h1>
+                        <p>Precios y disponibilidad actualizados al 8 de septiembre de 2026.</p>
+                    </div>
+                </section>
+
+                <section className="seccion">
+                    <div className="contenedor">
+                        <form className="filtros">
+                            <div className="campo">
+                                <label htmlFor="buscar">Buscar producto</label>
+                                <input type="search" id="buscar" name="buscar" placeholder="Nombre, código o marca" />
+                            </div>
+                            <div className="campo">
+                                <label htmlFor="categoria">Categoría</label>
+                                <select id="categoria" name="categoria">
+                                    <option value="">Todas las categorías</option>
+                                    <option>Materiales de Construcción</option>
+                                    <option>Herramientas Eléctricas</option>
+                                    <option>Herramientas Manuales</option>
+                                    <option>Gasfitería</option>
+                                    <option>Electricidad</option>
+                                    <option>Ferretería General</option>
+                                </select>
+                            </div>
+                            <div className="campo">
+                                <label htmlFor="orden">Ordenar por</label>
+                                <select id="orden" name="orden">
+                                    <option>Nombre A-Z</option>
+                                    <option>Precio: menor a mayor</option>
+                                    <option>Precio: mayor a menor</option>
+                                    <option>Más stock disponible</option>
+                                </select>
+                            </div>
+                            <button type="submit" className="btn btn--primario">Filtrar</button>
+                        </form>
+
+                        <p style={{ color: "var(--gris-500)", marginBottom: "10px" }}>Ir directo a una categoría:</p>
+                        <nav className="atajos" aria-label="Atajos por categoría">
+                            <a href="#construccion">Construcción</a>
+                            <a href="#herramientas">Herramientas Eléctricas</a>
+                            <a href="#manuales">Herramientas Manuales</a>
+                            <a href="#gasfiteria">Gasfitería</a>
+                            <a href="#electricidad">Electricidad</a>
+                            <a href="#general">Ferretería General</a>
+                        </nav>
+
+                        <h2 className="categoria-titulo" id="construccion">🧱 Materiales de Construcción</h2>
+                        <div className="grid grid--4">
+                            <article className="tarjeta">
+                                <div className="producto__img">🧱</div>
+                                <div className="tarjeta__cuerpo">
+                                    <p className="producto__codigo">CON-001</p>
+                                    <h3 className="producto__nombre">Saco de Cemento Melón 25kg</h3
+                                    ><p className="producto__marca">Melón</p>
+                                    <p className="producto__precio">$5.490</p>
+                                    <span className="badge badge--stock">Disponible: 120</span>
+                                    <div className="producto__acciones">
+                                        <a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a>
+                                        <button className="btn btn--primario btn--bloque">Agregar al carrito</button>
+                                    </div>
+                                </div>
+                            </article>
+                            <article className="tarjeta">
+                                <div className="producto__img">🪨</div>
+                                <div className="tarjeta__cuerpo">
+                                    <p className="producto__codigo">CON-002</p>
+                                    <h3 className="producto__nombre">Arena Gruesa Saco 25kg</h3>
+                                    <p className="producto__marca">Genérico</p>
+                                    <p className="producto__precio">$2.990</p>
+                                    <span className="badge badge--stock">Disponible: 85</span>
+                                    <div className="producto__acciones">
+                                        <a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a>
+                                        <button className="btn btn--primario btn--bloque">Agregar al carrito</button>
+                                    </div>
+                                </div>
+                            </article>
+                            <article className="tarjeta">
+                                <div className="producto__img">🧱</div>
+                                <div className="tarjeta__cuerpo">
+                                    <p className="producto__codigo">CON-003</p>
+                                    <h3 className="producto__nombre">Ladrillo Fiscal</h3>
+                                    <p className="producto__marca">Princesa</p>
+                                    <p className="producto__precio">$490</p>
+                                    <span className="badge badge--stock">Disponible: 1.500</span>
+                                    <div className="producto__acciones">
+                                        <a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a>
+                                        <button className="btn btn--primario btn--bloque">Agregar al carrito</button>
+                                    </div>
+                                </div>
+                            </article>
+                            <article className="tarjeta">
+                                <div className="producto__img">🪵</div>
+                                <div className="tarjeta__cuerpo">
+                                    <p className="producto__codigo">CON-004</p>
+                                    <h3 className="producto__nombre">Plancha OSB 11mm 1.22x2.44m</h3>
+                                    <p className="producto__marca">Louisiana</p>
+                                    <p className="producto__precio">$18.990</p>
+                                    <span className="badge badge--stock">Disponible: 22</span>
+                                    <div className="producto__acciones">
+                                        <a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a>
+                                        <button className="btn btn--primario btn--bloque">Agregar al carrito</button>
+                                    </div>
+                                </div>
+                            </article>
+                            <article className="tarjeta"><div className="producto__img">🔗</div><div className="tarjeta__cuerpo"><p className="producto__codigo">CON-005</p><h3 className="producto__nombre">Fierro Estriado 8mm x 6m</h3><p className="producto__marca">CAP</p><p className="producto__precio">$4.290</p><span className="badge badge--bajo">Quedan 8</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">⬜</div><div className="tarjeta__cuerpo"><p className="producto__codigo">CON-006</p><h3 className="producto__nombre">Plancha Volcanita 8mm</h3><p className="producto__marca">Volcán</p><p className="producto__precio">$8.990</p><span className="badge badge--stock">Disponible: 40</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                        </div>
+
+                        <h2 className="categoria-titulo" id="herramientas">🔌 Herramientas Eléctricas</h2>
+                        <div className="grid grid--4">
+                            <article className="tarjeta"><div className="producto__img">🔩</div><div className="tarjeta__cuerpo"><p className="producto__codigo">HER-001</p><h3 className="producto__nombre">Taladro Percutor 750W</h3><p className="producto__marca">Bosch</p><p className="producto__precio">$54.990</p><span className="badge badge--stock">Disponible: 14</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">⚙️</div><div className="tarjeta__cuerpo"><p className="producto__codigo">HER-002</p><h3 className="producto__nombre">Esmeril Angular 4.5" 820W</h3><p className="producto__marca">Makita</p><p className="producto__precio">$39.990</p><span className="badge badge--stock">Disponible: 9</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">🪚</div><div className="tarjeta__cuerpo"><p className="producto__codigo">HER-003</p><h3 className="producto__nombre">Sierra Circular 7-1/4" 1400W</h3><p className="producto__marca">DeWalt</p><p className="producto__precio">$79.990</p><span className="badge badge--stock">Disponible: 6</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">🔋</div><div className="tarjeta__cuerpo"><p className="producto__codigo">HER-004</p><h3 className="producto__nombre">Atornillador Inalámbrico 12V</h3><p className="producto__marca">Stanley</p><p className="producto__precio">$44.990</p><span className="badge badge--bajo">Quedan 3</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">🌀</div><div className="tarjeta__cuerpo"><p className="producto__codigo">HER-005</p><h3 className="producto__nombre">Lijadora Orbital 300W</h3><p className="producto__marca">Black+Decker</p><p className="producto__precio">$32.990</p><span className="badge badge--stock">Disponible: 11</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                        </div>
+
+                        <h2 className="categoria-titulo" id="manuales">🔨 Herramientas Manuales</h2>
+                        <div className="grid grid--4">
+                            <article className="tarjeta"><div className="producto__img">🔨</div><div className="tarjeta__cuerpo"><p className="producto__codigo">MAN-001</p><h3 className="producto__nombre">Martillo Carpintero 16oz</h3><p className="producto__marca">Bahco</p><p className="producto__precio">$7.990</p><span className="badge badge--stock">Disponible: 45</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">🪛</div><div className="tarjeta__cuerpo"><p className="producto__codigo">MAN-002</p><h3 className="producto__nombre">Juego Destornilladores 6 piezas</h3><p className="producto__marca">Stanley</p><p className="producto__precio">$9.990</p><span className="badge badge--stock">Disponible: 38</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">🗜️</div><div className="tarjeta__cuerpo"><p className="producto__codigo">MAN-003</p><h3 className="producto__nombre">Alicate Universal 8"</h3><p className="producto__marca">Truper</p><p className="producto__precio">$6.490</p><span className="badge badge--stock">Disponible: 52</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">📏</div><div className="tarjeta__cuerpo"><p className="producto__codigo">MAN-004</p><h3 className="producto__nombre">Huincha de Medir 5m</h3><p className="producto__marca">Bahco</p><p className="producto__precio">$4.990</p><span className="badge badge--bajo">Quedan 4</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">📐</div><div className="tarjeta__cuerpo"><p className="producto__codigo">MAN-005</p><h3 className="producto__nombre">Nivel de Aluminio 60cm</h3><p className="producto__marca">Stanley</p><p className="producto__precio">$11.990</p><span className="badge badge--stock">Disponible: 18</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                        </div>
+
+                        <h2 className="categoria-titulo" id="gasfiteria">🚿 Gasfitería</h2>
+                        <div className="grid grid--4">
+                            <article className="tarjeta"><div className="producto__img">🔵</div><div className="tarjeta__cuerpo"><p className="producto__codigo">GAS-001</p><h3 className="producto__nombre">Tubo PVC Sanitario 110mm x 3m</h3><p className="producto__marca">Vinilit</p><p className="producto__precio">$12.990</p><span className="badge badge--stock">Disponible: 30</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">🔄</div><div className="tarjeta__cuerpo"><p className="producto__codigo">GAS-002</p><h3 className="producto__nombre">Codo PVC 90° 110mm</h3><p className="producto__marca">Vinilit</p><p className="producto__precio">$2.490</p><span className="badge badge--stock">Disponible: 90</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">🚰</div><div className="tarjeta__cuerpo"><p className="producto__codigo">GAS-003</p><h3 className="producto__nombre">Llave de Paso 1/2" Bronce</h3><p className="producto__marca">Nibsa</p><p className="producto__precio">$8.990</p><span className="badge badge--stock">Disponible: 24</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">🎗️</div><div className="tarjeta__cuerpo"><p className="producto__codigo">GAS-004</p><h3 className="producto__nombre">Sello Teflón 12m</h3><p className="producto__marca">Genérico</p><p className="producto__precio">$990</p><span className="badge badge--stock">Disponible: 200</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">〰️</div><div className="tarjeta__cuerpo"><p className="producto__codigo">GAS-005</p><h3 className="producto__nombre">Flexible Acero Inox 40cm</h3><p className="producto__marca">Nibsa</p><p className="producto__precio">$3.990</p><span className="badge badge--bajo">Quedan 7</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                        </div>
+
+                        <h2 className="categoria-titulo" id="electricidad">💡 Electricidad</h2>
+                        <div className="grid grid--4">
+                            <article className="tarjeta"><div className="producto__img">🧵</div><div className="tarjeta__cuerpo"><p className="producto__codigo">ELE-001</p><h3 className="producto__nombre">Cable THHN 2.5mm Rollo 100m</h3><p className="producto__marca">Covisa</p><p className="producto__precio">$44.990</p><span className="badge badge--stock">Disponible: 12</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">🔘</div><div className="tarjeta__cuerpo"><p className="producto__codigo">ELE-002</p><h3 className="producto__nombre">Automático 16A Riel DIN</h3><p className="producto__marca">Schneider</p><p className="producto__precio">$5.990</p><span className="badge badge--stock">Disponible: 40</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">💡</div><div className="tarjeta__cuerpo"><p className="producto__codigo">ELE-003</p><h3 className="producto__nombre">Ampolleta LED 12W E27</h3><p className="producto__marca">Philips</p><p className="producto__precio">$2.490</p><span className="badge badge--stock">Disponible: 150</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">🔌</div><div className="tarjeta__cuerpo"><p className="producto__codigo">ELE-004</p><h3 className="producto__nombre">Enchufe Doble Embutido</h3><p className="producto__marca">Bticino</p><p className="producto__precio">$3.490</p><span className="badge badge--bajo">Quedan 5</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">📦</div><div className="tarjeta__cuerpo"><p className="producto__codigo">ELE-005</p><h3 className="producto__nombre">Canaleta PVC 20x10mm 2m</h3><p className="producto__marca">Legrand</p><p className="producto__precio">$1.990</p><span className="badge badge--stock">Disponible: 75</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                        </div>
+
+                        <h2 className="categoria-titulo" id="general">🔩 Ferretería General</h2>
+                        <div className="grid grid--4">
+                            <article className="tarjeta"><div className="producto__img">🔩</div><div className="tarjeta__cuerpo"><p className="producto__codigo">GEN-001</p><h3 className="producto__nombre">Tornillo Volcanita 6x1" (100 u)</h3><p className="producto__marca">Genérico</p><p className="producto__precio">$3.490</p><span className="badge badge--stock">Disponible: 60</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">🧴</div><div className="tarjeta__cuerpo"><p className="producto__codigo">GEN-002</p><h3 className="producto__nombre">Silicona Transparente 280ml</h3><p className="producto__marca">Fixser</p><p className="producto__precio">$4.290</p><span className="badge badge--stock">Disponible: 48</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">🧤</div><div className="tarjeta__cuerpo"><p className="producto__codigo">GEN-003</p><h3 className="producto__nombre">Guantes de Cabritilla</h3><p className="producto__marca">Steelpro</p><p className="producto__precio">$3.990</p><span className="badge badge--bajo">Quedan 2</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">⛑️</div><div className="tarjeta__cuerpo"><p className="producto__codigo">GEN-004</p><h3 className="producto__nombre">Casco de Seguridad Blanco</h3><p className="producto__marca">3M</p><p className="producto__precio">$6.990</p><span className="badge badge--stock">Disponible: 33</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">⚫</div><div className="tarjeta__cuerpo"><p className="producto__codigo">GEN-005</p><h3 className="producto__nombre">Cinta Aisladora Negra 20m</h3><p className="producto__marca">3M</p><p className="producto__precio">$1.290</p><span className="badge badge--stock">Disponible: 110</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta"><div className="producto__img">🪜</div><div className="tarjeta__cuerpo"><p className="producto__codigo">GEN-006</p><h3 className="producto__nombre">Escalera Tijera Aluminio 6 peldaños</h3><p className="producto__marca">Tramontina</p><p className="producto__precio">$42.990</p><span className="badge badge--agotado">Sin stock</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque" disabled>Sin stock</button></div></div></article>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            
+        </>
+    );
+}
+export default Catalogo;

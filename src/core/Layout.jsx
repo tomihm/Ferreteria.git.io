@@ -1,21 +1,18 @@
 // Root.jsx
 import { Outlet, NavLink } from 'react-router-dom';
+import Header from './Header.jsx';
+import Footer from './Footer.jsx';
 
 function Layout() {
   return (
     <div className="app">
-      <header>
-        <nav>
-          <NavLink to="/">Inicio</NavLink>
-          <NavLink to="/contacto">Contacto</NavLink>
-        </nav>
-      </header>
+      <Header />
 
       <main>
         <Outlet />
       </main>
 
-      <footer>© 2026</footer>
+      <Footer />
     </div>
   );
 }
