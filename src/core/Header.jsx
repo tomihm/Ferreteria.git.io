@@ -12,8 +12,8 @@ function Header(){
                         <ul className="nav__lista">
                             <li><NavLink to="/">Inicio</NavLink></li>
                             <li><NavLink to="/catalogo">Catálogo</NavLink></li>
-                            <li><a href="nosotros.html">Nosotros</a></li>
-                            <li><a href="contacto.html">Contacto</a></li>
+                            <li><NavLink to="/nosotros">Nosotros</NavLink></li>
+                            <li><NavLink to="/contacto">Contacto</NavLink></li>
                             <li><a href="mis-pedidos.html">Mis pedidos</a></li>
                             <li><a href="admin.html">Panel</a></li>
                         </ul>

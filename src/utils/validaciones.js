@@ -132,3 +132,5 @@ const Validar = {
     contenedor.appendChild(alerta);
   },
 };
+
+export default Validar;

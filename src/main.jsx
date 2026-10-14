@@ -5,6 +5,8 @@ import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Layout from './core/Layout.jsx'
 import Catalogo from './pages/Catalogo.jsx'
+import Nosotros from './pages/Nosotros.jsx'
+import Contacto from './pages/Contacto.jsx'
 
 const router = createBrowserRouter([
   {
@@ -13,6 +15,8 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <App /> },
       { path: 'catalogo', element: <Catalogo /> },
+      { path: 'nosotros', element: <Nosotros /> },
+      { path: 'contacto', element: <Contacto /> },
       { path: '*', element: <div>404 Not Found</div> }
     ],
   },
