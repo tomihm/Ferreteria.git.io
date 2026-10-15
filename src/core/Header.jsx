@@ -1,6 +1,9 @@
 import { NavLink } from 'react-router-dom';
+import { useCarrito } from '../context/CarritoContext.jsx';
 
 function Header(){
+    const { totalUnidades } = useCarrito();
+
     return(
         <header className="header">
                 <div className="contenedor header__barra">
@@ -20,7 +23,7 @@ function Header(){
                     </nav>
                     <div className="header__acciones">
                         <NavLink to="/carrito" className="carrito-icono" aria-label="Ver carrito de compras">
-                            🛒<span className="carrito-contador">3</span>
+                            🛒{totalUnidades > 0 && <span className="carrito-contador">{totalUnidades}</span>}
                         </NavLink>
                         <NavLink to="/login" className="btn btn--primario btn--sm">Iniciar sesión</NavLink>
                         <label htmlFor="menuToggle" className="hamburguesa" aria-label="Abrir menú">☰</label>
