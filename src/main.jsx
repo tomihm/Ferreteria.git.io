@@ -7,6 +7,8 @@ import Layout from './core/Layout.jsx'
 import Catalogo from './pages/Catalogo.jsx'
 import Nosotros from './pages/Nosotros.jsx'
 import Contacto from './pages/Contacto.jsx'
+import MisPedidos from './pages/MisPedidos.jsx'
+import Panel from './pages/Panel.jsx'
 
 const router = createBrowserRouter([
   {
@@ -17,6 +19,8 @@ const router = createBrowserRouter([
       { path: 'catalogo', element: <Catalogo /> },
       { path: 'nosotros', element: <Nosotros /> },
       { path: 'contacto', element: <Contacto /> },
+      { path: 'mis-pedidos', element: <MisPedidos /> },
+      { path: 'panel', element: <Panel /> },
       { path: '*', element: <div>404 Not Found</div> }
     ],
   },

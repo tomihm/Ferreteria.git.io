@@ -22,9 +22,9 @@ function Footer() {
                             <h4>Mi cuenta</h4>
                             <ul>
                                 <li><a href="login.html">Iniciar sesión</a></li>
-                                <li><a href="mis-pedidos.html">Mis pedidos</a></li>
+                                <li><Link to="/mis-pedidos">Mis pedidos</Link></li>
                                 <li><a href="carrito.html">Carrito</a></li>
-                                <li><a href="admin.html">Panel de gestión</a></li>
+                                <li><Link to="/panel">Panel de gestión</Link></li>
                             </ul>
                         </div>
                         <div>

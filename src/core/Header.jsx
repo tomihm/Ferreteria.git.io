@@ -14,8 +14,8 @@ function Header(){
                             <li><NavLink to="/catalogo">Catálogo</NavLink></li>
                             <li><NavLink to="/nosotros">Nosotros</NavLink></li>
                             <li><NavLink to="/contacto">Contacto</NavLink></li>
-                            <li><a href="mis-pedidos.html">Mis pedidos</a></li>
-                            <li><a href="admin.html">Panel</a></li>
+                            <li><NavLink to="/mis-pedidos">Mis pedidos</NavLink></li>
+                            <li><NavLink to="/panel">Panel</NavLink></li>
                         </ul>
                     </nav>
                     <div className="header__acciones">
