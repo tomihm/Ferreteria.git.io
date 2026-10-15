@@ -108,7 +108,20 @@ function Catalogo() {
                                     </div>
                                 </div>
                             </article>
-                            <article className="tarjeta"><div className="producto__img">🔗</div><div className="tarjeta__cuerpo"><p className="producto__codigo">CON-005</p><h3 className="producto__nombre">Fierro Estriado 8mm x 6m</h3><p className="producto__marca">CAP</p><p className="producto__precio">$4.290</p><span className="badge badge--bajo">Quedan 8</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
+                            <article className="tarjeta">
+                                <div className="producto__img">🔗</div>
+                                <div className="tarjeta__cuerpo">
+                                    <p className="producto__codigo">CON-005</p>
+                                    <h3 className="producto__nombre">Fierro Estriado 8mm x 6m</h3>
+                                    <p className="producto__marca">CAP</p>
+                                    <p className="producto__precio">$4.290</p>
+                                    <span className="badge badge--bajo">Quedan 8</span>
+                                    <div className="producto__acciones">
+                                        <a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a>
+                                        <button className="btn btn--primario btn--bloque">Agregar al carrito</button>
+                                    </div>
+                                </div>
+                            </article>
                             <article className="tarjeta"><div className="producto__img">⬜</div><div className="tarjeta__cuerpo"><p className="producto__codigo">CON-006</p><h3 className="producto__nombre">Plancha Volcanita 8mm</h3><p className="producto__marca">Volcán</p><p className="producto__precio">$8.990</p><span className="badge badge--stock">Disponible: 40</span><div className="producto__acciones"><a href="producto.html" className="btn btn--secundario btn--sm btn--bloque mb-2">Ver detalle</a><button className="btn btn--primario btn--bloque">Agregar al carrito</button></div></div></article>
                         </div>
 
