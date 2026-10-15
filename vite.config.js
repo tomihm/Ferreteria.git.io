@@ -13,5 +13,5 @@ export default defineConfig({
     setupFiles: './src/setupTests.js',
   },
 
-  base: "/Ferreteria.github.io/"
+  base: "/Ferreteria.git.io/"
 })
