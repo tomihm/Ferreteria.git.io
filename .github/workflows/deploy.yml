@@ -24,6 +24,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm test -- --run
       - run: npm run build
       # para que al recargar /contacto o /nosotros no de 404
       - run: cp dist/index.html dist/404.html
