@@ -30,7 +30,7 @@ function ProductoDetalle() {
         <p className="mb-3"><Link to="/catalogo" style={{ color: "var(--naranja)", fontWeight: "600" }}>← Volver al catálogo</Link></p>
 
                 <div className="detalle">
-                    <div className="detalle__img">
+                    <div className="detalle__img" style={{ width: '100%', height: 'auto', display: 'block' }}>
                         <img src={producto.imagen} alt={producto.nombre} />
                     </div>
 
