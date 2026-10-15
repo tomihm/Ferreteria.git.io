@@ -10,6 +10,7 @@ import Contacto from './pages/Contacto.jsx'
 import MisPedidos from './pages/MisPedidos.jsx'
 import Panel from './pages/Panel.jsx'
 import ProductoDetalle from './pages/ProductoDetalle.jsx'
+import Carrito from './pages/Carrito.jsx'
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
       { path: 'mis-pedidos', element: <MisPedidos /> },
       { path: 'panel', element: <Panel /> },
       { path: 'producto/:id', element: <ProductoDetalle /> },
+      { path: 'carrito', element: <Carrito /> },
       { path: '*', element: <div>404 Not Found</div> }
     ],
   },
