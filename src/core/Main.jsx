@@ -26,32 +26,32 @@ function Main() {
           <h2 className="seccion__titulo">Qué vendemos</h2>
           <p className="seccion__subtitulo">Más de 800 referencias en bodega</p>
           <div className="grid grid--3">
-            <Link to="/catalogo#construccion" className="categoria-card">
+            <Link to="/catalogo/construccion" className="categoria-card">
               <div className="icono">🧱</div>
               <h3>Materiales de Construcción</h3>
               <p>Cemento, arena, ladrillo, fierro y tableros</p>
             </Link>
-            <Link to="/catalogo#herramientas" className="categoria-card">
+            <Link to="/catalogo/herramientas" className="categoria-card">
               <div className="icono">🔌</div>
               <h3>Herramientas Eléctricas</h3>
               <p>Taladros, esmeriles, sierras y lijadoras</p>
             </Link>
-            <Link to="/catalogo#manuales" className="categoria-card">
+            <Link to="/catalogo/manuales" className="categoria-card">
               <div className="icono">🔨</div>
               <h3>Herramientas Manuales</h3>
               <p>Martillos, alicates, niveles y huinchas</p>
             </Link>
-            <Link to="/catalogo#gasfiteria" className="categoria-card">
+            <Link to="/catalogo/gasfiteria" className="categoria-card">
               <div className="icono">🚿</div>
               <h3>Gasfitería</h3>
               <p>Tubos PVC, fittings y llaves de paso</p>
             </Link>
-            <Link to="/catalogo#electricidad" className="categoria-card">
+            <Link to="/catalogo/electricidad" className="categoria-card">
               <div className="icono">💡</div>
               <h3>Electricidad</h3>
               <p>Cables, automáticos, enchufes y ampolletas</p>
             </Link>
-            <Link to="/catalogo#general" className="categoria-card">
+            <Link to="/catalogo/general" className="categoria-card">
               <div className="icono">🔩</div>
               <h3>Ferretería General</h3>
               <p>Tornillos, siliconas y seguridad</p>
@@ -77,7 +77,7 @@ function Main() {
                 <p className="producto__precio">$5.490</p>
                 <span className="badge badge--stock">Disponible: 120</span>
                 <div className="producto__acciones">
-                  <Link to="/producto" className="btn btn--primario btn--bloque">
+                  <Link to="/producto/Saco-de-Cemento-Melon-25kg" className="btn btn--primario btn--bloque">
                     Ver producto
                   </Link>
                 </div>
