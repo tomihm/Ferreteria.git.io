@@ -77,7 +77,7 @@ function Main() {
                 <p className="producto__precio">$5.490</p>
                 <span className="badge badge--stock">Disponible: 120</span>
                 <div className="producto__acciones">
-                  <Link to="/producto/Saco-de-Cemento-Melon-25kg" className="btn btn--primario btn--bloque">
+                  <Link to="/producto/saco-de-cemento-melon-25kg" className="btn btn--primario btn--bloque">
                     Ver producto
                   </Link>
                 </div>
@@ -93,7 +93,7 @@ function Main() {
                 <p className="producto__precio">$54.990</p>
                 <span className="badge badge--stock">Disponible: 14</span>
                 <div className="producto__acciones">
-                  <Link to="/producto" className="btn btn--primario btn--bloque">
+                  <Link to="/producto/taladro-percutor-750w" className="btn btn--primario btn--bloque">
                     Ver producto
                   </Link>
                 </div>
