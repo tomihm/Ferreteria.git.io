@@ -11,6 +11,7 @@ import MisPedidos from './pages/MisPedidos.jsx'
 import Panel from './pages/Panel.jsx'
 import ProductoDetalle from './pages/ProductoDetalle.jsx'
 import Carrito from './pages/Carrito.jsx'
+import Login from './pages/Login.jsx'
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
       { path: 'panel', element: <Panel /> },
       { path: 'producto/:id', element: <ProductoDetalle /> },
       { path: 'carrito', element: <Carrito /> },
+      { path: 'login', element: <Login /> },
       { path: '*', element: <div>404 Not Found</div> }
     ],
   },
