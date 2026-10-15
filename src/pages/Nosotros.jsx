@@ -59,23 +59,6 @@ function Nosotros() {
 
             <section className="seccion">
                 <div className="contenedor">
-                    <h2 className="seccion__titulo">Consejos de obra</h2>
-                    <p className="seccion__subtitulo">Cómo calcular el material que necesitas antes de comprar</p>
-                    <div style={{ maxWidth: '760px', margin: '0 auto' }}>
-                        <div className="video-responsive">
-                            <iframe
-                                src="https://www.youtube.com/embed/aqz-KE-bpKQ"
-                                title="Video de consejos de construcción"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
-                                allowFullScreen
-                            ></iframe>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="seccion seccion--blanca">
-                <div className="contenedor">
                     <h2 className="seccion__titulo">Números de la ferretería</h2>
                     <div className="kpi-grid mt-3">
                         {numeros.map((n) => (
@@ -88,7 +71,7 @@ function Nosotros() {
                 </div>
             </section>
 
-            <section className="seccion">
+            <section className="seccion seccion--blanca">
                 <div className="contenedor texto-centro">
                     <h2 className="seccion__titulo">¿Necesitas material para tu próxima obra?</h2>
                     <p className="seccion__subtitulo">Revisa el catálogo o escríbenos y te cotizamos.</p>
