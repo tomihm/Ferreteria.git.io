@@ -1,19 +1,68 @@
-# React + Vite
+# Ferretería Los Maestros
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sitio web de la Ferretería Los Maestros, proyecto grupal del ramo DSY1104 (Duoc UC).
+Permite revisar el catálogo y el stock en línea, armar el carrito, seguir los pedidos y la cuenta corriente, y administrar la tienda desde un panel.
 
-Currently, two official plugins are available:
+Sitio publicado: https://tomihm.github.io/Ferreteria.git.io/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Integrantes
 
-## React Compiler
+- Tomás Hernández
+- Diego
+- Dario Rojas
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## Tecnologías
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+- React 19 + Vite
+- React Router (`react-router-dom`)
+- Vitest + Testing Library para las pruebas
+- GitHub Actions + GitHub Pages para el despliegue
 
-## Expanding the ESLint configuration
+## Páginas
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| Ruta | Página |
+|------|--------|
+| `/` | Inicio |
+| `/catalogo` | Catálogo de productos |
+| `/producto/:id` | Detalle de un producto |
+| `/carrito` | Carrito de compras |
+| `/mis-pedidos` | Pedidos y cuenta corriente del cliente |
+| `/panel` | Panel de administración |
+| `/nosotros` | Quiénes somos |
+| `/contacto` | Contacto y zona de despacho |
+
+## Estructura
+
+```
+src/
+├── core/        Header, Footer, Layout y página de inicio
+├── pages/       Páginas del sitio y sus pruebas (*.test.jsx)
+├── mocks/       Datos de prueba que simulan las respuestas del backend
+├── products/    Listado de productos
+├── utils/       Validaciones de formularios (RUT, correo, teléfono...)
+└── main.jsx     Rutas de la aplicación
+assets/          Páginas HTML originales, antes de migrar a React
+```
+
+## Cómo ejecutarlo
+
+Requiere Node.js 20 o superior.
+
+```bash
+npm install
+npm run dev
+```
+
+El sitio queda en http://localhost:5173/
+
+## Pruebas
+
+```bash
+npm test            # modo watch
+npm test -- --run   # una sola vez
+```
+
+## Despliegue
+
+Cada push a `main` ejecuta el workflow `.github/workflows/deploy.yml`, que instala las dependencias, corre las pruebas y, si pasan, compila y publica el sitio en GitHub Pages.
+Si alguna prueba falla, el sitio no se actualiza.
