@@ -1,5 +1,3 @@
-const BASE = import.meta.env.BASE_URL;
-
 export const productos = [
   {
     id: 'saco-de-cemento-melon-25kg',
@@ -8,7 +6,7 @@ export const productos = [
     precio: 5490,
     categoria: 'construccion',
     descripcion: 'Saco de cemento de 25kg de la marca Melón, ideal para construcción y reparaciones.',
-    imagen: `${BASE}assets/saco_cemento_melon.png`
+    imagen: `${import.meta.env.BASE_URL}assets/saco_cemento_melon.png`
 },
 {
     id: 'taladro-percutor-750w',
