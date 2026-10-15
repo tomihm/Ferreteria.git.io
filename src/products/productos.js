@@ -1,6 +1,7 @@
 export const productos = [
   {
     id: 'saco-de-cemento-melon-25kg',
+    codigo: 'CON-001',
     nombre: 'Saco de Cemento Melón 25kg',
     marca: 'Melón',
     precio: 5490,
@@ -10,6 +11,7 @@ export const productos = [
 },
 {
     id: 'taladro-percutor-750w',
+    codigo: 'HER-001',
     nombre: 'Taladro Percutor 750W',
     marca: 'Bosch',
     precio: 54990,

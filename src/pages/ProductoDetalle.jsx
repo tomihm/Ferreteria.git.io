@@ -1,12 +1,19 @@
 import { useParams } from 'react-router-dom';
 import { productos } from '../products/productos.js';
 import { Link } from 'react-router-dom';
+import { useCarrito } from '../context/CarritoContext.jsx';
 
 function ProductoDetalle() {
 
     const { id } = useParams();
+    const { agregar } = useCarrito();
 
     const producto = productos.find((p) => p.id === id);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        agregar(producto.codigo, Number(e.target.elements.cantidad.value) || 1);
+    };
 
     if (!producto) {
         return (
@@ -35,10 +42,10 @@ function ProductoDetalle() {
                         <p className="producto__precio" style={{ fontSize: "2rem" }}>${producto.precio.toLocaleString('es-CL')}</p>
                         <p style={{ color: "var(--gris-700)", marginBottom: "20px" }}>{producto.descripcion}</p>
 
-                        <form className="formulario" style={{ padding: "20px" }}>
+                        <form className="formulario" style={{ padding: "20px" }} onSubmit={handleSubmit}>
                             <div className="campo">
-                                <label for="cantidad">Cantidad (unidades)</label>
-                                <input type="number" id="cantidad" name="cantidad" value="1" min="1" max="14"></input>
+                                <label htmlFor="cantidad">Cantidad (unidades)</label>
+                                <input type="number" id="cantidad" name="cantidad" defaultValue="1" min="1" max="14"></input>
                                 <p className="campo__ayuda">Máximo 14 unidades según el stock actual.</p>
                             </div>
                             <button type="submit" className="btn btn--primario btn--bloque">Agregar al carrito</button>
