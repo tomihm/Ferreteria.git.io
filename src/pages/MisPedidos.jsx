@@ -1,47 +1,24 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-const kpis = [
-    { label: 'Saldo pendiente', valor: '$188.760' },
-    { label: 'Modalidad', valor: 'Cuenta corriente' },
-    { label: 'Fecha de cobro', valor: '30 de septiembre' },
-    { label: 'Cupo disponible', valor: '$311.240' }
-];
-
-const movimientos = [
-    { fecha: '20-08-2026', documento: 'Pedido #1001', detalle: 'Compra de materiales', cargo: '$109.800', abono: '—', saldo: '$109.800' },
-    { fecha: '28-08-2026', documento: 'Pedido #1002', detalle: 'Compra de herramientas', cargo: '$78.960', abono: '—', saldo: '$188.760' },
-    { fecha: '31-08-2026', documento: 'Pago', detalle: 'Transferencia bancaria', cargo: '—', abono: '$0', saldo: '$188.760' }
-];
-
-const pedidos = [
-    {
-        numero: '#1002',
-        fecha: '28-08-2026',
-        entrega: 'Retiro en tienda',
-        estado: 'En preparación',
-        claseBadge: 'badge--info',
-        pago: 'Cuenta corriente',
-        total: '$78.960',
-        items: [
-            { producto: 'Taladro Percutor 750W', cantidad: 1, precio: '$54.990', subtotal: '$54.990' },
-            { producto: 'Martillo Carpintero 16oz', cantidad: 3, precio: '$7.990', subtotal: '$23.970' }
-        ]
-    },
-    {
-        numero: '#1001',
-        fecha: '20-08-2026',
-        entrega: 'Despacho a Los Aromos 455, Coquimbo',
-        estado: 'Entregado',
-        claseBadge: 'badge--stock',
-        pago: 'Cuenta corriente',
-        total: '$109.800',
-        items: [
-            { producto: 'Saco de Cemento Melón 25kg', cantidad: 20, precio: '$5.490', subtotal: '$109.800' }
-        ]
-    }
-];
+import { cargarMisPedidos } from '../mocks/misPedidosMocks.js';
 
 function MisPedidos() {
+    const [datos, setDatos] = useState(null);
+
+    useEffect(() => {
+        let activo = true;
+        cargarMisPedidos().then((datosCargados) => {
+            if (activo) setDatos(datosCargados);
+        });
+        return () => {
+            activo = false;
+        };
+    }, []);
+
+    const kpis = datos?.kpis ?? [];
+    const movimientos = datos?.movimientos ?? [];
+    const pedidos = datos?.pedidos ?? [];
+
     return (
         <>
             <section className="pagina-titulo">

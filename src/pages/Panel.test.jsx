@@ -3,14 +3,19 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Panel from './Panel.jsx';
 
+async function renderPanel() {
+    render(<Panel />);
+    await screen.findByText('CON-001');
+}
+
 describe('Panel', () => {
-    it('muestra el titulo de la pagina', () => {
-        render(<Panel />);
+    it('muestra el titulo de la pagina', async () => {
+        await renderPanel();
         expect(screen.getByRole('heading', { level: 1, name: 'Panel de gestión' })).toBeInTheDocument();
     });
 
-    it('muestra las secciones del panel', () => {
-        render(<Panel />);
+    it('muestra las secciones del panel', async () => {
+        await renderPanel();
         expect(screen.getByRole('heading', { level: 2, name: 'Resumen' })).toBeInTheDocument();
         expect(screen.getByRole('heading', { level: 2, name: 'Inventario' })).toBeInTheDocument();
         expect(screen.getByRole('heading', { level: 2, name: 'Pedidos' })).toBeInTheDocument();
@@ -19,7 +24,7 @@ describe('Panel', () => {
     });
 
     it('filtra los pedidos por estado', async () => {
-        render(<Panel />);
+        await renderPanel();
 
         await userEvent.selectOptions(screen.getByLabelText('Filtrar por estado'), 'Entregado');
 
@@ -30,7 +35,7 @@ describe('Panel', () => {
     });
 
     it('cambia el estado del pedido al usar su selector', async () => {
-        render(<Panel />);
+        await renderPanel();
 
         await userEvent.selectOptions(screen.getByLabelText('Estado del pedido #1003'), 'En reparto');
 
@@ -38,7 +43,7 @@ describe('Panel', () => {
     });
 
     it('muestra el aviso al guardar el stock', async () => {
-        render(<Panel />);
+        await renderPanel();
 
         await userEvent.click(screen.getAllByRole('button', { name: 'Guardar' })[0]);
 
@@ -46,7 +51,7 @@ describe('Panel', () => {
     });
 
     it('actualiza el estado del inventario al cambiar el stock', async () => {
-        render(<Panel />);
+        await renderPanel();
         const input = screen.getByLabelText('Stock Huincha de Medir 5m');
 
         await userEvent.clear(input);
