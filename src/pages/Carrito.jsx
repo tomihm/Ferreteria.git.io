@@ -204,7 +204,7 @@ function Carrito() {
                                     <div className="resumen__linea" style={{ color: 'var(--gris-500)' }}>
                                         <span>{items.length} productos</span><span>{unidades} unidades</span>
                                     </div>
-                                    <div className="resumen__total" data-testid="total"><span>Total</span><span>{formatoPeso(total)}</span></div>
+                                    <div className="resumen__total"><span>Total</span><span>{formatoPeso(total)}</span></div>
 
                                     <button type="submit" className="btn btn--primario btn--bloque mt-3">Confirmar pedido</button>
                                 </form>

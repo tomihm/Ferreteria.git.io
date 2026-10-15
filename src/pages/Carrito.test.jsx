@@ -15,6 +15,9 @@ const itemsPrueba = [
     { codigo: 'MAN-001', icono: '🔨', producto: 'Martillo Carpintero 16oz', unidad: 'por unidad', precio: 7990, cantidad: 3, stock: 45 }
 ];
 
+// el total es el texto que esta al lado de "Total" en el resumen
+const totalPedido = () => screen.getByText('Total').parentElement;
+
 async function renderCarrito(items = itemsPrueba) {
     cargarCarrito.mockResolvedValue(items.map((item) => ({ ...item })));
     render(
@@ -35,7 +38,7 @@ describe('Carrito', () => {
 
         expect(screen.getByText(/Saco de Cemento Melón 25kg/)).toBeInTheDocument();
         expect(screen.getByText(/Martillo Carpintero 16oz/)).toBeInTheDocument();
-        expect(screen.getByTestId('total')).toHaveTextContent('$133.770');
+        expect(totalPedido()).toHaveTextContent('$133.770');
     });
 
     it('recalcula el total al cambiar la cantidad', async () => {
@@ -45,7 +48,7 @@ describe('Carrito', () => {
         await userEvent.clear(input);
         await userEvent.type(input, '5');
 
-        expect(screen.getByTestId('total')).toHaveTextContent('$149.750');
+        expect(totalPedido()).toHaveTextContent('$149.750');
     });
 
     it('no deja pedir mas que el stock disponible', async () => {
@@ -73,7 +76,7 @@ describe('Carrito', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Quitar Martillo Carpintero 16oz' }));
 
         expect(screen.queryByText(/Martillo Carpintero 16oz/)).not.toBeInTheDocument();
-        expect(screen.getByTestId('total')).toHaveTextContent('$109.800');
+        expect(totalPedido()).toHaveTextContent('$109.800');
     });
 
     it('vacia el carrito', async () => {
@@ -81,14 +84,14 @@ describe('Carrito', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Vaciar carrito' }));
 
         expect(screen.getByText('Tu carrito está vacío.')).toBeInTheDocument();
-        expect(screen.getByTestId('total')).toHaveTextContent('$0');
+        expect(totalPedido()).toHaveTextContent('$0');
     });
 
     it('cobra despacho bajo $150.000', async () => {
         await renderCarrito();
         await userEvent.selectOptions(screen.getByLabelText('Cómo lo recibes'), 'despacho');
 
-        expect(screen.getByTestId('total')).toHaveTextContent('$140.760');
+        expect(totalPedido()).toHaveTextContent('$140.760');
     });
 
     it('el despacho es gratis sobre $150.000', async () => {
@@ -96,7 +99,7 @@ describe('Carrito', () => {
         await userEvent.selectOptions(screen.getByLabelText('Cómo lo recibes'), 'despacho');
 
         expect(screen.getByText('Gratis')).toBeInTheDocument();
-        expect(screen.getByTestId('total')).toHaveTextContent('$164.700');
+        expect(totalPedido()).toHaveTextContent('$164.700');
     });
 
     it('pide la direccion si se elige despacho', async () => {
