@@ -4,7 +4,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import Catalogo from './Catalogo.jsx';
 import Validar from '../utils/validaciones.js';
 
-vi.mock('./validaciones.js', () => ({
+vi.mock('../utils/validaciones.js', () => ({
   default: {
     requerido: vi.fn(),
     longitudMinima: vi.fn(),
