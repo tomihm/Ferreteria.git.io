@@ -22,7 +22,7 @@ function Header(){
                         <NavLink to="/carrito" className="carrito-icono" aria-label="Ver carrito de compras">
                             🛒<span className="carrito-contador">3</span>
                         </NavLink>
-                        <a href="login.html" className="btn btn--primario btn--sm">Iniciar sesión</a>
+                        <NavLink to="/login" className="btn btn--primario btn--sm">Iniciar sesión</NavLink>
                         <label htmlFor="menuToggle" className="hamburguesa" aria-label="Abrir menú">☰</label>
                     </div>
                 </div>
