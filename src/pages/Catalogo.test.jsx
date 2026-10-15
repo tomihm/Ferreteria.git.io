@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import Catalogo from './Catalogo.jsx';
 import Validar from '../utils/validaciones.js';
+import { MemoryRouter } from 'react-router-dom';
 
 vi.mock('../utils/validaciones.js', () => ({
     default: {
