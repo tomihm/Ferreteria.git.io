@@ -36,10 +36,7 @@ function Nosotros() {
                         <article>
                             <h2 style={{ fontSize: '1.5rem', marginBottom: '12px' }}>En qué estamos trabajando</h2>
                             <p style={{ marginBottom: '14px' }}>Durante años el inventario vivió en una planilla Excel que se actualizaba al final del día, y las cuentas corrientes en un cuaderno. Eso funcionaba cuando éramos más chicos.</p>
-                            <p style={{ marginBottom: '14px' }}>Con 30 a 50 llamadas diarias solo para consultar stock, el teléfono dejó de dar abasto. Este sitio resuelve eso: el stock se ve en línea, el pedido queda registrado y la cuenta corriente se lleva sola.</p>
-                            <div className="alerta alerta--info">
-                                Este sitio es la primera etapa de un sistema mayor. Las siguientes fases suman microservicios en Spring Boot, base de datos MySQL e infraestructura en AWS.
-                            </div>
+                            <p>Con 30 a 50 llamadas diarias solo para consultar stock, el teléfono dejó de dar abasto. Este sitio resuelve eso: el stock se ve en línea, el pedido queda registrado y la cuenta corriente se lleva sola.</p>
                         </article>
                     </div>
                 </div>
