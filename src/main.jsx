@@ -12,6 +12,7 @@ import Panel from './pages/Panel.jsx'
 import ProductoDetalle from './pages/ProductoDetalle.jsx'
 import Carrito from './pages/Carrito.jsx'
 import Login from './pages/Login.jsx'
+import { CarritoProvider } from './context/CarritoContext.jsx'
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <CarritoProvider>
+      <RouterProvider router={router} />
+    </CarritoProvider>
   </StrictMode>,
 )
