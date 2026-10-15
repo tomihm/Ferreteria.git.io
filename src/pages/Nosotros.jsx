@@ -36,10 +36,7 @@ function Nosotros() {
                         <article>
                             <h2 style={{ fontSize: '1.5rem', marginBottom: '12px' }}>En qué estamos trabajando</h2>
                             <p style={{ marginBottom: '14px' }}>Durante años el inventario vivió en una planilla Excel que se actualizaba al final del día, y las cuentas corrientes en un cuaderno. Eso funcionaba cuando éramos más chicos.</p>
-                            <p style={{ marginBottom: '14px' }}>Con 30 a 50 llamadas diarias solo para consultar stock, el teléfono dejó de dar abasto. Este sitio resuelve eso: el stock se ve en línea, el pedido queda registrado y la cuenta corriente se lleva sola.</p>
-                            <div className="alerta alerta--info">
-                                Este sitio es la primera etapa de un sistema mayor. Las siguientes fases suman microservicios en Spring Boot, base de datos MySQL e infraestructura en AWS.
-                            </div>
+                            <p>Con 30 a 50 llamadas diarias solo para consultar stock, el teléfono dejó de dar abasto. Este sitio resuelve eso: el stock se ve en línea, el pedido queda registrado y la cuenta corriente se lleva sola.</p>
                         </article>
                     </div>
                 </div>
@@ -62,23 +59,6 @@ function Nosotros() {
 
             <section className="seccion">
                 <div className="contenedor">
-                    <h2 className="seccion__titulo">Consejos de obra</h2>
-                    <p className="seccion__subtitulo">Cómo calcular el material que necesitas antes de comprar</p>
-                    <div style={{ maxWidth: '760px', margin: '0 auto' }}>
-                        <div className="video-responsive">
-                            <iframe
-                                src="https://www.youtube.com/embed/aqz-KE-bpKQ"
-                                title="Video de consejos de construcción"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
-                                allowFullScreen
-                            ></iframe>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="seccion seccion--blanca">
-                <div className="contenedor">
                     <h2 className="seccion__titulo">Números de la ferretería</h2>
                     <div className="kpi-grid mt-3">
                         {numeros.map((n) => (
@@ -91,7 +71,7 @@ function Nosotros() {
                 </div>
             </section>
 
-            <section className="seccion">
+            <section className="seccion seccion--blanca">
                 <div className="contenedor texto-centro">
                     <h2 className="seccion__titulo">¿Necesitas material para tu próxima obra?</h2>
                     <p className="seccion__subtitulo">Revisa el catálogo o escríbenos y te cotizamos.</p>

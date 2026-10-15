@@ -4,6 +4,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import Catalogo from './Catalogo.jsx';
 import Validar from '../utils/validaciones.js';
 import { MemoryRouter } from 'react-router-dom';
+import { CarritoProvider } from '../context/CarritoContext.jsx';
 
 vi.mock('../utils/validaciones.js', () => ({
     default: {
@@ -29,7 +30,7 @@ describe('Pruebas en <Catalogo /> usando Mocks de Validar', () => {
     it('debe renderizar la vista de catálogo correctamente', () => {
         render(
             <MemoryRouter>
-                <Catalogo />
+                <CarritoProvider><Catalogo /></CarritoProvider>
             </MemoryRouter>);
 
         expect(screen.getByRole('heading', { level: 1, name: /catálogo de productos/i })).toBeInTheDocument();
@@ -44,7 +45,7 @@ describe('Pruebas en <Catalogo /> usando Mocks de Validar', () => {
 
         render(
             <MemoryRouter>
-                <Catalogo />
+                <CarritoProvider><Catalogo /></CarritoProvider>
             </MemoryRouter>);
 
         const inputBuscar = screen.getByLabelText(/buscar producto/i);
@@ -67,7 +68,7 @@ describe('Pruebas en <Catalogo /> usando Mocks de Validar', () => {
 
         render(
             <MemoryRouter>
-                <Catalogo />
+                <CarritoProvider><Catalogo /></CarritoProvider>
             </MemoryRouter>
         );
 
@@ -84,7 +85,7 @@ describe('Pruebas en <Catalogo /> usando Mocks de Validar', () => {
     it('debe verificar los estados de stock de los productos', () => {
         render(
             <MemoryRouter>
-                <Catalogo />
+                <CarritoProvider><Catalogo /></CarritoProvider>
             </MemoryRouter>);
         expect(screen.getByText('Saco de Cemento Melón 25kg')).toBeInTheDocument();
 
