@@ -19,9 +19,9 @@ function Header(){
                         </ul>
                     </nav>
                     <div className="header__acciones">
-                        <a href="carrito.html" className="carrito-icono" aria-label="Ver carrito de compras">
+                        <NavLink to="/carrito" className="carrito-icono" aria-label="Ver carrito de compras">
                             🛒<span className="carrito-contador">3</span>
-                        </a>
+                        </NavLink>
                         <a href="login.html" className="btn btn--primario btn--sm">Iniciar sesión</a>
                         <label htmlFor="menuToggle" className="hamburguesa" aria-label="Abrir menú">☰</label>
                     </div>
