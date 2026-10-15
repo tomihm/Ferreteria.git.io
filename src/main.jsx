@@ -24,7 +24,9 @@ const router = createBrowserRouter([
       { path: '*', element: <div>404 Not Found</div> }
     ],
   },
-]);
+], {
+  basename: import.meta.env.BASE_URL
+});
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
