@@ -8,9 +8,9 @@ const kpis = [
 ];
 
 const movimientos = [
-    { fecha: '20-08-2026', documento: 'Pedido #1001', detalle: 'Compra de materiales', cargo: '$109.800', abono: '—', saldo: '$109.800' },
-    { fecha: '28-08-2026', documento: 'Pedido #1002', detalle: 'Compra de herramientas', cargo: '$78.960', abono: '—', saldo: '$188.760' },
-    { fecha: '31-08-2026', documento: 'Pago', detalle: 'Transferencia bancaria', cargo: '—', abono: '$0', saldo: '$188.760' }
+    { fecha: '20-08-2026', documento: 'Pedido #1001', detalle: 'Compra de materiales', cargo: '$109.800', abono: '$0', saldo: '$109.800' },
+    { fecha: '28-08-2026', documento: 'Pedido #1002', detalle: 'Compra de herramientas', cargo: '$78.960', abono: '$0', saldo: '$188.760' },
+    { fecha: '31-08-2026', documento: 'Pago', detalle: 'Transferencia bancaria', cargo: '$0', abono: '$0', saldo: '$188.760' }
 ];
 
 const pedidos = [
@@ -19,7 +19,7 @@ const pedidos = [
         fecha: '28-08-2026',
         entrega: 'Retiro en tienda',
         estado: 'En preparación',
-        claseBadge: 'badge--info',
+        claseBadge: 'text-bg-info',
         pago: 'Cuenta corriente',
         total: '$78.960',
         items: [
@@ -32,7 +32,7 @@ const pedidos = [
         fecha: '20-08-2026',
         entrega: 'Despacho a Los Aromos 455, Coquimbo',
         estado: 'Entregado',
-        claseBadge: 'badge--stock',
+        claseBadge: 'text-bg-success',
         pago: 'Cuenta corriente',
         total: '$109.800',
         items: [

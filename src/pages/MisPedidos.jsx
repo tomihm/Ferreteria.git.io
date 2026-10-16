@@ -4,12 +4,17 @@ import { cargarMisPedidos } from '../mocks/misPedidosMocks.js';
 
 function MisPedidos() {
     const [datos, setDatos] = useState(null);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         let activo = true;
-        cargarMisPedidos().then((datosCargados) => {
-            if (activo) setDatos(datosCargados);
-        });
+        cargarMisPedidos()
+            .then((datosCargados) => {
+                if (activo) setDatos(datosCargados);
+            })
+            .catch(() => {
+                if (activo) setError(true);
+            });
         return () => {
             activo = false;
         };
@@ -22,100 +27,121 @@ function MisPedidos() {
     return (
         <>
             <section className="pagina-titulo">
-                <div className="contenedor">
+                <div className="container">
                     <h1>Mis pedidos</h1>
-                    <p>Juan Pérez · contratista@correo.cl</p>
+                    <p className="mb-0">Juan Pérez · contratista@correo.cl</p>
                 </div>
             </section>
 
-            <section className="seccion">
-                <div className="contenedor">
+            <section className="py-5">
+                <div className="container">
 
-                    <h2 style={{ fontSize: '1.3rem', marginBottom: '14px' }}>Cuenta corriente</h2>
-                    <div className="kpi-grid">
-                        {kpis.map((k) => (
-                            <div className="kpi" key={k.label}>
-                                <p className="kpi__label">{k.label}</p>
-                                <p className="kpi__valor" style={{ fontSize: '1.1rem' }}>{k.valor}</p>
-                            </div>
-                        ))}
-                    </div>
+                    {error && (
+                        <div className="alert alert-danger" role="alert">
+                            No pudimos cargar tus pedidos. Recarga la página o llámanos al +56 51 221 4455.
+                        </div>
+                    )}
 
-                    <h2 style={{ fontSize: '1.3rem', margin: '34px 0 14px' }}>Movimientos de cuenta corriente</h2>
-                    <div className="tabla-scroll mb-3">
-                        <table className="tabla">
-                            <thead>
-                                <tr>
-                                    <th>Fecha</th>
-                                    <th>Documento</th>
-                                    <th>Detalle</th>
-                                    <th>Cargo</th>
-                                    <th>Abono</th>
-                                    <th>Saldo</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {movimientos.map((m) => (
-                                    <tr key={m.documento + m.fecha}>
-                                        <td>{m.fecha}</td>
-                                        <td>{m.documento}</td>
-                                        <td>{m.detalle}</td>
-                                        <td>{m.cargo}</td>
-                                        <td>{m.abono}</td>
-                                        <td>{m.saldo}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                    {!datos && !error && (
+                        <p className="text-body-secondary" role="status">
+                            <span className="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                            Cargando tus pedidos...
+                        </p>
+                    )}
 
-                    <h2 style={{ fontSize: '1.3rem', margin: '34px 0 14px' }}>Historial de pedidos</h2>
-
-                    {pedidos.map((p) => (
-                        <article className="tarjeta mb-3" key={p.numero}>
-                            <div className="tarjeta__cuerpo">
-                                <div className="flex-entre mb-2">
-                                    <div>
-                                        <h3 style={{ fontSize: '1.1rem' }}>Pedido {p.numero}</h3>
-                                        <p style={{ fontSize: '.85rem', color: 'var(--gris-500)' }}>
-                                            {p.fecha} · {p.entrega}
-                                        </p>
+                    {datos && (
+                        <>
+                            <h2 className="h4 mb-3">Cuenta corriente</h2>
+                            <div className="row row-cols-2 row-cols-lg-4 g-3 mb-5">
+                                {kpis.map((k) => (
+                                    <div className="col" key={k.label}>
+                                        <div className="card card-body h-100">
+                                            <p className="small text-body-secondary mb-1">{k.label}</p>
+                                            <p className="fs-5 fw-bold mb-0">{k.valor}</p>
+                                        </div>
                                     </div>
-                                    <span className={`badge ${p.claseBadge}`}>{p.estado}</span>
-                                </div>
-                                <div className="tabla-scroll">
-                                    <table className="tabla" style={{ minWidth: '420px' }}>
-                                        <thead>
-                                            <tr>
-                                                <th>Producto</th>
-                                                <th>Cantidad</th>
-                                                <th>Precio</th>
-                                                <th>Subtotal</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {p.items.map((it) => (
-                                                <tr key={it.producto}>
-                                                    <td>{it.producto}</td>
-                                                    <td>{it.cantidad}</td>
-                                                    <td>{it.precio}</td>
-                                                    <td>{it.subtotal}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div className="flex-entre mt-2">
-                                    <span className="badge badge--neutro">{p.pago}</span>
-                                    <strong style={{ fontSize: '1.15rem' }}>Total: {p.total}</strong>
-                                </div>
+                                ))}
                             </div>
-                        </article>
-                    ))}
 
-                    <div className="texto-centro mt-3">
-                        <Link to="/catalogo" className="btn btn--primario">Hacer un nuevo pedido</Link>
-                    </div>
+                            <h2 className="h4 mb-3">Movimientos de cuenta corriente</h2>
+                            <div className="table-responsive bg-white rounded mb-5">
+                                <table className="table table-hover align-middle mb-0">
+                                    <thead className="table-dark">
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <th>Documento</th>
+                                            <th>Detalle</th>
+                                            <th>Cargo</th>
+                                            <th>Abono</th>
+                                            <th>Saldo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {movimientos.map((m) => (
+                                            <tr key={m.documento + m.fecha}>
+                                                <td>{m.fecha}</td>
+                                                <td>{m.documento}</td>
+                                                <td>{m.detalle}</td>
+                                                <td>{m.cargo}</td>
+                                                <td>{m.abono}</td>
+                                                <td>{m.saldo}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h2 className="h4 mb-3">Historial de pedidos</h2>
+
+                            {pedidos.length === 0 && (
+                                <p>Todavía no tienes pedidos. Cuando compres, aparecerán aquí.</p>
+                            )}
+
+                            {pedidos.map((p) => (
+                                <article className="card mb-4" key={p.numero}>
+                                    <div className="card-body">
+                                        <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                                            <div>
+                                                <h3 className="h5 mb-0">Pedido {p.numero}</h3>
+                                                <p className="small text-body-secondary mb-0">
+                                                    {p.fecha} · {p.entrega}
+                                                </p>
+                                            </div>
+                                            <span className={`badge ${p.claseBadge}`}>{p.estado}</span>
+                                        </div>
+                                        <div className="table-responsive">
+                                            <table className="table table-sm align-middle">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Producto</th>
+                                                        <th>Cantidad</th>
+                                                        <th>Precio</th>
+                                                        <th>Subtotal</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {p.items.map((it) => (
+                                                        <tr key={it.producto}>
+                                                            <td>{it.producto}</td>
+                                                            <td>{it.cantidad}</td>
+                                                            <td>{it.precio}</td>
+                                                            <td>{it.subtotal}</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div className="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                                            <span className="badge text-bg-light border">{p.pago}</span>
+                                            <strong className="fs-5">Total: {p.total}</strong>
+                                        </div>
+                                    </div>
+                                </article>
+                            ))}
+                        </>
+                    )}
+
+                    <Link to="/catalogo" className="btn btn-primary">Hacer un nuevo pedido</Link>
 
                 </div>
             </section>
