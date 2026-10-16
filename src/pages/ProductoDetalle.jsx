@@ -1,7 +1,17 @@
 import { useParams } from 'react-router-dom';
 import { productos } from '../products/productos.js';
+import { catalogo } from '../products/catalogo.js';
 import { Link } from 'react-router-dom';
 import { useCarrito } from '../context/CarritoContext.jsx';
+
+const nombresCategoria = {
+    construccion: 'Materiales de Construcción',
+    herramientas: 'Herramientas Eléctricas',
+    manuales: 'Herramientas Manuales',
+    gasfiteria: 'Gasfitería',
+    electricidad: 'Electricidad',
+    general: 'Ferretería General',
+};
 
 function ProductoDetalle() {
 
@@ -9,6 +19,8 @@ function ProductoDetalle() {
     const { agregar } = useCarrito();
 
     const producto = productos.find((p) => p.id === id);
+    // el stock y la categoria estan en el catalogo
+    const enCatalogo = catalogo.find((p) => p.codigo === producto?.codigo);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -17,41 +29,46 @@ function ProductoDetalle() {
 
     if (!producto) {
         return (
-            <div>
-                <h1>Producto no encontrado</h1>
-                <p>El producto que estás buscando no existe.</p>
-            </div>
+            <section className="py-5">
+                <div className="container">
+                    <h1 className="h3">Producto no encontrado</h1>
+                    <p>El producto que estás buscando no existe.</p>
+                    <Link to="/catalogo" className="btn btn-primary">Volver al catálogo</Link>
+                </div>
+            </section>
         );
     }
 
     return (
-        <section className="seccion">
-      <div className="contenedor">
-        <p className="mb-3"><Link to="/catalogo" style={{ color: "var(--naranja)", fontWeight: "600" }}>← Volver al catálogo</Link></p>
+        <section className="py-5">
+            <div className="container">
+                <p className="mb-4"><Link to="/catalogo" className="fw-semibold">← Volver al catálogo</Link></p>
 
-                <div className="detalle">
-                    <div className="detalle__img" style={{ width: '100%', height: 'auto', display: 'block' }}>
-                        <img src={producto.imagen} alt={producto.nombre} />
+                <div className="row g-5">
+                    <div className="col-lg-6">
+                        <div className="detalle__foto">
+                            <img src={producto.imagen} alt={producto.nombre} />
+                        </div>
                     </div>
 
-                    <div>
-                        <p className="producto__codigo">HER-001 · Herramientas Eléctricas</p>
-                        <h1 style={{ fontSize: "1.8rem", margin: "6px 0" }}>{producto.nombre}</h1>
-                        <p className="producto__marca mb-2">Marca {producto.marca} · se vende por unidad</p>
-                        <span className="badge badge--stock">Disponible: {producto.stock}</span>
-                        <p className="producto__precio" style={{ fontSize: "2rem" }}>${producto.precio.toLocaleString('es-CL')}</p>
-                        <p style={{ color: "var(--gris-700)", marginBottom: "20px" }}>{producto.descripcion}</p>
+                    <div className="col-lg-6">
+                        {enCatalogo && (
+                            <p className="small text-body-secondary mb-1">{enCatalogo.codigo} · {nombresCategoria[enCatalogo.categoria]}</p>
+                        )}
+                        <h1 className="h2 fw-bold">{producto.nombre}</h1>
+                        <p className="text-body-secondary mb-2">Marca {producto.marca} · se vende por unidad</p>
+                        {enCatalogo && <span className="badge text-bg-success">Disponible: {enCatalogo.stock}</span>}
+                        <p className="display-6 fw-bold my-3">${producto.precio.toLocaleString('es-CL')}</p>
+                        <p className="mb-4">{producto.descripcion}</p>
 
-                        <form className="formulario" style={{ padding: "20px" }} onSubmit={handleSubmit}>
-                            <div className="campo">
-                                <label htmlFor="cantidad">Cantidad (unidades)</label>
-                                <input type="number" id="cantidad" name="cantidad" defaultValue="1" min="1" max="14"></input>
-                                <p className="campo__ayuda">Máximo 14 unidades según el stock actual.</p>
-                            </div>
-                            <button type="submit" className="btn btn--primario btn--bloque">Agregar al carrito</button>
+                        <form className="card card-body mb-4" onSubmit={handleSubmit}>
+                            <label htmlFor="cantidad" className="form-label">Cantidad (unidades)</label>
+                            <input type="number" id="cantidad" name="cantidad" className="form-control" defaultValue="1" min="1" max={enCatalogo?.stock}></input>
+                            {enCatalogo && <p className="form-text">Máximo {enCatalogo.stock} unidades según el stock actual.</p>}
+                            <button type="submit" className="btn btn-primary mt-3">Agregar al carrito</button>
                         </form>
 
-                        <div className="alerta alerta--info mt-3">
+                        <div className="alert alert-info mb-0">
                             Retiro en tienda el mismo día, o despacho a domicilio dentro de 12 km. Sobre $150.000 el despacho es gratis.
                         </div>
                     </div>
