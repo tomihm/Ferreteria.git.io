@@ -1,5 +1,5 @@
 // Root.jsx
-import { Outlet } from 'react-router-dom';
+import { Outlet, ScrollRestoration } from 'react-router-dom';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 
@@ -13,6 +13,9 @@ function Layout() {
       </main>
 
       <Footer />
+
+      {/* al cambiar de pagina vuelve arriba (o al #ancla si hay) */}
+      <ScrollRestoration />
     </div>
   );
 }
