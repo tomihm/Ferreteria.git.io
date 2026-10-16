@@ -13,6 +13,7 @@ import Panel from './pages/Panel.jsx'
 import ProductoDetalle from './pages/ProductoDetalle.jsx'
 import Carrito from './pages/Carrito.jsx'
 import Login from './pages/Login.jsx'
+import NoEncontrada from './pages/NoEncontrada.jsx'
 import { CarritoProvider } from './context/CarritoContext.jsx'
 
 const router = createBrowserRouter([
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
       { path: 'producto/:id', element: <ProductoDetalle /> },
       { path: 'carrito', element: <Carrito /> },
       { path: 'login', element: <Login /> },
-      { path: '*', element: <div>404 Not Found</div> }
+      { path: '*', element: <NoEncontrada /> }
     ],
   },
 ], {
