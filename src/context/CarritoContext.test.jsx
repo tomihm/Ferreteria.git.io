@@ -19,7 +19,7 @@ function renderTienda() {
     );
 }
 
-const iconoCarrito = () => screen.getByLabelText('Ver carrito de compras');
+const iconoCarrito = () => screen.getByRole('link', { name: /^Carrito/ });
 
 // busca el boton "Agregar al carrito" de la tarjeta que tiene ese codigo
 const botonAgregar = (codigo) => {
@@ -35,7 +35,7 @@ describe('Carrito compartido', () => {
     it('el contador no aparece con el carrito vacio', () => {
         renderTienda();
 
-        expect(iconoCarrito()).toHaveTextContent('🛒');
+        expect(iconoCarrito()).toHaveTextContent('Carrito');
         expect(iconoCarrito()).not.toHaveTextContent(/\d/);
     });
 

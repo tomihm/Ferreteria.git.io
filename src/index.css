@@ -75,6 +75,9 @@
 }
 .form-check-input:checked { background-color: #212121; border-color: #212121; }
 
+/* pagina actual del menu en naranja */
+.navbar .nav-link.active { color: #f57c00; }
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
