@@ -93,11 +93,12 @@ describe('Pruebas en <Catalogo /> usando Mocks de Validar', () => {
         expect(botonAgotado).toBeDisabled();
     });
 
-    it('debe mostrar la imagen del saco de cemento', () => {
+    it('debe mostrar las imagenes del cemento y el taladro', () => {
         render(
             <MemoryRouter>
                 <CarritoProvider><Catalogo /></CarritoProvider>
             </MemoryRouter>);
         expect(screen.getByAltText('Saco de Cemento Melón 25kg')).toBeInTheDocument();
+        expect(screen.getByAltText('Taladro Percutor 750W')).toBeInTheDocument();
     });
 });
