@@ -58,7 +58,7 @@ function Catalogo() {
                         <h2 className="categoria-titulo" id="construccion">🧱 Materiales de Construcción</h2>
                         <div className="grid grid--4">
                             <article className="tarjeta">
-                                <div className="producto__img">🧱</div>
+                                <div className="producto__img"><img src={`${import.meta.env.BASE_URL}assets/saco_cemento_melon.png`} alt="Saco de Cemento Melón 25kg" /></div>
                                 <div className="tarjeta__cuerpo">
                                     <p className="producto__codigo">CON-001</p>
                                     <h3 className="producto__nombre">Saco de Cemento Melón 25kg</h3

@@ -92,4 +92,12 @@ describe('Pruebas en <Catalogo /> usando Mocks de Validar', () => {
         const botonAgotado = screen.getByRole('button', { name: /sin stock/i });
         expect(botonAgotado).toBeDisabled();
     });
+
+    it('debe mostrar la imagen del saco de cemento', () => {
+        render(
+            <MemoryRouter>
+                <CarritoProvider><Catalogo /></CarritoProvider>
+            </MemoryRouter>);
+        expect(screen.getByAltText('Saco de Cemento Melón 25kg')).toBeInTheDocument();
+    });
 });
