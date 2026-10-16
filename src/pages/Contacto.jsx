@@ -18,7 +18,7 @@ const reglas = {
 };
 
 function ErrorCampo({ mensaje }) {
-    return <p className={mensaje ? 'campo__error visible' : 'campo__error'}>{mensaje}</p>;
+    return <div className="invalid-feedback">{mensaje}</div>;
 }
 
 function Contacto() {
@@ -64,97 +64,105 @@ function Contacto() {
         setErrores({});
     };
 
-    const claseCampo = (campo) => {
-        if (errores[campo]) return 'invalido';
-        if (errores[campo] === null) return 'valido';
-        return '';
+    // base es form-control o form-select segun el campo
+    const claseCampo = (campo, base = 'form-control') => {
+        if (errores[campo]) return base + ' is-invalid';
+        if (errores[campo] === null) return base + ' is-valid';
+        return base;
     };
 
     return (
         <>
             <section className="pagina-titulo">
-                <div className="contenedor">
+                <div className="container">
                     <h1>Contacto y despacho</h1>
-                    <p>Escríbenos o revisa si llegamos hasta tu obra.</p>
+                    <p className="mb-0">Escríbenos o revisa si llegamos hasta tu obra.</p>
                 </div>
             </section>
 
-            <section className="seccion">
-                <div className="contenedor">
-                    <div className="grid grid--2">
+            <section className="py-5">
+                <div className="container">
+                    <div className="row g-4">
 
-                        <div className="formulario">
-                            <h2 style={{ fontSize: '1.3rem', marginBottom: '14px' }}>Envíanos un mensaje</h2>
+                        <div className="col-lg-6">
+                            <div className="card card-body p-4">
+                                <h2 className="h4 mb-3">Envíanos un mensaje</h2>
 
-                            {aviso && <div className={`alerta alerta--${aviso.tipo}`}>{aviso.texto}</div>}
+                                {aviso && <div className={`alert ${aviso.tipo === 'exito' ? 'alert-success' : 'alert-danger'}`} role="alert">{aviso.texto}</div>}
 
-                            <form onSubmit={handleSubmit} noValidate>
-                                <div className="campo">
-                                    <label htmlFor="conNombre">Nombre</label>
-                                    <input type="text" id="conNombre" name="nombre" autoComplete="name"
-                                        value={form.nombre} onChange={handleChange} onBlur={handleBlur}
-                                        className={claseCampo('nombre')} aria-invalid={!!errores.nombre} />
-                                    <ErrorCampo mensaje={errores.nombre} />
-                                </div>
+                                <form onSubmit={handleSubmit} noValidate>
+                                    <div className="mb-3">
+                                        <label htmlFor="conNombre" className="form-label">Nombre</label>
+                                        <input type="text" id="conNombre" name="nombre" autoComplete="name"
+                                            value={form.nombre} onChange={handleChange} onBlur={handleBlur}
+                                            className={claseCampo('nombre')} aria-invalid={!!errores.nombre} />
+                                        <ErrorCampo mensaje={errores.nombre} />
+                                    </div>
 
-                                <div className="campo">
-                                    <label htmlFor="conEmail">Correo electrónico</label>
-                                    <input type="email" id="conEmail" name="email" autoComplete="email"
-                                        value={form.email} onChange={handleChange} onBlur={handleBlur}
-                                        className={claseCampo('email')} aria-invalid={!!errores.email} />
-                                    <ErrorCampo mensaje={errores.email} />
-                                </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="conEmail" className="form-label">Correo electrónico</label>
+                                        <input type="email" id="conEmail" name="email" autoComplete="email"
+                                            value={form.email} onChange={handleChange} onBlur={handleBlur}
+                                            className={claseCampo('email')} aria-invalid={!!errores.email} />
+                                        <ErrorCampo mensaje={errores.email} />
+                                    </div>
 
-                                <div className="campo">
-                                    <label htmlFor="conTelefono">Teléfono</label>
-                                    <input type="tel" id="conTelefono" name="telefono" placeholder="+569 1234 5678" autoComplete="tel"
-                                        value={form.telefono} onChange={handleChange} onBlur={handleBlur}
-                                        className={claseCampo('telefono')} aria-invalid={!!errores.telefono} />
-                                    <ErrorCampo mensaje={errores.telefono} />
-                                </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="conTelefono" className="form-label">Teléfono</label>
+                                        <input type="tel" id="conTelefono" name="telefono" placeholder="+569 1234 5678" autoComplete="tel"
+                                            value={form.telefono} onChange={handleChange} onBlur={handleBlur}
+                                            className={claseCampo('telefono')} aria-invalid={!!errores.telefono} />
+                                        <ErrorCampo mensaje={errores.telefono} />
+                                    </div>
 
-                                <div className="campo">
-                                    <label htmlFor="conMotivo">Motivo</label>
-                                    <select id="conMotivo" name="motivo"
-                                        value={form.motivo} onChange={handleChange} onBlur={handleBlur}
-                                        className={claseCampo('motivo')} aria-invalid={!!errores.motivo}>
-                                        <option value="">Elige una opción</option>
-                                        <option>Cotización de materiales</option>
-                                        <option>Consulta de stock</option>
-                                        <option>Estado de un pedido</option>
-                                        <option>Cuenta corriente</option>
-                                        <option>Otro</option>
-                                    </select>
-                                    <ErrorCampo mensaje={errores.motivo} />
-                                </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="conMotivo" className="form-label">Motivo</label>
+                                        <select id="conMotivo" name="motivo"
+                                            value={form.motivo} onChange={handleChange} onBlur={handleBlur}
+                                            className={claseCampo('motivo', 'form-select')} aria-invalid={!!errores.motivo}>
+                                            <option value="">Elige una opción</option>
+                                            <option>Cotización de materiales</option>
+                                            <option>Consulta de stock</option>
+                                            <option>Estado de un pedido</option>
+                                            <option>Cuenta corriente</option>
+                                            <option>Otro</option>
+                                        </select>
+                                        <ErrorCampo mensaje={errores.motivo} />
+                                    </div>
 
-                                <div className="campo">
-                                    <label htmlFor="conMensaje">Mensaje</label>
-                                    <textarea id="conMensaje" name="mensaje" maxLength={500} placeholder="Cuéntanos qué necesitas"
-                                        value={form.mensaje} onChange={handleChange} onBlur={handleBlur}
-                                        className={claseCampo('mensaje')} aria-invalid={!!errores.mensaje}></textarea>
-                                    <ErrorCampo mensaje={errores.mensaje} />
-                                    <p className="campo__ayuda">{form.mensaje.length}/500 caracteres</p>
-                                </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="conMensaje" className="form-label">Mensaje</label>
+                                        <textarea id="conMensaje" name="mensaje" maxLength={500} placeholder="Cuéntanos qué necesitas"
+                                            value={form.mensaje} onChange={handleChange} onBlur={handleBlur}
+                                            className={claseCampo('mensaje')} aria-invalid={!!errores.mensaje}></textarea>
+                                        <ErrorCampo mensaje={errores.mensaje} />
+                                        <div className="form-text">{form.mensaje.length}/500 caracteres</div>
+                                    </div>
 
-                                <button type="submit" className="btn btn--primario btn--bloque">Enviar mensaje</button>
-                            </form>
+                                    <button type="submit" className="btn btn-primary w-100">Enviar mensaje</button>
+                                </form>
+                            </div>
                         </div>
 
-                        <div>
-                            <div className="categoria-card mb-3" style={{ textAlign: 'left', borderTopColor: 'var(--gris-900)' }}>
-                                <h3>Dónde estamos</h3>
-                                <p style={{ marginTop: '8px' }}>Av. Balmaceda 1200, La Serena, Región de Coquimbo</p>
-                                <p className="mt-1"><strong>+56 51 221 4455</strong><br />ventas@losmaestros.cl</p>
-                                <p className="mt-1">Lunes a viernes 8:30–19:00<br />Sábado 9:00–14:00<br />Domingo cerrado</p>
+                        <div className="col-lg-6">
+                            <div className="card bg-dark text-light mb-4">
+                                <div className="card-body p-4">
+                                    <h3 className="h5 text-primary">Dónde estamos</h3>
+                                    <p className="mb-2">Av. Balmaceda 1200, La Serena, Región de Coquimbo</p>
+                                    <p className="mb-2">
+                                        <a href="tel:+56512214455" className="fw-bold link-light">+56 51 221 4455</a><br />
+                                        <a href="mailto:ventas@losmaestros.cl" className="link-light">ventas@losmaestros.cl</a>
+                                    </p>
+                                    <p className="mb-0">Lunes a viernes 8:30 a 19:00<br />Sábado 9:00 a 14:00<br />Domingo cerrado</p>
+                                </div>
                             </div>
 
-                            <h3 style={{ marginBottom: '10px' }}>Zona de despacho</h3>
-                            <p style={{ color: 'var(--gris-500)', fontSize: '.9rem', marginBottom: '12px' }}>
+                            <h3 className="h5">Zona de despacho</h3>
+                            <p className="text-body-secondary small">
                                 Despachamos dentro de un radio de 12 km desde la tienda, lo que cubre La Serena y buena parte de Coquimbo.
                             </p>
 
-                            <div className="mapa-marco">
+                            <div className="ratio ratio-4x3 rounded overflow-hidden">
                                 <iframe
                                     src="https://www.openstreetmap.org/export/embed.html?bbox=-71.35%2C-29.98%2C-71.15%2C-29.83&layer=mapnik&marker=-29.9027%2C-71.2519"
                                     title="Mapa de ubicación de Ferretería Los Maestros"
@@ -162,7 +170,7 @@ function Contacto() {
                                 ></iframe>
                             </div>
 
-                            <div className="alerta alerta--info mt-2">
+                            <div className="alert alert-info mt-3 mb-0">
                                 ¿Tu obra queda fuera del radio? Llámanos y coordinamos un despacho especial según el volumen del pedido.
                             </div>
                         </div>

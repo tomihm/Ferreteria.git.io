@@ -38,7 +38,7 @@ describe('Contacto', () => {
 
         expect(screen.getByText('Revisa los campos marcados en rojo.')).toBeInTheDocument();
         expect(screen.getByText('Correo malo')).toBeInTheDocument();
-        expect(screen.getByLabelText('Correo electrónico')).toHaveClass('invalido');
+        expect(screen.getByLabelText('Correo electrónico')).toHaveClass('is-invalid');
     });
 
     it('llama a las validaciones con lo que escribe el usuario', async () => {
