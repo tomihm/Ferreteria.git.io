@@ -2,44 +2,44 @@ import { Link } from 'react-router-dom';
 
 function Footer() {
     return(
-        <footer className="footer">
-                <div className="contenedor">
-                    <div className="footer__grid">
-                        <div>
-                            <h4>Ferretería Los Maestros</h4>
-                            <p style={{ fontSize: ".9rem" }}>Materiales de construcción, herramientas y ferretería general en La Serena desde 2004.</p>
+        <footer className="bg-dark text-light pt-5 pb-3 mt-5 footer">
+                <div className="container">
+                    <div className="row g-4">
+                        <div className="col-lg-4">
+                            <h2 className="h5 text-primary">Ferretería Los Maestros</h2>
+                            <p className="small">Materiales de construcción, herramientas y ferretería general en La Serena desde 2004.</p>
                         </div>
-                        <div>
-                            <h4>Navegación</h4>
-                            <ul>
-                                <li><Link to="/">Inicio</Link></li>
-                                <li><Link to="/catalogo">Catálogo</Link></li>
-                                <li><Link to="/nosotros">Nosotros</Link></li>
-                                <li><Link to="/contacto">Contacto</Link></li>
+                        <div className="col-6 col-lg-2">
+                            <h2 className="h6 text-primary">Navegación</h2>
+                            <ul className="list-unstyled small">
+                                <li className="mb-2"><Link to="/">Inicio</Link></li>
+                                <li className="mb-2"><Link to="/catalogo">Catálogo</Link></li>
+                                <li className="mb-2"><Link to="/nosotros">Nosotros</Link></li>
+                                <li className="mb-2"><Link to="/contacto">Contacto</Link></li>
                             </ul>
                         </div>
-                        <div>
-                            <h4>Mi cuenta</h4>
-                            <ul>
-                                <li><Link to="/login">Iniciar sesión</Link></li>
-                                <li><Link to="/mis-pedidos">Mis pedidos</Link></li>
-                                <li><Link to="/carrito">Carrito</Link></li>
-                                <li><Link to="/panel">Panel de gestión</Link></li>
+                        <div className="col-6 col-lg-2">
+                            <h2 className="h6 text-primary">Mi cuenta</h2>
+                            <ul className="list-unstyled small">
+                                <li className="mb-2"><Link to="/login">Iniciar sesión</Link></li>
+                                <li className="mb-2"><Link to="/mis-pedidos">Mis pedidos</Link></li>
+                                <li className="mb-2"><Link to="/carrito">Carrito</Link></li>
+                                <li className="mb-2"><Link to="/panel">Panel de gestión</Link></li>
                             </ul>
                         </div>
-                        <div>
-                            <h4>Contacto</h4>
-                            <ul>
-                                <li>Av. Balmaceda 1200, La Serena</li>
-                                <li>+56 51 221 4455</li>
-                                <li>ventas@losmaestros.cl</li>
-                                <li>Lun a Vie 8:30–19:00 · Sáb 9:00–14:00</li>
-                            </ul>
+                        <div className="col-lg-4">
+                            <h2 className="h6 text-primary">Contacto</h2>
+                            <address className="small mb-0">
+                                Av. Balmaceda 1200, La Serena<br />
+                                <a href="tel:+56512214455">+56 51 221 4455</a><br />
+                                <a href="mailto:ventas@losmaestros.cl">ventas@losmaestros.cl</a><br />
+                                Lun a Vie 8:30 a 19:00 · Sáb 9:00 a 14:00
+                            </address>
                         </div>
                     </div>
-                    <div className="footer__base">
-                        <p>© 2026 Ferretería Los Maestros · Proyecto académico DSY1104 Desarrollo FullStack II · Duoc UC</p>
-                    </div>
+                    <p className="text-center text-white-50 small border-top border-secondary mt-4 pt-3 mb-0">
+                        © 2026 Ferretería Los Maestros · Proyecto académico DSY1104 Desarrollo FullStack II · Duoc UC
+                    </p>
                 </div>
             </footer>
     )
