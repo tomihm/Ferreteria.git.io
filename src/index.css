@@ -590,3 +590,8 @@ a { color: inherit; text-decoration: none; }
 .formulario-angosto { max-width: 500px; }
 /* para que el titulo no quede tapado por el header al saltar con # */
 .ancla { scroll-margin-top: 90px; }
+
+/* en computador el menu del panel acompaña al bajar */
+@media (min-width: 992px) {
+  .panel-menu { position: sticky; top: 90px; }
+}
