@@ -68,22 +68,24 @@ function Carrito() {
     return (
         <>
             <section className="pagina-titulo">
-                <div className="contenedor">
+                <div className="container">
                     <h1>Tu carrito</h1>
-                    <p>Revisa las cantidades antes de confirmar el pedido.</p>
+                    <p className="mb-0">Revisa las cantidades antes de confirmar el pedido.</p>
                 </div>
             </section>
 
-            <section className="seccion">
-                <div className="contenedor">
-                    <div className="carrito-layout">
-                        <div>
+            <section className="py-5">
+                <div className="container">
+                    <div className="row g-4 align-items-start">
+                        <div className="col-lg-8">
                             {items.length === 0 ? (
-                                <div className="alerta alerta--info">Tu carrito está vacío.</div>
+                                <div className="alert alert-info">
+                                    Tu carrito está vacío.
+                                </div>
                             ) : (
-                                <div className="tabla-scroll">
-                                    <table className="tabla">
-                                        <thead>
+                                <div className="table-responsive bg-white rounded">
+                                    <table className="table align-middle mb-0">
+                                        <thead className="table-dark">
                                             <tr>
                                                 <th>Producto</th>
                                                 <th>Precio</th>
@@ -96,13 +98,14 @@ function Carrito() {
                                             {items.map((item) => (
                                                 <tr key={item.codigo}>
                                                     <td>
-                                                        <strong>{item.icono} {item.nombre}</strong><br />
-                                                        <small style={{ color: 'var(--gris-500)' }}>{item.codigo} · {item.marca}</small>
+                                                        <strong>{item.nombre}</strong><br />
+                                                        <small className="text-body-secondary">{item.codigo} · {item.marca}</small>
                                                     </td>
                                                     <td>{formatoPeso(item.precio)}</td>
                                                     <td>
                                                         <input
                                                             type="number"
+                                                            className="form-control form-control-sm cantidad"
                                                             value={item.cantidad}
                                                             min="1"
                                                             max={item.stock}
@@ -115,7 +118,7 @@ function Carrito() {
                                                     <td>
                                                         <button
                                                             type="button"
-                                                            className="btn btn--peligro btn--sm"
+                                                            className="btn btn-outline-danger btn-sm"
                                                             onClick={() => quitar(item.codigo)}
                                                             aria-label={`Quitar ${item.nombre}`}
                                                         >
@@ -129,67 +132,69 @@ function Carrito() {
                                 </div>
                             )}
 
-                            <div className="flex-entre mt-3">
-                                <Link to="/catalogo" className="btn btn--secundario">Seguir comprando</Link>
-                                <button type="button" className="btn btn--peligro" onClick={handleVaciar} disabled={items.length === 0}>
+                            <div className="d-flex flex-wrap justify-content-between gap-2 mt-3">
+                                <Link to="/catalogo" className="btn btn-dark">Seguir comprando</Link>
+                                <button type="button" className="btn btn-outline-danger" onClick={handleVaciar} disabled={items.length === 0}>
                                     Vaciar carrito
                                 </button>
                             </div>
                         </div>
 
-                        <aside className="resumen">
-                            <h2 style={{ fontSize: '1.2rem', marginBottom: '12px' }}>Resumen del pedido</h2>
+                        <aside className="col-lg-4">
+                            <div className="card card-body resumen">
+                                <h2 className="h5 mb-3">Resumen del pedido</h2>
 
-                            <form onSubmit={handleSubmit} noValidate>
-                                <div className="campo">
-                                    <label htmlFor="tipoEntrega">Cómo lo recibes</label>
-                                    <select id="tipoEntrega" name="entrega" value={entrega} onChange={handleEntrega}>
-                                        <option value="retiro">Retiro en tienda (gratis)</option>
-                                        <option value="despacho">Despacho a domicilio</option>
-                                    </select>
-                                </div>
-
-                                {entrega === 'despacho' && (
-                                    <div className="campo">
-                                        <label htmlFor="direccionEntrega">Dirección de entrega</label>
-                                        <input
-                                            type="text"
-                                            id="direccionEntrega"
-                                            name="direccion"
-                                            value={direccion}
-                                            onChange={(e) => setDireccion(e.target.value)}
-                                            className={errorDireccion ? 'invalido' : ''}
-                                            placeholder="Calle, número, comuna"
-                                            autoComplete="street-address"
-                                        />
-                                        <p className={errorDireccion ? 'campo__error visible' : 'campo__error'}>{errorDireccion}</p>
-                                        <p className="campo__ayuda">
-                                            Cubrimos 12 km alrededor de la tienda; revísalo en <Link to="/contacto" style={{ color: 'var(--naranja)' }}>el mapa</Link>.
-                                        </p>
+                                <form onSubmit={handleSubmit} noValidate>
+                                    <div className="mb-3">
+                                        <label htmlFor="tipoEntrega" className="form-label">Cómo lo recibes</label>
+                                        <select id="tipoEntrega" name="entrega" className="form-select" value={entrega} onChange={handleEntrega}>
+                                            <option value="retiro">Retiro en tienda (gratis)</option>
+                                            <option value="despacho">Despacho a domicilio</option>
+                                        </select>
                                     </div>
+
+                                    {entrega === 'despacho' && (
+                                        <div className="mb-3">
+                                            <label htmlFor="direccionEntrega" className="form-label">Dirección de entrega</label>
+                                            <input
+                                                type="text"
+                                                id="direccionEntrega"
+                                                name="direccion"
+                                                value={direccion}
+                                                onChange={(e) => setDireccion(e.target.value)}
+                                                className={errorDireccion ? 'form-control is-invalid' : 'form-control'}
+                                                placeholder="Calle, número, comuna"
+                                                autoComplete="street-address"
+                                            />
+                                            <div className="invalid-feedback">{errorDireccion}</div>
+                                            <div className="form-text">
+                                                Cubrimos 12 km alrededor de la tienda; revísalo en <Link to="/contacto">el mapa</Link>.
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    <div className="form-check mb-3">
+                                        <input type="checkbox" id="usarCC" name="cuentaCorriente" className="form-check-input" checked={usarCC} onChange={(e) => setUsarCC(e.target.checked)} />
+                                        <label htmlFor="usarCC" className="form-check-label">Cargar a mi cuenta corriente</label>
+                                    </div>
+
+                                    <div className="d-flex justify-content-between py-1"><span>Subtotal</span><span>{formatoPeso(subtotal)}</span></div>
+                                    <div className="d-flex justify-content-between py-1"><span>Despacho</span><span>{despacho === 0 ? 'Gratis' : formatoPeso(despacho)}</span></div>
+                                    <div className="d-flex justify-content-between py-1 text-body-secondary small">
+                                        <span>{items.length} productos</span><span>{totalUnidades} unidades</span>
+                                    </div>
+                                    <div className="d-flex justify-content-between border-top mt-2 pt-2 fs-5 fw-bold"><span>Total</span><span>{formatoPeso(total)}</span></div>
+
+                                    <button type="submit" className="btn btn-primary w-100 mt-3">Confirmar pedido</button>
+                                </form>
+
+                                {aviso && (
+                                    <div className={`alert ${aviso.tipo === 'exito' ? 'alert-success' : 'alert-danger'} mt-3 mb-0`} role="alert">{aviso.texto}</div>
                                 )}
 
-                                <div className="campo campo--check">
-                                    <input type="checkbox" id="usarCC" name="cuentaCorriente" checked={usarCC} onChange={(e) => setUsarCC(e.target.checked)} />
-                                    <label htmlFor="usarCC">Cargar a mi cuenta corriente</label>
-                                </div>
-
-                                <div className="resumen__linea"><span>Subtotal</span><span>{formatoPeso(subtotal)}</span></div>
-                                <div className="resumen__linea"><span>Despacho</span><span>{despacho === 0 ? 'Gratis' : formatoPeso(despacho)}</span></div>
-                                <div className="resumen__linea" style={{ color: 'var(--gris-500)' }}>
-                                    <span>{items.length} productos</span><span>{totalUnidades} unidades</span>
-                                </div>
-                                <div className="resumen__total"><span>Total</span><span>{formatoPeso(total)}</span></div>
-
-                                <button type="submit" className="btn btn--primario btn--bloque mt-3">Confirmar pedido</button>
-                            </form>
-
-                            {aviso && (
-                                <div className={`alerta alerta--${aviso.tipo} mt-3`} role="alert">{aviso.texto}</div>
-                            )}
-
-                            <div className="alerta alerta--info mt-3" style={{ fontSize: '.85rem' }}>
-                                El despacho es gratis en compras sobre $150.000. Bajo ese monto tiene un costo de $6.990.
+                                <p className="small text-body-secondary mt-3 mb-0">
+                                    El despacho es gratis en compras sobre $150.000. Bajo ese monto tiene un costo de $6.990.
+                                </p>
                             </div>
                         </aside>
                     </div>
