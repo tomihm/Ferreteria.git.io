@@ -102,3 +102,49 @@ describe('Pruebas en <Catalogo /> usando Mocks de Validar', () => {
         expect(screen.getByAltText('Taladro Percutor 750W')).toBeInTheDocument();
     });
 });
+describe('Filtros del catálogo', () => {
+    const renderCatalogo = () => render(
+        <MemoryRouter>
+            <CarritoProvider><Catalogo /></CarritoProvider>
+        </MemoryRouter>
+    );
+
+    it('la busqueda deja solo los productos que coinciden', async () => {
+        renderCatalogo();
+
+        await userEvent.type(screen.getByLabelText(/buscar producto/i), 'taladro');
+
+        expect(screen.getByText('Taladro Percutor 750W')).toBeInTheDocument();
+        expect(screen.queryByText('Saco de Cemento Melón 25kg')).not.toBeInTheDocument();
+    });
+
+    it('filtra por categoria', async () => {
+        renderCatalogo();
+
+        await userEvent.selectOptions(screen.getByLabelText('Categoría'), 'gasfiteria');
+
+        expect(screen.getByText('Codo PVC 90° 110mm')).toBeInTheDocument();
+        expect(screen.queryByText('Martillo Carpintero 16oz')).not.toBeInTheDocument();
+    });
+
+    it('ordena por precio de menor a mayor', async () => {
+        renderCatalogo();
+
+        await userEvent.selectOptions(screen.getByLabelText('Categoría'), 'construccion');
+        await userEvent.selectOptions(screen.getByLabelText('Ordenar por'), 'precioMenor');
+
+        const nombres = screen.getAllByRole('heading', { level: 3 }).map((h) => h.textContent);
+        expect(nombres[0]).toBe('Ladrillo Fiscal');
+        expect(nombres[nombres.length - 1]).toBe('Plancha OSB 11mm 1.22x2.44m');
+    });
+
+    it('avisa cuando no hay resultados y se pueden limpiar los filtros', async () => {
+        renderCatalogo();
+
+        await userEvent.type(screen.getByLabelText(/buscar producto/i), 'zzzz');
+        expect(screen.getByText(/no encontramos productos/i)).toBeInTheDocument();
+
+        await userEvent.click(screen.getByRole('button', { name: 'Limpiar filtros' }));
+        expect(screen.getByText('Taladro Percutor 750W')).toBeInTheDocument();
+    });
+});
