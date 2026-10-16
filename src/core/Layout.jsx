@@ -5,10 +5,10 @@ import Footer from './Footer.jsx';
 
 function Layout() {
   return (
-    <div className="app">
+    <div className="d-flex flex-column min-vh-100">
       <Header />
 
-      <main>
+      <main className="flex-grow-1">
         <Outlet />
       </main>
 
