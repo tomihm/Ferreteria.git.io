@@ -585,3 +585,8 @@ a { color: inherit; text-decoration: none; }
 }
 /* input chico de cantidad en las tablas */
 .cantidad { width: 80px; }
+
+/* login y registro en una columna angosta */
+.formulario-angosto { max-width: 500px; }
+/* para que el titulo no quede tapado por el header al saltar con # */
+.ancla { scroll-margin-top: 90px; }

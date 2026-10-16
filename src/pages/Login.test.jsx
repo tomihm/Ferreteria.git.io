@@ -28,8 +28,8 @@ describe('Login', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Entrar' }));
 
         expect(screen.getByText('Revisa el correo y la contraseña.')).toBeInTheDocument();
-        expect(campo('loginEmail')).toHaveClass('invalido');
-        expect(campo('loginPassword')).toHaveClass('invalido');
+        expect(campo('loginEmail')).toHaveClass('is-invalid');
+        expect(campo('loginPassword')).toHaveClass('is-invalid');
     });
 
     it('acepta el inicio de sesion con datos validos', async () => {
