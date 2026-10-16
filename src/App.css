@@ -126,13 +126,14 @@ a { color: inherit; text-decoration: none; }
 
 /* ---------------- PRODUCTO ---------------- */
 .producto__img {
+  overflow: hidden;
   height: 160px;
   background: var(--gris-200);
   display: grid;
   place-items: center;
   font-size: 3rem;
 }
-.producto__img img { max-height: 100%; max-width: 100%; }
+.producto__img img { width: 100%; height: 160px; object-fit: contain; }
 .producto__codigo { font-size: .74rem; color: var(--gris-500); letter-spacing: .5px; }
 .producto__nombre { font-size: 1rem; font-weight: 600; margin: 4px 0 6px; }
 .producto__marca { font-size: .8rem; color: var(--gris-500); }
