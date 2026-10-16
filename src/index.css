@@ -73,6 +73,12 @@ a:focus-visible { outline: 3px solid var(--naranja-oscuro); outline-offset: 2px;
 /* pagina actual del menu en naranja */
 .navbar .nav-link.active { color: #f57c00; }
 
+/* en el celular los links del menu son mas altos para tocarlos con el dedo */
+@media (max-width: 991.98px) {
+  .navbar-collapse .nav-link,
+  .navbar-collapse .btn { min-height: 44px; display: flex; align-items: center; }
+}
+
 /* ---------------- TITULOS DE PAGINA ---------------- */
 .pagina-titulo { background: var(--gris-900); color: var(--blanco); padding: 34px 0; }
 .pagina-titulo h1 { font-size: 1.8rem; }
