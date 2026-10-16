@@ -1,12 +1,12 @@
 // mismos productos que se muestran en el catálogo, se usan para armar el carrito
 export const catalogo = [
-    { codigo: 'CON-001', icono: '🧱', nombre: 'Saco de Cemento Melón 25kg', marca: 'Melón', precio: 5490, stock: 120, categoria: 'construccion' },
+    { codigo: 'CON-001', icono: '🧱', nombre: 'Saco de Cemento Melón 25kg', marca: 'Melón', precio: 5490, stock: 120, categoria: 'construccion', imagen: 'assets/saco_cemento_melon.png' },
     { codigo: 'CON-002', icono: '🪨', nombre: 'Arena Gruesa Saco 25kg', marca: 'Genérico', precio: 2990, stock: 85, categoria: 'construccion' },
     { codigo: 'CON-003', icono: '🧱', nombre: 'Ladrillo Fiscal', marca: 'Princesa', precio: 490, stock: 1500, categoria: 'construccion' },
     { codigo: 'CON-004', icono: '🪵', nombre: 'Plancha OSB 11mm 1.22x2.44m', marca: 'Louisiana', precio: 18990, stock: 22, categoria: 'construccion' },
     { codigo: 'CON-005', icono: '🔗', nombre: 'Fierro Estriado 8mm x 6m', marca: 'CAP', precio: 4290, stock: 8, categoria: 'construccion' },
     { codigo: 'CON-006', icono: '⬜', nombre: 'Plancha Volcanita 8mm', marca: 'Volcán', precio: 8990, stock: 40, categoria: 'construccion' },
-    { codigo: 'HER-001', icono: '🔩', nombre: 'Taladro Percutor 750W', marca: 'Bosch', precio: 54990, stock: 14, categoria: 'herramientas' },
+    { codigo: 'HER-001', icono: '🔩', nombre: 'Taladro Percutor 750W', marca: 'Bosch', precio: 54990, stock: 14, categoria: 'herramientas', imagen: 'assets/taladro_percutor_bosch.png' },
     { codigo: 'HER-002', icono: '⚙️', nombre: 'Esmeril Angular 4.5" 820W', marca: 'Makita', precio: 39990, stock: 9, categoria: 'herramientas' },
     { codigo: 'HER-003', icono: '🪚', nombre: 'Sierra Circular 7-1/4" 1400W', marca: 'DeWalt', precio: 79990, stock: 6, categoria: 'herramientas' },
     { codigo: 'HER-004', icono: '🔋', nombre: 'Atornillador Inalámbrico 12V', marca: 'Stanley', precio: 44990, stock: 3, categoria: 'herramientas' },
