@@ -25,7 +25,7 @@ function Nosotros() {
 
             <section className="py-5">
                 <div className="container">
-                    <div className="row g-5">
+                    <div className="row g-4 g-lg-5">
                         <article className="col-lg-6">
                             <h2 className="h3 mb-3">La ferretería</h2>
                             <p>Abrimos en 2004 en Av. Balmaceda con un mesón, una bodega chica y la idea de tener siempre el material que el maestro necesita el mismo día que lo pide.</p>

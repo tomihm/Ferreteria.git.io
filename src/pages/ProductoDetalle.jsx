@@ -44,7 +44,7 @@ function ProductoDetalle() {
             <div className="container">
                 <p className="mb-4"><Link to="/catalogo" className="fw-semibold">← Volver al catálogo</Link></p>
 
-                <div className="row g-5">
+                <div className="row g-4 g-lg-5">
                     <div className="col-lg-6">
                         <div className="detalle__foto">
                             <img src={producto.imagen} alt={producto.nombre} />
