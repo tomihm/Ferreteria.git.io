@@ -38,7 +38,7 @@ function Footer() {
                         </div>
                     </div>
                     <p className="text-center text-white-50 small border-top border-secondary mt-4 pt-3 mb-0">
-                        © 2026 Ferretería Los Maestros · Proyecto académico DSY1104 Desarrollo FullStack II · Duoc UC
+                        © 2026 Ferretería Los Maestros
                     </p>
                 </div>
             </footer>
