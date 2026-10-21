@@ -1,6 +1,6 @@
 # Ferretería Los Maestros
 
-Sitio web de la Ferretería Los Maestros, proyecto grupal del ramo DSY1104 (Duoc UC).
+Sitio web de la Ferretería Los Maestros.
 Permite revisar el catálogo y el stock en línea, armar el carrito, seguir los pedidos y la cuenta corriente, y administrar la tienda desde un panel.
 
 Sitio publicado: https://tomihm.github.io/Ferreteria.git.io/
