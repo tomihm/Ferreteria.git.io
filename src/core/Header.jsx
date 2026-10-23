@@ -13,7 +13,7 @@ function Header(){
         <header className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
             <div className="container">
                 <NavLink to="/" className="navbar-brand py-0" onClick={cerrarMenu}>
-                    <img src={`${import.meta.env.BASE_URL}assets/logo_los_maestros.png`} alt="Ferretería Los Maestros" height="48" className="bg-white rounded px-2 py-1" />
+                    <img src={`${import.meta.env.BASE_URL}assets/logo_los_maestros_oscuro.png`} alt="Ferretería Los Maestros" height="48" />
                 </NavLink>
 
                 <button
