@@ -66,3 +66,80 @@ describe('Validar.longitudMinima', () => {
         expect(Validar.longitudMinima('Ana', 3, 'El nombre')).toBeNull();
     });
 });
+
+describe('Validar.confirmarPassword', () => {
+    it('pide repetir la contraseña y que coincidan', () => {
+        expect(Validar.confirmarPassword('', 'Abcdefg1')).toBe('Repite la contraseña.');
+        expect(Validar.confirmarPassword('Abcdefg2', 'Abcdefg1')).toBe('Las contraseñas no coinciden.');
+        expect(Validar.confirmarPassword('Abcdefg1', 'Abcdefg1')).toBeNull();
+    });
+});
+
+describe('Validar en el DOM', () => {
+    function armarCampo() {
+        document.body.innerHTML = `
+            <input id="correo" />
+            <span id="error-correo"></span>
+            <div id="avisos"></div>
+        `;
+        return document.getElementById('correo');
+    }
+
+    it('aplicar marca el campo en rojo con el mensaje y luego en verde', () => {
+        const input = armarCampo();
+        const error = document.getElementById('error-correo');
+
+        expect(Validar.aplicar('correo', 'Escribe tu correo electrónico.')).toBe(false);
+        expect(input).toHaveClass('invalido');
+        expect(input).toHaveAttribute('aria-invalid', 'true');
+        expect(error).toHaveTextContent('Escribe tu correo electrónico.');
+
+        expect(Validar.aplicar('correo', null)).toBe(true);
+        expect(input).toHaveClass('valido');
+        expect(input).not.toHaveClass('invalido');
+        expect(error).toHaveTextContent('');
+    });
+
+    it('aplicar no falla si el campo no existe', () => {
+        document.body.innerHTML = '';
+        expect(Validar.aplicar('noExiste', 'error')).toBe(true);
+    });
+
+    it('enVivo valida al salir del campo y corrige mientras se escribe', () => {
+        const input = armarCampo();
+        Validar.enVivo('correo', Validar.email);
+
+        input.value = 'juan@';
+        input.dispatchEvent(new Event('blur'));
+        expect(input).toHaveClass('invalido');
+
+        input.value = 'juan@gmail.com';
+        input.dispatchEvent(new Event('input'));
+        expect(input).toHaveClass('valido');
+    });
+
+    it('formatearRut pone puntos y guion mientras se escribe', () => {
+        document.body.innerHTML = '<input id="rut" />';
+        const input = document.getElementById('rut');
+        Validar.formatearRut('rut');
+
+        input.value = '123456785';
+        input.dispatchEvent(new Event('input'));
+        expect(input.value).toBe('12.345.678-5');
+
+        input.value = 'k';
+        input.dispatchEvent(new Event('input'));
+        expect(input.value).toBe('K');
+    });
+
+    it('mensajeGeneral muestra el aviso como texto, sin interpretar HTML', () => {
+        armarCampo();
+
+        Validar.mensajeGeneral('avisos', '<b>Pedido enviado</b>', 'exito');
+
+        const alerta = document.querySelector('#avisos .alerta');
+        expect(alerta).toHaveClass('alerta--exito');
+        expect(alerta.textContent).toBe('<b>Pedido enviado</b>');
+        expect(alerta.querySelector('b')).toBeNull();
+    });
+});
