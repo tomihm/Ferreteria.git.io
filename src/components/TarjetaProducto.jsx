@@ -1,22 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useCarrito } from '../context/CarritoContext.jsx';
-import { productos } from '../products/productos.js';
-
-// bajo este numero se avisa que quedan pocas unidades
-const STOCK_BAJO = 8;
-
-function estadoStock(stock) {
-    if (stock === 0) return { texto: 'Sin stock', clase: 'text-bg-danger' };
-    if (stock <= STOCK_BAJO) return { texto: `Quedan ${stock}`, clase: 'text-bg-warning' };
-    return { texto: `Disponible: ${stock.toLocaleString('es-CL')}`, clase: 'text-bg-success' };
-}
+import { estadoStock } from '../utils/stock.js';
 
 function TarjetaProducto({ producto }) {
     const { agregar } = useCarrito();
     const estado = estadoStock(producto.stock);
-
-    // solo algunos productos tienen pagina de detalle
-    const detalle = productos.find((p) => p.codigo === producto.codigo);
 
     return (
         <article className="card h-100 producto">
@@ -33,9 +21,7 @@ function TarjetaProducto({ producto }) {
                 <span className={`badge ${estado.clase} align-self-start`}>{estado.texto}</span>
 
                 <div className="d-grid gap-2 mt-auto pt-3">
-                    {detalle && (
-                        <Link to={`/producto/${detalle.id}`} className="btn btn-outline-dark btn-sm">Ver detalle</Link>
-                    )}
+                    <Link to={`/producto/${producto.id}`} className="btn btn-outline-dark btn-sm">Ver detalle</Link>
                     <button
                         type="button"
                         className="btn btn-primary"

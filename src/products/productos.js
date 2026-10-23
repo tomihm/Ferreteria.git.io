@@ -21,6 +21,7 @@ export const productos = [
   },
   {
     id: 'martillo-carpintero-16oz',
+    codigo: 'MAN-001',
     nombre: 'Martillo Carpintero 16oz',
     marca: 'Bahco',
     precio: 7990,
@@ -30,6 +31,7 @@ export const productos = [
   },
   {
     id: 'ampolleta-led-12w-e27',
+    codigo: 'ELE-003',
     nombre: 'Ampolleta LED 12W E27',
     marca: 'Philips',
     precio: 2490,
@@ -39,6 +41,7 @@ export const productos = [
   },
   {
     id: 'sierra-circular-185mm',
+    codigo: 'HER-003',
     nombre: 'Sierra Circular 185mm',
     marca: 'DeWalt',
     precio: 89990,
@@ -48,6 +51,7 @@ export const productos = [
   },
   {
     id: 'cinta-aislante-20m',
+    codigo: 'GEN-005',
     nombre: 'Cinta Aislante 20m',
     marca: '3M',
     precio: 1990,
@@ -57,6 +61,7 @@ export const productos = [
   },
   {
     id: 'destornillador-precision-6pcs',
+    codigo: 'MAN-002',
     nombre: 'Destornillador de Precisión 6pcs',
     marca: 'Stanley',
     precio: 12990,

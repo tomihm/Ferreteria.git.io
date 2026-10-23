@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom';
-import { productos } from '../products/productos.js';
 import { catalogo } from '../products/catalogo.js';
 import { Link } from 'react-router-dom';
 import { useCarrito } from '../context/CarritoContext.jsx';
+import { estadoStock } from '../utils/stock.js';
 
 const nombresCategoria = {
     construccion: 'Materiales de Construcción',
@@ -18,9 +18,7 @@ function ProductoDetalle() {
     const { id } = useParams();
     const { agregar } = useCarrito();
 
-    const producto = productos.find((p) => p.id === id);
-    // el stock y la categoria estan en el catalogo
-    const enCatalogo = catalogo.find((p) => p.codigo === producto?.codigo);
+    const producto = catalogo.find((p) => p.id === id);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -39,6 +37,9 @@ function ProductoDetalle() {
         );
     }
 
+    const estado = estadoStock(producto.stock);
+    const sinStock = producto.stock === 0;
+
     return (
         <section className="py-5">
             <div className="container">
@@ -47,25 +48,27 @@ function ProductoDetalle() {
                 <div className="row g-4 g-lg-5">
                     <div className="col-lg-6">
                         <div className="detalle__foto">
-                            <img src={producto.imagen} alt={producto.nombre} />
+                            {producto.imagen
+                                ? <img src={import.meta.env.BASE_URL + producto.imagen} alt={producto.nombre} />
+                                : <span aria-hidden="true">{producto.icono}</span>}
                         </div>
                     </div>
 
                     <div className="col-lg-6">
-                        {enCatalogo && (
-                            <p className="small text-body-secondary mb-1">{enCatalogo.codigo} · {nombresCategoria[enCatalogo.categoria]}</p>
-                        )}
+                        <p className="small text-body-secondary mb-1">{producto.codigo} · {nombresCategoria[producto.categoria]}</p>
                         <h1 className="h2 fw-bold">{producto.nombre}</h1>
                         <p className="text-body-secondary mb-2">Marca {producto.marca} · se vende por unidad</p>
-                        {enCatalogo && <span className="badge text-bg-success">Disponible: {enCatalogo.stock}</span>}
+                        <span className={`badge ${estado.clase}`}>{estado.texto}</span>
                         <p className="display-6 fw-bold my-3">${producto.precio.toLocaleString('es-CL')}</p>
                         <p className="mb-4">{producto.descripcion}</p>
 
                         <form className="card card-body mb-4" onSubmit={handleSubmit}>
                             <label htmlFor="cantidad" className="form-label">Cantidad (unidades)</label>
-                            <input type="number" id="cantidad" name="cantidad" className="form-control" defaultValue="1" min="1" max={enCatalogo?.stock}></input>
-                            {enCatalogo && <p className="form-text">Máximo {enCatalogo.stock} unidades según el stock actual.</p>}
-                            <button type="submit" className="btn btn-primary mt-3">Agregar al carrito</button>
+                            <input type="number" id="cantidad" name="cantidad" className="form-control" defaultValue="1" min="1" max={producto.stock} disabled={sinStock}></input>
+                            {!sinStock && <p className="form-text">Máximo {producto.stock} unidades según el stock actual.</p>}
+                            <button type="submit" className="btn btn-primary mt-3" disabled={sinStock}>
+                                {sinStock ? 'Sin stock' : 'Agregar al carrito'}
+                            </button>
                         </form>
 
                         <div className="alert alert-info mb-0">

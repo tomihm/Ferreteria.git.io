@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { CarritoProvider } from '../context/CarritoContext.jsx';
 import TarjetaProducto from './TarjetaProducto.jsx';
 
-const martillo = { codigo: 'MAN-001', icono: '🔨', nombre: 'Martillo Carpintero 16oz', marca: 'Bahco', precio: 7990, stock: 45, categoria: 'manuales' };
+const martillo = { id: 'martillo-carpintero-16oz', codigo: 'MAN-001', icono: '🔨', nombre: 'Martillo Carpintero 16oz', marca: 'Bahco', precio: 7990, stock: 45, categoria: 'manuales' };
 
 function renderTarjeta(producto) {
     render(
@@ -38,14 +38,9 @@ describe('TarjetaProducto', () => {
         expect(screen.getByRole('button', { name: 'Sin stock' })).toBeDisabled();
     });
 
-    it('solo muestra ver detalle si el producto tiene pagina', () => {
-        renderTarjeta(martillo);
-        expect(screen.queryByRole('link', { name: 'Ver detalle' })).not.toBeInTheDocument();
-    });
-
     it('el link de detalle lleva a la pagina del producto', () => {
-        renderTarjeta({ ...martillo, codigo: 'CON-001', nombre: 'Saco de Cemento Melón 25kg' });
+        renderTarjeta(martillo);
 
-        expect(screen.getByRole('link', { name: 'Ver detalle' })).toHaveAttribute('href', '/producto/saco-de-cemento-melon-25kg');
+        expect(screen.getByRole('link', { name: 'Ver detalle' })).toHaveAttribute('href', '/producto/martillo-carpintero-16oz');
     });
 });
