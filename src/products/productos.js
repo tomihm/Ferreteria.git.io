@@ -26,7 +26,7 @@ export const productos = [
     precio: 7990,
     categoria: 'herramientas',
     descripcion: 'Martillo carpintero de 16oz de la marca Bahco, ideal para trabajos de carpintería y bricolaje.',
-    imagen: `${import.meta.env.BASE_URL}assets/martillo_carpintero_bahco.png`
+    imagen: `${import.meta.env.BASE_URL}assets/martillo_carpintero.webp`
   },
   {
     id: 'ampolleta-led-12w-e27',
@@ -35,16 +35,16 @@ export const productos = [
     precio: 2490,
     categoria: 'electricidad',
     descripcion: 'Ampolleta LED de 12W con base E27 de la marca Philips, eficiente y duradera para iluminación general.',
-    imagen: `${import.meta.env.BASE_URL}assets/ampolleta_led_philips.png`
+    imagen: `${import.meta.env.BASE_URL}assets/ampolleta_led.webp`
   },
   {
     id: 'sierra-circular-185mm',
     nombre: 'Sierra Circular 185mm',
-    marca: 'Makita',
+    marca: 'DeWalt',
     precio: 89990,
     categoria: 'herramientas',
-    descripcion: 'Sierra circular de 185mm de la marca Makita, potente y precisa para cortes en madera y otros materiales.',
-    imagen: `${import.meta.env.BASE_URL}assets/sierra_circular_makita.png`
+    descripcion: 'Sierra circular de 185mm de la marca DeWalt, potente y precisa para cortes en madera y otros materiales.',
+    imagen: `${import.meta.env.BASE_URL}assets/sierra_circular.webp`
   },
   {
     id: 'cinta-aislante-20m',
@@ -53,7 +53,7 @@ export const productos = [
     precio: 1990,
     categoria: 'electricidad',
     descripcion: 'Cinta aislante de 20 metros de la marca 3M, resistente y flexible para aplicaciones eléctricas.',
-    imagen: `${import.meta.env.BASE_URL}assets/cinta_aislante_3m.png`
+    imagen: `${import.meta.env.BASE_URL}assets/cinta_aisladora.webp`
   },
   {
     id: 'destornillador-precision-6pcs',
@@ -62,7 +62,7 @@ export const productos = [
     precio: 12990,
     categoria: 'herramientas',
     descripcion: 'Set de destornilladores de precisión de 6 piezas de la marca Stanley, ideal para trabajos delicados y electrónicos.',
-    imagen: `${import.meta.env.BASE_URL}assets/destornillador_precision_stanley.png`
+    imagen: `${import.meta.env.BASE_URL}assets/juego_destornilladores.webp`
   },
   {
     id: 'nivel-laser-360',
@@ -80,6 +80,6 @@ export const productos = [
     precio: 7990,
     categoria: 'seguridad',
     descripcion: 'Guantes de trabajo de cuero de la marca Ironclad, resistentes y cómodos para protección en diversas tareas.',
-    imagen: `${import.meta.env.BASE_URL}assets/guantes_trabajo_ironclad.png`
+    imagen: `${import.meta.env.BASE_URL}assets/guantes_cabritilla.webp`
   }
 ]
