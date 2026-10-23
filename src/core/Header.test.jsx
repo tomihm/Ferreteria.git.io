@@ -43,4 +43,22 @@ describe('Header', () => {
 
         expect(document.getElementById('menuPrincipal')).not.toHaveClass('show');
     });
+
+    it('al hacer click fuera del header se cierra el menu', async () => {
+        renderHeader();
+
+        await userEvent.click(screen.getByRole('button', { name: 'Abrir menú' }));
+        await userEvent.click(document.body);
+
+        expect(document.getElementById('menuPrincipal')).not.toHaveClass('show');
+    });
+
+    it('al hacer click dentro del menu abierto no se cierra', async () => {
+        renderHeader();
+
+        await userEvent.click(screen.getByRole('button', { name: 'Abrir menú' }));
+        await userEvent.click(screen.getByRole('navigation', { name: 'Navegación principal' }));
+
+        expect(document.getElementById('menuPrincipal')).toHaveClass('show');
+    });
 });

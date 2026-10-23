@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useCarrito } from '../context/CarritoContext.jsx';
 
@@ -9,8 +9,19 @@ function Header(){
     // al elegir una pagina en el celular se cierra el menu
     const cerrarMenu = () => setMenuAbierto(false);
 
+    // si el menu esta abierto y se toca fuera del header, se cierra
+    const headerRef = useRef(null);
+    useEffect(() => {
+        if (!menuAbierto) return;
+        const clickFuera = (e) => {
+            if (!headerRef.current.contains(e.target)) setMenuAbierto(false);
+        };
+        document.addEventListener('pointerdown', clickFuera);
+        return () => document.removeEventListener('pointerdown', clickFuera);
+    }, [menuAbierto]);
+
     return(
-        <header className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <header ref={headerRef} className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
             <div className="container">
                 <NavLink to="/" className="navbar-brand py-0" onClick={cerrarMenu}>
                     <img src={`${import.meta.env.BASE_URL}assets/logo_los_maestros_oscuro.png`} alt="Ferretería Los Maestros" height="48" />
