@@ -31,8 +31,15 @@ describe('ProductoDetalle', () => {
         renderDetalle('/producto/esmeril-angular-4-5-820w');
 
         expect(screen.getByRole('heading', { name: 'Esmeril Angular 4.5" 820W' })).toBeInTheDocument();
-        expect(screen.getByText('$39.990')).toBeInTheDocument();
         expect(screen.getByText(/Corta y desbasta metal/)).toBeInTheDocument();
+    });
+
+    it('un producto en oferta muestra el precio rebajado y el normal tachado', () => {
+        renderDetalle('/producto/esmeril-angular-4-5-820w');
+
+        expect(screen.getByText('$31.990')).toBeInTheDocument();
+        expect(screen.getByText('$39.990', { exact: false }).closest('del')).toBeInTheDocument();
+        expect(screen.getByText('-20%')).toBeInTheDocument();
     });
 
     it('el nivel laser tiene su pagina', () => {

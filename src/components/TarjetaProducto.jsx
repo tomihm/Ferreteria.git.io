@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useCarrito } from '../context/CarritoContext.jsx';
+import { descuento } from '../utils/ofertas.js';
 
 function TarjetaProducto({ producto }) {
     const { items, agregar, cambiarCantidad, quitar } = useCarrito();
+    const porcentaje = descuento(producto);
     const cantidad = Number(items.find((item) => item.codigo === producto.codigo)?.cantidad) || 0;
 
     // con la ultima unidad, el - saca el producto del carrito
@@ -14,6 +16,7 @@ function TarjetaProducto({ producto }) {
     return (
         <article className="card h-100 producto">
             <div className="producto__foto">
+                {porcentaje && <span className="producto__descuento">-{porcentaje}%</span>}
                 {producto.imagen
                     ? <img src={import.meta.env.BASE_URL + producto.imagen} alt={producto.nombre} />
                     : <span aria-hidden="true">{producto.icono}</span>}
@@ -22,7 +25,14 @@ function TarjetaProducto({ producto }) {
                 <p className="small text-body-secondary mb-1">{producto.codigo}</p>
                 <h3 className="h6 mb-1">{producto.nombre}</h3>
                 <p className="small text-body-secondary mb-2">{producto.marca}</p>
-                <p className="fs-5 fw-bold mb-2">${producto.precio.toLocaleString('es-CL')}</p>
+                <p className="mb-2">
+                    <span className="fs-5 fw-bold">${producto.precio.toLocaleString('es-CL')}</span>
+                    {producto.precioNormal && (
+                        <del className="small text-body-secondary ms-2">
+                            <span className="visually-hidden">Antes </span>${producto.precioNormal.toLocaleString('es-CL')}
+                        </del>
+                    )}
+                </p>
 
                 <div className="d-grid gap-2 mt-auto pt-3">
                     <Link to={`/producto/${producto.id}`} className="btn btn-outline-dark btn-sm">Ver detalle</Link>

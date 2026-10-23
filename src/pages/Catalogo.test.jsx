@@ -147,4 +147,26 @@ describe('Filtros del catálogo', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Limpiar filtros' }));
         expect(screen.getByText('Taladro Percutor 750W')).toBeInTheDocument();
     });
+
+    it('llega filtrado desde el buscador del header', () => {
+        render(
+            <MemoryRouter initialEntries={['/catalogo?buscar=martillo']}>
+                <CarritoProvider><Catalogo /></CarritoProvider>
+            </MemoryRouter>
+        );
+
+        expect(screen.getByLabelText(/buscar producto/i)).toHaveValue('martillo');
+        expect(screen.getByText('Martillo Carpintero 16oz')).toBeInTheDocument();
+        expect(screen.queryByText('Taladro Percutor 750W')).not.toBeInTheDocument();
+    });
+
+    it('con solo ofertas muestra los productos rebajados', async () => {
+        renderCatalogo();
+
+        await userEvent.click(screen.getByLabelText('Solo productos en oferta'));
+
+        expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(6);
+        expect(screen.getByText('Sierra Circular 7-1/4" 1400W')).toBeInTheDocument();
+        expect(screen.getByText('-25%')).toBeInTheDocument();
+    });
 });

@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import iconoMarcador from 'leaflet/dist/images/marker-icon.png';
 import iconoMarcador2x from 'leaflet/dist/images/marker-icon-2x.png';
 import sombraMarcador from 'leaflet/dist/images/marker-shadow.png';
+import { TIENDA, RADIO_DESPACHO_KM } from '../utils/despacho.js';
 
 // con Vite leaflet no encuentra solo las imagenes del marcador, hay que pasarselas
 const icono = L.icon({
@@ -16,9 +17,7 @@ const icono = L.icon({
     shadowSize: [41, 41],
 });
 
-// Av. Balmaceda 1200, La Serena
-const TIENDA = [-29.9027, -71.2519];
-const RADIO_DESPACHO = 12000; // en metros
+const RADIO_DESPACHO = RADIO_DESPACHO_KM * 1000; // leaflet usa metros
 
 function MapaCobertura() {
     const contenedorRef = useRef(null);

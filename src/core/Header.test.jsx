@@ -1,10 +1,16 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, useLocation } from 'react-router-dom';
 import { CarritoProvider } from '../context/CarritoContext.jsx';
 import { SesionProvider } from '../context/SesionContext.jsx';
 import Header from './Header.jsx';
+
+// muestra la ruta actual para revisar a donde manda el header
+function Ubicacion() {
+    const { pathname, search } = useLocation();
+    return <p data-testid="ubicacion">{pathname + search}</p>;
+}
 
 function renderHeader() {
     render(
@@ -12,6 +18,7 @@ function renderHeader() {
             <SesionProvider>
                 <CarritoProvider>
                     <Header />
+                    <Ubicacion />
                 </CarritoProvider>
             </SesionProvider>
         </MemoryRouter>
@@ -72,7 +79,7 @@ describe('Header', () => {
 
         expect(screen.queryByRole('link', { name: 'Mis pedidos' })).not.toBeInTheDocument();
         expect(screen.queryByRole('link', { name: 'Panel' })).not.toBeInTheDocument();
-        expect(screen.getByRole('link', { name: 'Iniciar sesión' })).toBeInTheDocument();
+        expect(screen.getAllByRole('link', { name: 'Iniciar sesión' }).length).toBeGreaterThan(0);
     });
 
     it('el admin ve el panel pero no mis pedidos', () => {
@@ -95,9 +102,52 @@ describe('Header', () => {
         localStorage.setItem('sesion', JSON.stringify({ nombre: 'María Rojas', rol: 'cliente' }));
         renderHeader();
 
-        await userEvent.click(screen.getByRole('button', { name: 'Cerrar sesión' }));
+        await userEvent.click(within(screen.getByTestId('menu-cuenta')).getByRole('button', { name: 'Cerrar sesión' }));
 
-        expect(screen.getByRole('link', { name: 'Iniciar sesión' })).toBeInTheDocument();
+        expect(within(screen.getByTestId('menu-cuenta')).getByRole('link', { name: 'Iniciar sesión' })).toBeInTheDocument();
         expect(localStorage.getItem('sesion')).toBeNull();
+    });
+
+    it('el menu de mi cuenta sin sesion ofrece iniciar sesion y crear cuenta', () => {
+        renderHeader();
+        const menu = within(screen.getByTestId('menu-cuenta'));
+
+        expect(menu.getByRole('link', { name: 'Iniciar sesión' })).toHaveAttribute('href', '/login');
+        expect(menu.getByRole('link', { name: 'Crear cuenta' })).toHaveAttribute('href', '/registro');
+        expect(menu.queryByRole('button', { name: 'Cerrar sesión' })).not.toBeInTheDocument();
+    });
+
+    it('el menu de mi cuenta con sesion muestra el nombre y cerrar sesion', () => {
+        localStorage.setItem('sesion', JSON.stringify({ nombre: 'Carlos Muñoz', rol: 'admin' }));
+        renderHeader();
+        const menu = within(screen.getByTestId('menu-cuenta'));
+
+        expect(menu.getByText('Carlos Muñoz')).toBeInTheDocument();
+        expect(menu.getByRole('link', { name: 'Ir al panel' })).toHaveAttribute('href', '/panel');
+        expect(menu.getByRole('button', { name: 'Cerrar sesión' })).toBeInTheDocument();
+        expect(menu.queryByRole('link', { name: 'Iniciar sesión' })).not.toBeInTheDocument();
+    });
+
+    it('el buscador lleva al catalogo con el texto', async () => {
+        renderHeader();
+
+        await userEvent.type(screen.getByLabelText('Buscar en la tienda'), 'taladro');
+        await userEvent.click(screen.getByRole('button', { name: 'Buscar' }));
+
+        expect(screen.getByTestId('ubicacion')).toHaveTextContent('/catalogo?buscar=taladro');
+    });
+
+    it('ya no tiene el boton de categorias ni el selector del buscador', () => {
+        renderHeader();
+
+        expect(screen.queryByRole('button', { name: /Categorías/ })).not.toBeInTheDocument();
+        expect(screen.queryByLabelText('Categoría de búsqueda')).not.toBeInTheDocument();
+    });
+
+    it('el carrito muestra cuanto lleva gastado', () => {
+        localStorage.setItem('carrito', JSON.stringify([{ codigo: 'MAN-001', nombre: 'Martillo', precio: 7990, cantidad: 2, stock: 45 }]));
+        renderHeader();
+
+        expect(screen.getByRole('link', { name: /^Carrito/ })).toHaveTextContent('$15.980');
     });
 });

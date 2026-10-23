@@ -1,16 +1,8 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { catalogo } from "../products/catalogo.js";
+import { categorias } from "../products/categorias.js";
 import TarjetaProducto from "../components/TarjetaProducto.jsx";
-
-const categorias = [
-    { id: 'construccion', nombre: 'Materiales de Construcción' },
-    { id: 'herramientas', nombre: 'Herramientas Eléctricas' },
-    { id: 'manuales', nombre: 'Herramientas Manuales' },
-    { id: 'gasfiteria', nombre: 'Gasfitería' },
-    { id: 'electricidad', nombre: 'Electricidad' },
-    { id: 'general', nombre: 'Ferretería General' },
-];
 
 const ordenes = {
     nombre: (a, b) => a.nombre.localeCompare(b.nombre),
@@ -21,9 +13,20 @@ const ordenes = {
 
 function Catalogo() {
     const { hash } = useLocation();
-    const [busqueda, setBusqueda] = useState('');
-    const [categoria, setCategoria] = useState('');
     const [orden, setOrden] = useState('nombre');
+
+    // busqueda, categoria y ofertas van en la url, asi el buscador del header puede llegar con filtros
+    const [params, setParams] = useSearchParams();
+    const busqueda = params.get('buscar') ?? '';
+    const categoria = params.get('categoria') ?? '';
+    const soloOfertas = params.get('ofertas') === '1';
+
+    const cambiarFiltro = (clave, valor) => {
+        const nuevos = new URLSearchParams(params);
+        if (valor) nuevos.set(clave, valor);
+        else nuevos.delete(clave);
+        setParams(nuevos, { replace: true });
+    };
 
     // si se llega desde el inicio con #categoria, se baja hasta esa categoria
     useEffect(() => {
@@ -35,6 +38,7 @@ function Catalogo() {
     const texto = busqueda.trim().toLowerCase();
     const filtrados = catalogo
         .filter((p) => categoria === '' || p.categoria === categoria)
+        .filter((p) => !soloOfertas || p.precioNormal)
         .filter((p) => texto === '' ||
             p.nombre.toLowerCase().includes(texto) ||
             p.codigo.toLowerCase().includes(texto) ||
@@ -42,8 +46,7 @@ function Catalogo() {
         .sort(ordenes[orden]);
 
     const limpiarFiltros = () => {
-        setBusqueda('');
-        setCategoria('');
+        setParams({}, { replace: true });
         setOrden('nombre');
     };
 
@@ -62,12 +65,12 @@ function Catalogo() {
                             <div className="col-md-6 col-lg-5">
                                 <label htmlFor="buscar" className="form-label">Buscar producto</label>
                                 <input type="search" id="buscar" name="buscar" className="form-control" placeholder="Nombre, código o marca"
-                                    value={busqueda} onChange={(e) => setBusqueda(e.target.value)} />
+                                    value={busqueda} onChange={(e) => cambiarFiltro('buscar', e.target.value)} />
                             </div>
                             <div className="col-sm-6 col-md-3">
                                 <label htmlFor="categoria" className="form-label">Categoría</label>
                                 <select id="categoria" name="categoria" className="form-select"
-                                    value={categoria} onChange={(e) => setCategoria(e.target.value)}>
+                                    value={categoria} onChange={(e) => cambiarFiltro('categoria', e.target.value)}>
                                     <option value="">Todas las categorías</option>
                                     {categorias.map((c) => (
                                         <option key={c.id} value={c.id}>{c.nombre}</option>
@@ -86,6 +89,13 @@ function Catalogo() {
                             </div>
                             <div className="col-lg-2 d-grid">
                                 <button type="button" className="btn btn-outline-dark" onClick={limpiarFiltros}>Limpiar filtros</button>
+                            </div>
+                            <div className="col-12">
+                                <div className="form-check mb-0">
+                                    <input type="checkbox" id="soloOfertas" className="form-check-input"
+                                        checked={soloOfertas} onChange={(e) => cambiarFiltro('ofertas', e.target.checked ? '1' : '')} />
+                                    <label htmlFor="soloOfertas" className="form-check-label">Solo productos en oferta</label>
+                                </div>
                             </div>
                         </div>
                     </form>

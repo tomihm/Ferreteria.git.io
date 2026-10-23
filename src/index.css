@@ -8,6 +8,9 @@
   --gris-900: #212121;
   --gris-200: #e0e0e0;
   --blanco: #ffffff;
+  --gris-100: #f5f5f5;
+  /* titulos, botones y menu en una sans gruesa; el texto corrido sigue con la del sistema */
+  --fuente-titulos: "Montserrat", "Segoe UI", Roboto, Arial, sans-serif;
 }
 
 /* ---------------- COLORES DE BOOTSTRAP ----------------
@@ -66,12 +69,147 @@
 }
 .form-check-input:checked { background-color: #212121; border-color: #212121; }
 
+/* titulos gruesos y apretados, con oficio */
+h1, h2, h3, .h1, .h2, .h3, .h4, .h5, .display-5 { font-family: var(--fuente-titulos); font-weight: 800; letter-spacing: -.02em; }
+h3, .h5, .h6 { font-weight: 700; }
+
+/* palabra clave de un titulo con un trazo naranja debajo */
+.resaltado { background: linear-gradient(transparent 82%, var(--naranja) 82%, var(--naranja) 94%, transparent 94%); padding: 0 .04em; }
+
 /* borde visible al navegar con teclado (se ve sobre fondo claro y oscuro) */
 a:focus-visible { outline: 3px solid var(--naranja-oscuro); outline-offset: 2px; }
 
 /* pagina actual del menu en naranja */
 .navbar .nav-link.active { color: #f57c00; }
 
+/* ---------------- HEADER ---------------- */
+.encabezado { position: relative; z-index: 1030; background: var(--blanco); }
+
+/* franja superior: datos utiles y la sesion */
+.franja-superior { background: #121212; color: var(--gris-200); font-size: .8rem; padding: 6px 0; }
+.franja-superior a,
+.franja-superior .btn-link { color: var(--blanco); text-decoration: none; font-size: .8rem; }
+.franja-superior a:hover,
+.franja-superior .btn-link:hover { color: var(--naranja); }
+.franja-superior__separador { color: var(--naranja); margin: 0 6px; }
+
+/* fila principal: logo, buscador, cuenta y carrito */
+.encabezado__principal { border-bottom: 1px solid var(--gris-200); }
+.encabezado__fila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+  padding-block: 12px;
+}
+.encabezado__logo img { display: block; height: 56px; width: auto; }
+.encabezado__acciones { display: flex; align-items: center; gap: 16px; margin-left: auto; }
+.encabezado__accion,
+.carrito-boton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--gris-900);
+  text-decoration: none;
+  font-weight: 600;
+}
+.encabezado__accion:hover { color: var(--naranja-oscuro); }
+.carrito-boton { background: var(--gris-900); color: var(--blanco); padding: 8px 14px; border-radius: var(--bs-border-radius); }
+.carrito-boton:hover { background: #000; color: var(--blanco); }
+.carrito-boton__texto { line-height: 1.15; }
+.carrito-boton__total { font-size: .85rem; color: var(--gris-200); }
+.menu-boton { padding: 8px 10px; line-height: 1; }
+
+/* menu de la cuenta que aparece al pasar el mouse sobre "Mi cuenta" */
+.cuenta { position: relative; }
+.cuenta > .encabezado__accion { padding: 8px 0; }
+.cuenta__menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 1040;
+  min-width: 210px;
+  display: flex;
+  flex-direction: column;
+  background: var(--blanco);
+  border: 1px solid var(--gris-200);
+  border-top: 3px solid var(--naranja);
+  border-radius: 6px;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, .12);
+  padding: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity .15s, transform .15s, visibility .15s;
+}
+.cuenta:hover .cuenta__menu,
+.cuenta:focus-within .cuenta__menu { opacity: 1; visibility: visible; transform: none; }
+.cuenta__nombre { font-size: .75rem; color: #555; padding: 6px 10px 8px; margin: 0 0 4px; border-bottom: 1px solid var(--gris-200); }
+.cuenta__item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: none;
+  border-radius: 4px;
+  padding: 9px 10px;
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--gris-900);
+  text-decoration: none;
+}
+.cuenta__item:hover { background: var(--gris-100); color: var(--naranja-oscuro); }
+.cuenta__item--principal { background: var(--gris-900); color: var(--blanco); text-align: center; margin-bottom: 4px; }
+.cuenta__item--principal:hover { background: #000; color: var(--blanco); }
+.cuenta__item--salir { color: #b3261e; }
+@media (prefers-reduced-motion: reduce) { .cuenta__menu { transition: none; } }
+
+/* buscador grande con su categoria y el boton naranja */
+.buscador {
+  order: 3;
+  flex: 1 0 100%;
+  display: flex;
+  border: 2px solid var(--gris-900);
+  border-radius: var(--bs-border-radius);
+  overflow: hidden;
+  background: var(--blanco);
+}
+.buscador:focus-within { border-color: var(--naranja); }
+.buscador__texto { border: 0; background: transparent; padding: 10px 12px; min-width: 0; }
+.buscador__texto { flex: 1; }
+.buscador__texto:focus { outline: none; }
+.buscador__boton { border: 0; background: var(--naranja); color: var(--gris-900); padding: 0 18px; }
+.buscador__boton:hover { background: #ff9800; }
+@media (min-width: 992px) {
+  .buscador { order: 0; flex: 1 1 auto; max-width: 640px; }
+}
+
+/* barra de navegacion blanca con el boton naranja de categorias */
+.barra-nav { background: var(--blanco); border-bottom: 1px solid var(--gris-200); }
+.barra-nav .navbar-collapse { align-items: stretch; gap: 20px; }
+.barra-nav .nav-link {
+  font-family: var(--fuente-titulos);
+  font-size: .78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--gris-900);
+  padding: 16px 12px !important;
+  border-bottom: 2px solid transparent;
+}
+.barra-nav .nav-link:hover { color: var(--naranja-oscuro); }
+.barra-nav .nav-link.active { color: var(--gris-900); border-bottom-color: var(--naranja); }
+.barra-nav__aviso {
+  align-self: center;
+  font-family: var(--fuente-titulos);
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--gris-900);
+  border-left: 1px solid var(--gris-200);
+  padding-left: 20px;
+}
 /* en el celular los links del menu son mas altos para tocarlos con el dedo */
 @media (max-width: 991.98px) {
   .navbar-collapse .nav-link,
@@ -85,9 +223,10 @@ a:focus-visible { outline: 3px solid var(--naranja-oscuro); outline-offset: 2px;
     right: 0;
     max-height: calc(100vh - 100%);
     overflow-y: auto;
-    padding: .5rem .75rem;
-    background: var(--gris-900);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, .35);
+    padding: .5rem .75rem 1rem;
+    background: var(--blanco);
+    border-bottom: 1px solid var(--gris-200);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, .15);
   }
 }
 /* los links quedan alineados con el logo, que esta dentro del container */
@@ -99,25 +238,219 @@ a:focus-visible { outline: 3px solid var(--naranja-oscuro); outline-offset: 2px;
 }
 
 /* ---------------- TITULOS DE PAGINA ---------------- */
-.pagina-titulo { background: var(--gris-900); color: var(--blanco); padding: 34px 0; }
-.pagina-titulo h1 { font-size: 1.8rem; }
-.pagina-titulo p { color: var(--gris-200); }
+.pagina-titulo { background: var(--gris-100); border-bottom: 1px solid var(--gris-200); padding: 40px 0; }
+.pagina-titulo h1 { font-size: clamp(1.8rem, 4vw, 2.4rem); margin-bottom: 6px; }
+.pagina-titulo p { color: #555; }
 
-/* ---------------- INICIO ----------------
-   las franjas diagonales del hero recuerdan la cinta de una obra */
-.hero {
-  background:
-    linear-gradient(rgba(33, 33, 33, .82), rgba(33, 33, 33, .82)),
-    repeating-linear-gradient(45deg, #3a3a3a 0 22px, #333 22px 44px);
+/* ---------------- PIEZAS COMUNES DEL REDISEÑO ---------------- */
+/* etiqueta chica sobre los titulos, con un guion o punto de color */
+.ceja {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--fuente-titulos);
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--gris-900);
+  margin-bottom: 12px;
+}
+.ceja::before { content: ""; width: 24px; height: 2px; background: var(--naranja); }
+.ceja--punto::before { width: 8px; height: 8px; border-radius: 50%; background: #2e7d32; }
+.ceja--oscura::before { background: var(--gris-900); }
+.ceja--clara { color: var(--blanco); }
+
+.seccion-titulo { font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.1; }
+
+/* boton negro en mayuscula, como en una ficha tecnica */
+.btn-mayus {
+  font-family: var(--fuente-titulos);
+  font-size: .8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  padding: 14px 24px;
+  border-radius: 4px;
 }
 
-/* categorias del inicio: el borde se pone naranja al pasar el mouse */
-.categoria-link { color: inherit; text-decoration: none; border-width: 2px; transition: border-color .2s; }
-.categoria-link:hover { border-color: var(--naranja); }
+/* link de texto con subrayado naranja y flecha */
+.link-flecha {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--fuente-titulos);
+  font-size: .8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--gris-900);
+  text-decoration: none;
+  border-bottom: 2px solid var(--naranja);
+  padding-bottom: 4px;
+}
+.link-flecha::after { content: "→"; transition: transform .2s; }
+.link-flecha:hover { color: var(--naranja-oscuro); }
+.link-flecha:hover::after { transform: translateX(3px); }
+
+/* ---------------- INICIO ---------------- */
+.inicio-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 56px 0 72px;
+  background: var(--blanco);
+}
+/* bloque gris en diagonal detras de la foto */
+.inicio-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 52%;
+  background: var(--gris-100);
+  clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
+}
+.inicio-hero .container { position: relative; }
+.inicio-hero__titulo { font-size: clamp(2.3rem, 5.5vw, 3.6rem); line-height: 1.05; margin-bottom: 20px; }
+.inicio-hero__texto { font-size: 1.05rem; color: #555; max-width: 470px; margin-bottom: 28px; }
+
+.garantias { display: flex; flex-wrap: wrap; gap: 12px 24px; margin: 0; font-size: .85rem; }
+.garantias li { display: flex; align-items: center; gap: 8px; }
+.garantias__icono {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--naranja);
+  color: var(--gris-900);
+}
+
+.inicio-hero__vitrina { position: relative; padding: 24px 0 40px; }
+.inicio-hero__foto {
+  display: block;
+  background: var(--blanco);
+  border-radius: 12px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, .12);
+  aspect-ratio: 5 / 4;
+  overflow: hidden;
+}
+.inicio-hero__foto img { width: 100%; height: 100%; object-fit: contain; padding: 32px; }
+.inicio-hero__chip {
+  position: absolute;
+  top: 0;
+  right: -12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--blanco);
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .12);
+  padding: 10px 16px;
+  font-size: .72rem;
+  line-height: 1.25;
+  color: #555;
+}
+.inicio-hero__chip strong { font-family: var(--fuente-titulos); font-size: 1.8rem; color: var(--gris-900); }
+.inicio-hero__oferta {
+  position: absolute;
+  left: -16px;
+  bottom: 0;
+  background: rgba(33, 33, 33, .92);
+  color: var(--gris-200);
+  border-radius: 8px;
+  padding: 14px 18px;
+  max-width: 230px;
+}
+.inicio-hero__oferta-titulo { font-family: var(--fuente-titulos); font-size: 1.5rem; font-weight: 800; color: var(--blanco); margin-bottom: 2px; }
+@media (max-width: 991.98px) {
+  .inicio-hero::before { inset: 55% 0 0 0; clip-path: none; }
+  .inicio-hero__chip { right: 8px; }
+  .inicio-hero__oferta { left: 8px; }
+}
+
+/* franja naranja de ofertas, de lado a lado */
+.franja-ofertas {
+  background: var(--naranja);
+  color: var(--gris-900);
+  padding: 64px 0;
+}
+.franja-ofertas__titulo { font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.08; margin-bottom: 16px; }
+.franja-ofertas__nota {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--fuente-titulos);
+  font-size: .75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.ofertas-mini { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.ofertas-mini__item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6px;
+  height: 100%;
+  min-height: 92px;
+  padding: 16px;
+  border: 1px solid rgba(33, 33, 33, .25);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, .14);
+  color: var(--gris-900);
+  text-decoration: none;
+  transition: background .2s;
+}
+.ofertas-mini__item:hover { background: rgba(255, 255, 255, .3); color: var(--gris-900); }
+.ofertas-mini__nombre { font-family: var(--fuente-titulos); font-weight: 700; font-size: .85rem; line-height: 1.25; }
+.ofertas-mini__precio { font-size: .8rem; }
+
+/* chips para filtrar los destacados */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font-family: var(--fuente-titulos);
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  padding: 10px 16px;
+  border: 1px solid var(--gris-200);
+  border-radius: 4px;
+  background: var(--blanco);
+  color: var(--gris-900);
+}
+.chip:hover { border-color: var(--gris-900); }
+.chip--activo { background: var(--gris-900); border-color: var(--gris-900); color: var(--blanco); }
+/* en el celular los chips se deslizan de lado en vez de ocupar varias lineas */
+@media (max-width: 767.98px) {
+  .chips { flex-wrap: nowrap; overflow-x: auto; margin-inline: -12px; padding-inline: 12px; scrollbar-width: none; }
+  .chip { flex: 0 0 auto; }
+}
+
+/* categorias del inicio: fila con flecha que se mueve al pasar el mouse */
+.categoria-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+  padding: 18px 20px;
+  border: 1px solid var(--gris-200);
+  border-radius: 4px;
+  background: var(--blanco);
+  color: var(--gris-900);
+  text-decoration: none;
+  transition: border-color .2s;
+}
+.categoria-link:hover { border-color: var(--gris-900); color: var(--gris-900); }
+.categoria-link__nombre { display: block; font-family: var(--fuente-titulos); font-weight: 700; }
+.categoria-link__texto { display: block; font-size: .85rem; color: #666; }
+.categoria-link__flecha { color: var(--naranja-oscuro); font-weight: 700; transition: transform .2s; }
+.categoria-link:hover .categoria-link__flecha { transform: translateX(4px); }
 
 /* numeros grandes de los pasos para comprar */
 .pasos__numero {
   display: block;
+  font-family: var(--fuente-titulos);
   font-size: 2.5rem;
   font-weight: 800;
   line-height: 1;
@@ -131,8 +464,23 @@ a:focus-visible { outline: 3px solid var(--naranja-oscuro); outline-offset: 2px;
   border-bottom: 3px solid var(--naranja);
   padding-bottom: 6px;
   margin: 40px 0 20px;
-  scroll-margin-top: 90px;
+  scroll-margin-top: 24px;
 }
+
+/* tarjeta de producto con esquinas casi rectas y botones en mayuscula */
+.producto { background: var(--blanco); border-radius: 4px; border-color: var(--gris-200); transition: box-shadow .2s, border-color .2s; }
+.producto:hover { border-color: var(--gris-900); box-shadow: 0 12px 24px rgba(0, 0, 0, .08); }
+.producto h3 { font-family: var(--fuente-titulos); font-weight: 700; }
+.producto .btn {
+  font-family: var(--fuente-titulos);
+  font-size: .72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  border-radius: 4px;
+  padding-block: 10px;
+}
+.producto .contador .btn { font-size: 1.1rem; }
 
 /* foto del producto, los que no tienen foto muestran su icono */
 .producto__foto {
@@ -142,8 +490,22 @@ a:focus-visible { outline: 3px solid var(--naranja-oscuro); outline-offset: 2px;
   display: grid;
   place-items: center;
   font-size: 3rem;
-  border-radius: var(--bs-border-radius) var(--bs-border-radius) 0 0;
+  border-radius: 4px 4px 0 0;
+  border-bottom: 1px solid var(--gris-200);
   overflow: hidden;
+}
+/* porcentaje de descuento en la esquina de la foto */
+.producto__descuento {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+  background: var(--naranja);
+  color: var(--gris-900);
+  font-weight: 800;
+  font-size: .85rem;
+  padding: 3px 8px;
+  border-radius: 4px;
 }
 /* la foto ocupa todo el cuadro pero se achica entera, sin cortarse */
 .producto__foto img {
@@ -196,9 +558,9 @@ a:focus-visible { outline: 3px solid var(--naranja-oscuro); outline-offset: 2px;
 
 /* ---------------- CARRITO, LOGIN Y PANEL ---------------- */
 @media (min-width: 992px) {
-  .resumen { position: sticky; top: 90px; }
+  .resumen { position: sticky; top: 24px; }
   /* en computador el menu del panel acompaña al bajar */
-  .panel-menu { position: sticky; top: 90px; }
+  .panel-menu { position: sticky; top: 24px; }
 }
 
 /* opcion elegida del menu del panel, con los colores de la tienda */
@@ -211,12 +573,262 @@ a:focus-visible { outline: 3px solid var(--naranja-oscuro); outline-offset: 2px;
 .formulario-angosto { max-width: 500px; }
 
 /* para que el titulo no quede tapado por el header al saltar con # */
-.ancla { scroll-margin-top: 90px; }
+.ancla { scroll-margin-top: 24px; }
 
 /* ---------------- FOOTER ---------------- */
 .footer a { color: inherit; text-decoration: none; }
 .footer a:hover { color: var(--naranja); }
+.footer__titulo { font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--naranja); margin-bottom: 14px; }
+.footer__pagos { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; border-top: 1px solid #3a3a3a; margin-top: 32px; padding-top: 18px; }
+.footer__pago { font-size: .8rem; border: 1px solid #4a4a4a; border-radius: 4px; padding: 3px 10px; color: var(--gris-200); }
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
+
+/* ---------------- NOSOTROS ---------------- */
+.text-naranja { color: var(--naranja-oscuro); }
+.bg-gris { background: var(--gris-100); }
+
+/* banda oscura con el titulo centrado y franja de obra abajo */
+.nosotros-hero {
+  position: relative;
+  background: var(--gris-900);
+  color: var(--gris-200);
+  text-align: center;
+  padding: 80px 0 88px;
+}
+.nosotros-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 8px;
+  background: repeating-linear-gradient(-45deg, var(--naranja) 0 14px, var(--gris-900) 14px 28px);
+}
+.nosotros-hero h1 { color: var(--blanco); font-size: clamp(2.2rem, 6vw, 3.6rem); margin-bottom: 10px; }
+
+.servicio {
+  display: flex;
+  gap: 16px;
+  height: 100%;
+  background: var(--blanco);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+  padding: 20px;
+}
+.servicio__icono {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--naranja);
+  color: var(--gris-900);
+}
+.servicio__titulo { font-size: 1rem; margin-bottom: 6px; }
+
+/* tarjeta oscura con los numeros, al lado del mapa */
+.nosotros-numeros {
+  height: 100%;
+  background: var(--gris-900);
+  color: var(--gris-200);
+  border-radius: 16px;
+  padding: 28px;
+}
+.nosotros-numeros__valor { font-family: var(--fuente-titulos); font-size: 2rem; font-weight: 800; color: var(--naranja); margin: 0; }
+
+/* tarjeta del equipo: avatar arriba y placa naranja con el nombre */
+.persona {
+  background: var(--blanco);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .06);
+  padding: 0 0 16px;
+  text-align: center;
+  overflow: hidden;
+}
+.persona__foto {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  background: var(--gris-200);
+}
+.persona__placa {
+  position: relative;
+  margin: -28px 12px 0;
+  background: var(--naranja);
+  color: var(--gris-900);
+  border-radius: 10px;
+  padding: 12px 8px;
+}
+.persona__nombre { font-size: .95rem; margin-bottom: 2px; }
+.persona__cargo { font-size: .75rem; margin: 0; }
+@media (min-width: 992px) { .py-lg-6 { padding-top: 88px !important; padding-bottom: 88px !important; } }
+
+/* ---------------- CARRITO ---------------- */
+/* tarjeta grande con el resumen a la izquierda y el pago en gris a la derecha */
+.compra {
+  background: var(--blanco);
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .08);
+  overflow: hidden;
+}
+.compra__cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding: 22px 32px;
+  border-bottom: 1px solid var(--gris-200);
+}
+.compra__titulo { font-size: 1.4rem; margin: 0; }
+.compra__lado { padding: 32px; }
+.compra__lado--gris { background: #f8f8f8; border-left: 1px solid var(--gris-200); }
+.compra__subtitulo { font-size: 1.15rem; margin-bottom: 4px; }
+.compra__etiqueta { display: block; font-size: .85rem; font-weight: 700; color: var(--gris-900); margin-bottom: 8px; padding: 0; }
+.compra__dato {
+  background: var(--blanco);
+  border: 1px solid var(--gris-200);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 0;
+  font-weight: 600;
+}
+.compra__dato span { font-weight: 400; color: #555; }
+.compra__vacio { border: 1px dashed var(--gris-200); border-radius: 10px; padding: 32px; text-align: center; }
+.compra__pagar { font-family: var(--fuente-titulos); font-weight: 800; padding: 16px; border-radius: 8px; }
+@media (max-width: 991.98px) {
+  .compra__lado { padding: 24px 16px; }
+  .compra__lado--gris { border-left: 0; border-top: 1px solid var(--gris-200); }
+  .compra__cabecera { padding: 18px 16px; }
+}
+
+/* pasos: listo con check, actual en negro, siguiente en gris */
+.pasos-compra { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; font-size: .85rem; font-weight: 600; color: #777; }
+.pasos-compra li { display: flex; align-items: center; gap: 8px; }
+.pasos-compra li + li::before { content: ""; width: 36px; border-top: 2px dashed var(--gris-200); margin-right: 4px; }
+.pasos-compra__numero {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--gris-100);
+  font-size: .72rem;
+  font-weight: 800;
+}
+.pasos-compra__paso--actual { color: var(--gris-900); }
+.pasos-compra__paso--actual .pasos-compra__numero { background: var(--gris-900); color: var(--blanco); }
+.pasos-compra__paso--listo { color: var(--gris-900); }
+.pasos-compra__paso--listo .pasos-compra__numero { background: var(--naranja); color: var(--gris-900); }
+@media (max-width: 575.98px) { .pasos-compra li + li::before { width: 14px; } }
+
+/* lista de productos en una caja con borde */
+.lista-compra { border: 1px solid var(--gris-200); border-radius: 10px; padding: 8px 16px; margin: 0; }
+.lista-compra__item { display: flex; align-items: center; gap: 16px; padding: 14px 0; }
+.lista-compra__item + .lista-compra__item { border-top: 1px solid var(--gris-200); }
+.lista-compra__foto {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 80px;
+  height: 64px;
+  border: 1px solid var(--gris-200);
+  border-radius: 8px;
+  background: var(--blanco);
+  font-size: 1.8rem;
+}
+.lista-compra__foto img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+.lista-compra__datos { flex: 1; min-width: 0; }
+.lista-compra__nombre { font-weight: 700; line-height: 1.25; margin-bottom: 2px; }
+.lista-compra__acciones { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.lista-compra__quitar { border: 0; background: none; padding: 0; font-size: .8rem; color: #b3261e; text-decoration: underline; }
+@media (max-width: 575.98px) {
+  .lista-compra__item { flex-wrap: wrap; }
+  .lista-compra__foto { width: 64px; height: 56px; }
+  .lista-compra__datos { flex-basis: calc(100% - 80px); }
+  .lista-compra__acciones { flex-direction: row; align-items: center; justify-content: space-between; width: 100%; }
+}
+
+/* opciones de entrega como tarjetas con radio */
+.entrega {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #f8f8f8;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.entrega--activa { background: var(--blanco); border-color: var(--gris-900); }
+.entrega__icono {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  background: var(--blanco);
+  border: 1px solid var(--gris-200);
+  color: var(--naranja-oscuro);
+}
+.entrega__texto { flex: 1; display: flex; flex-direction: column; font-size: .8rem; color: #666; }
+.entrega__texto strong { font-size: 1rem; color: var(--gris-900); }
+.entrega__precio { font-weight: 700; white-space: nowrap; }
+.entrega .form-check-input { flex: none; width: 1.2em; height: 1.2em; }
+
+/* subtotal, despacho y total */
+.totales { margin: 24px 0 20px; }
+.totales > div { display: flex; justify-content: space-between; padding: 5px 0; }
+.totales dt { font-weight: 400; }
+.totales dd { margin: 0; }
+.totales__total { border-top: 1px solid var(--gris-200); margin-top: 6px; padding-top: 12px !important; font-size: 1.2rem; font-weight: 800; }
+.totales__total dt { font-weight: 800; }
+.lista-compra .cantidad { width: 72px; background: var(--blanco); border-color: #bdbdbd; text-align: center; }
+@media (max-width: 575.98px) {
+  /* en pantallas chicas solo se lee el paso actual */
+  .pasos-compra li:not(.pasos-compra__paso--actual) { font-size: 0; gap: 0; }
+  .pasos-compra li:not(.pasos-compra__paso--actual) .pasos-compra__numero { font-size: .72rem; }
+  .pasos-compra li + li::before { margin-right: 8px; }
+}
+@media (max-width: 419.98px) {
+  /* para que logo, carrito y menu quepan en una fila */
+  .encabezado__logo img { height: 44px; }
+  .carrito-boton { padding: 8px 10px; gap: 6px; }
+  .encabezado__acciones { gap: 8px; }
+}
+
+/* lista de direcciones que aparece bajo el campo del carrito */
+.buscador-direccion { position: relative; }
+.buscador-direccion__lista {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  background: var(--blanco);
+  border: 1px solid var(--gris-200);
+  border-radius: 8px;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, .12);
+}
+.buscador-direccion__opcion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.buscador-direccion__opcion--activa { background: var(--gris-100); }
+.buscador-direccion__texto { display: flex; flex-direction: column; min-width: 0; font-size: .9rem; }
+.buscador-direccion__texto span { font-size: .78rem; color: #666; }
+.buscador-direccion__km { flex: none; font-size: .78rem; font-weight: 700; color: #b3261e; }
+.buscador-direccion__km--apta { color: #2e7d32; }

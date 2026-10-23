@@ -81,4 +81,12 @@ describe('TarjetaProducto', () => {
 
         expect(screen.getByRole('link', { name: 'Ver detalle' })).toHaveAttribute('href', '/producto/martillo-carpintero-16oz');
     });
+
+    it('en oferta muestra el descuento y el precio normal tachado', () => {
+        renderTarjeta({ ...martillo, precio: 6390, precioNormal: 7990 });
+
+        expect(screen.getByText('-20%')).toBeInTheDocument();
+        expect(screen.getByText('$6.390')).toBeInTheDocument();
+        expect(screen.getByText('$7.990', { exact: false }).closest('del')).toBeInTheDocument();
+    });
 });

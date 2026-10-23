@@ -3,6 +3,7 @@ import { catalogo } from '../products/catalogo.js';
 import { Link } from 'react-router-dom';
 import { useCarrito } from '../context/CarritoContext.jsx';
 import { estadoStock } from '../utils/stock.js';
+import { descuento } from '../utils/ofertas.js';
 
 const nombresCategoria = {
     construccion: 'Materiales de Construcción',
@@ -59,7 +60,17 @@ function ProductoDetalle() {
                         <h1 className="h2 fw-bold">{producto.nombre}</h1>
                         <p className="text-body-secondary mb-2">Marca {producto.marca} · se vende por unidad</p>
                         <span className={`badge ${estado.clase}`}>{estado.texto}</span>
-                        <p className="display-6 fw-bold my-3">${producto.precio.toLocaleString('es-CL')}</p>
+                        <p className="my-3">
+                            <span className="display-6 fw-bold">${producto.precio.toLocaleString('es-CL')}</span>
+                            {producto.precioNormal && (
+                                <>
+                                    <del className="fs-5 text-body-secondary ms-3">
+                                        <span className="visually-hidden">Antes </span>${producto.precioNormal.toLocaleString('es-CL')}
+                                    </del>
+                                    <span className="badge bg-primary text-dark ms-2 align-middle">-{descuento(producto)}%</span>
+                                </>
+                            )}
+                        </p>
                         <p className="mb-4">{producto.descripcion}</p>
 
                         <form className="card card-body mb-4" onSubmit={handleSubmit}>

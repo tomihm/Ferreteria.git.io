@@ -27,6 +27,12 @@ describe('Nosotros', () => {
         expect(screen.getByText('12 km')).toBeInTheDocument();
     });
 
+    it('muestra a las cuatro personas del equipo', () => {
+        renderNosotros();
+        expect(screen.getAllByRole('heading', { level: 3 }).filter((h) => h.className === 'persona__nombre')).toHaveLength(4);
+        expect(screen.getByText('Dueño y fundador')).toBeInTheDocument();
+    });
+
     it('los botones llevan al catalogo y a contacto', () => {
         renderNosotros();
         expect(screen.getByRole('link', { name: 'Ver catálogo' })).toHaveAttribute('href', '/catalogo');
