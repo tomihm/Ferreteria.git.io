@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
+import { useSesion } from '../context/SesionContext.jsx';
 
 function Footer() {
+    const { usuario } = useSesion();
+
     return(
         <footer className="bg-dark text-light pt-5 pb-3 mt-5 footer">
                 <div className="container">
@@ -21,10 +24,10 @@ function Footer() {
                         <div className="col-6 col-lg-2">
                             <h2 className="h6 text-primary">Mi cuenta</h2>
                             <ul className="list-unstyled small">
-                                <li className="mb-2"><Link to="/login">Iniciar sesión</Link></li>
-                                <li className="mb-2"><Link to="/mis-pedidos">Mis pedidos</Link></li>
+                                {!usuario && <li className="mb-2"><Link to="/login">Iniciar sesión</Link></li>}
+                                {(usuario?.rol === 'contratista' || usuario?.rol === 'cliente') && <li className="mb-2"><Link to="/mis-pedidos">Mis pedidos</Link></li>}
                                 <li className="mb-2"><Link to="/carrito">Carrito</Link></li>
-                                <li className="mb-2"><Link to="/panel">Panel de gestión</Link></li>
+                                {usuario?.rol === 'admin' && <li className="mb-2"><Link to="/panel">Panel de gestión</Link></li>}
                             </ul>
                         </div>
                         <div className="col-lg-4">

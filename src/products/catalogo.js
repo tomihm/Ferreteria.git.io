@@ -22,7 +22,7 @@ const productos = [
         descripcion: 'Atornillador inalámbrico de 12V con batería recargable. Liviano para armar muebles, instalar bisagras y hacer trabajos en altura.' },
     { codigo: 'HER-005', icono: '🌀', nombre: 'Lijadora Orbital 300W', marca: 'Black+Decker', precio: 32990, stock: 11, categoria: 'herramientas', imagen: 'assets/lijadora_orbital.webp',
         descripcion: 'Lijadora orbital de 300W para lijar madera antes de pintar o barnizar. Deja la superficie pareja, sin marcas.' },
-    { codigo: 'HER-006', icono: '📡', nombre: 'Nivel Láser 360°', marca: 'DeWalt', precio: 159990, stock: 5, categoria: 'herramientas',
+    { codigo: 'HER-006', icono: '📡', nombre: 'Nivel Láser 360°', marca: 'DeWalt', precio: 159990, stock: 5, categoria: 'herramientas', imagen: 'assets/nivel_laser.webp',
         descripcion: 'Nivel láser de 360° con autonivelación. Proyecta líneas horizontales y verticales para alinear cerámicas, tabiques y cielos.' },
     { codigo: 'MAN-001', icono: '🔨', nombre: 'Martillo Carpintero 16oz', marca: 'Bahco', precio: 7990, stock: 45, categoria: 'manuales', imagen: 'assets/martillo_carpintero.webp',
         descripcion: 'Martillo carpintero de 16oz con uña para sacar clavos. Sirve para carpintería, armado de moldajes y trabajos de casa.' },

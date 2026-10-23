@@ -1,3 +1,5 @@
+import { leerMensajes } from './mensajesMocks.js';
+
 const RETRASO_MOCK_MS = 50;
 
 const resumen = [
@@ -19,21 +21,21 @@ const inventarioInicial = [
 ];
 
 const pedidosIniciales = [
-    { numero: '#1003', cliente: 'María Rojas', fecha: '01-09-2026', entrega: 'Retiro en tienda', total: '$14.940', pago: 'Contado', estado: 'Pendiente' },
-    { numero: '#1002', cliente: 'Juan Pérez', fecha: '28-08-2026', entrega: 'Retiro en tienda', total: '$78.960', pago: 'Cuenta corriente', estado: 'En preparación' },
-    { numero: '#1001', cliente: 'Juan Pérez', fecha: '20-08-2026', entrega: 'Despacho', total: '$109.800', pago: 'Cuenta corriente', estado: 'Entregado' }
+    { numero: '#1003', cliente: 'María Rojas', fecha: '01-09-2026', entrega: 'Retiro en tienda', total: '$13.740', pago: 'Webpay', estado: 'Pendiente' },
+    { numero: '#1002', cliente: 'Juan Pérez', fecha: '28-08-2026', entrega: 'Retiro en tienda', total: '$78.960', pago: 'Crédito a 30 días', estado: 'En preparación' },
+    { numero: '#1001', cliente: 'Juan Pérez', fecha: '20-08-2026', entrega: 'Despacho', total: '$109.800', pago: 'Crédito a 30 días', estado: 'Entregado' }
 ];
 
 const estadosPedido = ['Pendiente', 'En preparación', 'Listo para retiro', 'En reparto', 'Entregado'];
 
+// cuenta = saldo de credito usado, solo los contratistas compran a plazo
 const usuariosIniciales = [
     { rut: '11.111.111-1', nombre: 'Carlos Muñoz', email: 'admin@losmaestros.cl', rol: 'Administrador', cuenta: null },
-    { rut: '22.222.222-2', nombre: 'Pedro Muñoz', email: 'vendedor@losmaestros.cl', rol: 'Vendedor', cuenta: null },
     { rut: '33.333.333-3', nombre: 'Juan Pérez', email: 'contratista@correo.cl', rol: 'Contratista', cuenta: '$188.760' },
     { rut: '44.444.444-4', nombre: 'María Rojas', email: 'cliente@correo.cl', rol: 'Cliente', cuenta: null }
 ];
 
-const roles = ['Administrador', 'Vendedor', 'Contratista', 'Cliente'];
+const roles = ['Administrador', 'Contratista', 'Cliente'];
 
 const masVendidos = [
     { puesto: 1, producto: 'Saco de Cemento Melón 25kg', unidades: '412', monto: '$2.261.880' },
@@ -68,7 +70,8 @@ export function cargarPanel() {
                 roles,
                 masVendidos,
                 clientesFrecuentes,
-                porCobrar
+                porCobrar,
+                mensajes: leerMensajes()
             });
         }, RETRASO_MOCK_MS);
     });

@@ -1,21 +1,26 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { CarritoProvider } from '../context/CarritoContext.jsx';
+import { SesionProvider } from '../context/SesionContext.jsx';
 import Header from './Header.jsx';
 
 function renderHeader() {
     render(
         <MemoryRouter>
-            <CarritoProvider>
-                <Header />
-            </CarritoProvider>
+            <SesionProvider>
+                <CarritoProvider>
+                    <Header />
+                </CarritoProvider>
+            </SesionProvider>
         </MemoryRouter>
     );
 }
 
 describe('Header', () => {
+    beforeEach(() => localStorage.clear());
+
     it('el menu del celular parte cerrado', () => {
         renderHeader();
 
@@ -60,5 +65,39 @@ describe('Header', () => {
         await userEvent.click(screen.getByRole('navigation', { name: 'Navegación principal' }));
 
         expect(document.getElementById('menuPrincipal')).toHaveClass('show');
+    });
+
+    it('sin sesion no se ven mis pedidos ni el panel', () => {
+        renderHeader();
+
+        expect(screen.queryByRole('link', { name: 'Mis pedidos' })).not.toBeInTheDocument();
+        expect(screen.queryByRole('link', { name: 'Panel' })).not.toBeInTheDocument();
+        expect(screen.getByRole('link', { name: 'Iniciar sesión' })).toBeInTheDocument();
+    });
+
+    it('el admin ve el panel pero no mis pedidos', () => {
+        localStorage.setItem('sesion', JSON.stringify({ nombre: 'Carlos Muñoz', rol: 'admin' }));
+        renderHeader();
+
+        expect(screen.getByRole('link', { name: 'Panel' })).toBeInTheDocument();
+        expect(screen.queryByRole('link', { name: 'Mis pedidos' })).not.toBeInTheDocument();
+    });
+
+    it('el cliente ve mis pedidos pero no el panel', () => {
+        localStorage.setItem('sesion', JSON.stringify({ nombre: 'María Rojas', rol: 'cliente' }));
+        renderHeader();
+
+        expect(screen.getByRole('link', { name: 'Mis pedidos' })).toBeInTheDocument();
+        expect(screen.queryByRole('link', { name: 'Panel' })).not.toBeInTheDocument();
+    });
+
+    it('cerrar sesion vuelve a mostrar iniciar sesion', async () => {
+        localStorage.setItem('sesion', JSON.stringify({ nombre: 'María Rojas', rol: 'cliente' }));
+        renderHeader();
+
+        await userEvent.click(screen.getByRole('button', { name: 'Cerrar sesión' }));
+
+        expect(screen.getByRole('link', { name: 'Iniciar sesión' })).toBeInTheDocument();
+        expect(localStorage.getItem('sesion')).toBeNull();
     });
 });

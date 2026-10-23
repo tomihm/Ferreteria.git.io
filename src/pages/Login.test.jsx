@@ -1,26 +1,48 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
+import { SesionProvider } from '../context/SesionContext.jsx';
 import Login from './Login.jsx';
 
+// las paginas de destino se reemplazan por un texto para saber a donde llego
 function renderLogin() {
     return render(
-        <MemoryRouter>
-            <Login />
+        <MemoryRouter initialEntries={['/login']}>
+            <SesionProvider>
+                <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/panel" element={<p>Pagina panel</p>} />
+                    <Route path="/mis-pedidos" element={<p>Pagina mis pedidos</p>} />
+                </Routes>
+            </SesionProvider>
         </MemoryRouter>
     );
 }
 
-// los dos formularios tienen "Correo electrónico", por eso se buscan por id
 const campo = (id) => document.getElementById(id);
 
+async function entrarCon(email, password) {
+    await userEvent.type(campo('loginEmail'), email);
+    await userEvent.type(campo('loginPassword'), password);
+    await userEvent.click(screen.getByRole('button', { name: 'Entrar' }));
+}
+
 describe('Login', () => {
-    it('muestra los dos formularios', () => {
+    beforeEach(() => localStorage.clear());
+
+    it('muestra solo el formulario para entrar', () => {
         renderLogin();
 
         expect(screen.getByRole('heading', { name: 'Entra a tu cuenta' })).toBeInTheDocument();
-        expect(screen.getByRole('heading', { name: 'Crea tu cuenta' })).toBeInTheDocument();
+        expect(screen.queryByRole('heading', { name: 'Crea tu cuenta' })).not.toBeInTheDocument();
+    });
+
+    it('bajo la contraseña hay un link para crear cuenta', () => {
+        renderLogin();
+
+        expect(screen.getByText(/¿No tienes cuenta\?/)).toBeInTheDocument();
+        expect(screen.getByRole('link', { name: 'Crear cuenta' })).toHaveAttribute('href', '/registro');
     });
 
     it('no deja entrar con los campos vacios', async () => {
@@ -32,46 +54,40 @@ describe('Login', () => {
         expect(campo('loginPassword')).toHaveClass('is-invalid');
     });
 
-    it('acepta el inicio de sesion con datos validos', async () => {
+    it('avisa si el correo o la contraseña no son de ningun usuario', async () => {
         renderLogin();
-        await userEvent.type(campo('loginEmail'), 'cliente@correo.cl');
-        await userEvent.type(campo('loginPassword'), 'cualquiera');
-        await userEvent.click(screen.getByRole('button', { name: 'Entrar' }));
+        await entrarCon('admin@losmaestros.cl', 'otraClave1');
 
-        expect(screen.getByText(/datos válidos/i)).toBeInTheDocument();
-        expect(campo('loginEmail')).toHaveValue('');
+        expect(await screen.findByText('Correo o contraseña incorrectos.')).toBeInTheDocument();
     });
 
-    it('marca el rut si el digito verificador esta malo', async () => {
+    it('el admin entra directo al panel', async () => {
         renderLogin();
-        await userEvent.type(screen.getByLabelText('RUT'), '12.345.678-9');
-        await userEvent.tab();
+        await entrarCon('admin@losmaestros.cl', 'Admin2026');
 
-        expect(screen.getByText('El RUT no es válido. Revisa el dígito verificador.')).toBeInTheDocument();
+        expect(await screen.findByText('Pagina panel')).toBeInTheDocument();
+        expect(JSON.parse(localStorage.getItem('sesion'))).toMatchObject({ nombre: 'Carlos Muñoz', rol: 'admin' });
     });
 
-    it('avisa si las contraseñas no coinciden', async () => {
+    it('el contratista y el cliente entran a sus pedidos', async () => {
         renderLogin();
-        await userEvent.type(campo('regPassword'), 'Maestro2026');
-        await userEvent.type(screen.getByLabelText('Repite la contraseña'), 'Maestro2025');
-        await userEvent.tab();
+        await entrarCon('contratista@correo.cl', 'Contratista2026');
 
-        expect(screen.getByText('Las contraseñas no coinciden.')).toBeInTheDocument();
+        expect(await screen.findByText('Pagina mis pedidos')).toBeInTheDocument();
     });
 
-    it('crea la cuenta si todo esta bien', async () => {
+    it('si ya tiene sesion no muestra el formulario', () => {
+        localStorage.setItem('sesion', JSON.stringify({ nombre: 'Carlos Muñoz', rol: 'admin' }));
         renderLogin();
-        await userEvent.type(screen.getByLabelText('Nombre y apellido'), 'Juan Pérez');
-        await userEvent.type(screen.getByLabelText('RUT'), '11.111.111-1');
-        await userEvent.type(campo('regEmail'), 'juan@correo.cl');
-        await userEvent.type(screen.getByLabelText('Teléfono'), '+56912345678');
-        await userEvent.type(screen.getByLabelText('Dirección'), 'Los Aromos 455, Coquimbo');
-        await userEvent.type(campo('regPassword'), 'Maestro2026');
-        await userEvent.type(screen.getByLabelText('Repite la contraseña'), 'Maestro2026');
-        await userEvent.click(screen.getByLabelText('Soy contratista o maestro de obra'));
-        await userEvent.click(screen.getByRole('button', { name: 'Crear cuenta' }));
 
-        expect(screen.getByText(/cuenta válida/i)).toBeInTheDocument();
-        expect(screen.getByLabelText('Nombre y apellido')).toHaveValue('');
+        expect(screen.getByText('Pagina panel')).toBeInTheDocument();
+    });
+
+    it('la contraseña no se guarda en la sesion', async () => {
+        renderLogin();
+        await entrarCon('cliente@correo.cl', 'Cliente2026');
+        await screen.findByText('Pagina mis pedidos');
+
+        expect(localStorage.getItem('sesion')).not.toContain('Cliente2026');
     });
 });

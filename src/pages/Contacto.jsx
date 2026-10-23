@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import Validar from '../utils/validaciones.js';
+import MapaCobertura from '../components/MapaCobertura.jsx';
+import { enviarMensaje } from '../mocks/mensajesMocks.js';
 
 const formInicial = {
     nombre: '',
@@ -58,8 +60,9 @@ function Contacto() {
             return;
         }
 
-        // TODO: conectar con el backend
-        setAviso({ tipo: 'exito', texto: 'Mensaje válido. El envío se conectará al backend en la siguiente etapa.' });
+        // queda guardado para que el admin lo vea en el panel
+        enviarMensaje(form);
+        setAviso({ tipo: 'exito', texto: 'Mensaje enviado. Te contactaremos al correo que dejaste.' });
         setForm(formInicial);
         setErrores({});
     };
@@ -162,13 +165,7 @@ function Contacto() {
                                 Despachamos dentro de un radio de 12 km desde la tienda, lo que cubre La Serena y buena parte de Coquimbo.
                             </p>
 
-                            <div className="ratio ratio-4x3 rounded overflow-hidden">
-                                <iframe
-                                    src="https://www.openstreetmap.org/export/embed.html?bbox=-71.35%2C-29.98%2C-71.15%2C-29.83&layer=mapnik&marker=-29.9027%2C-71.2519"
-                                    title="Mapa de ubicación de Ferretería Los Maestros"
-                                    loading="lazy"
-                                ></iframe>
-                            </div>
+                            <MapaCobertura />
 
                             <div className="alert alert-info mt-3 mb-0">
                                 ¿Tu obra queda fuera del radio? Llámanos y coordinamos un despacho especial según el volumen del pedido.

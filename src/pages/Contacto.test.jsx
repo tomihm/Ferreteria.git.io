@@ -27,7 +27,7 @@ describe('Contacto', () => {
         render(<Contacto />);
         await userEvent.click(screen.getByRole('button', { name: /enviar mensaje/i }));
 
-        expect(screen.getByText(/mensaje válido/i)).toBeInTheDocument();
+        expect(screen.getByText(/mensaje enviado/i)).toBeInTheDocument();
     });
 
     it('muestra error y marca el campo cuando el correo no pasa', async () => {

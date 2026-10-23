@@ -76,6 +76,26 @@ a:focus-visible { outline: 3px solid var(--naranja-oscuro); outline-offset: 2px;
 @media (max-width: 991.98px) {
   .navbar-collapse .nav-link,
   .navbar-collapse .btn { min-height: 44px; display: flex; align-items: center; }
+
+  /* el menu abierto queda encima de la pagina en vez de empujarla hacia abajo */
+  .navbar-collapse {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: calc(100vh - 100%);
+    overflow-y: auto;
+    padding: .5rem .75rem;
+    background: var(--gris-900);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, .35);
+  }
+}
+/* los links quedan alineados con el logo, que esta dentro del container */
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .navbar-collapse { padding-inline: calc((100% - 540px) / 2 + .75rem); }
+}
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .navbar-collapse { padding-inline: calc((100% - 720px) / 2 + .75rem); }
 }
 
 /* ---------------- TITULOS DE PAGINA ---------------- */
@@ -136,6 +156,28 @@ a:focus-visible { outline: 3px solid var(--naranja-oscuro); outline-offset: 2px;
   background: var(--blanco);
 }
 
+/* contador - cantidad + que reemplaza al boton de agregar */
+.contador .btn {
+  flex: 0 0 44px;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+.contador__cantidad {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  border-block: 1px solid var(--naranja);
+  background: var(--blanco);
+}
+
+/* mapa de la zona de despacho (leaflet necesita un alto fijo) */
+.mapa-cobertura {
+  height: 380px;
+  border-radius: var(--bs-border-radius);
+  z-index: 0; /* para que el header y el menu queden encima */
+}
+
 .detalle__foto {
   background: var(--blanco);
   border-radius: var(--bs-border-radius);
@@ -159,6 +201,12 @@ a:focus-visible { outline: 3px solid var(--naranja-oscuro); outline-offset: 2px;
   .panel-menu { position: sticky; top: 90px; }
 }
 
+/* opcion elegida del menu del panel, con los colores de la tienda */
+.panel-menu .list-group {
+  --bs-list-group-active-bg: var(--gris-900);
+  --bs-list-group-active-border-color: var(--gris-900);
+  --bs-list-group-active-color: var(--blanco);
+}
 /* login y registro en una columna angosta */
 .formulario-angosto { max-width: 500px; }
 

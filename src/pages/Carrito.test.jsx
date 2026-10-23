@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import Carrito from './Carrito.jsx';
 import { CarritoProvider } from '../context/CarritoContext.jsx';
+import { SesionProvider } from '../context/SesionContext.jsx';
 
 const itemsPrueba = [
     { codigo: 'CON-001', icono: '🧱', nombre: 'Saco de Cemento Melón 25kg', marca: 'Melón', precio: 5490, cantidad: 20, stock: 120 },
@@ -18,9 +19,11 @@ function renderCarrito(items = itemsPrueba) {
     localStorage.setItem('carrito', JSON.stringify(items));
     render(
         <MemoryRouter>
-            <CarritoProvider>
-                <Carrito />
-            </CarritoProvider>
+            <SesionProvider>
+                <CarritoProvider>
+                    <Carrito />
+                </CarritoProvider>
+            </SesionProvider>
         </MemoryRouter>
     );
 }
@@ -133,5 +136,19 @@ describe('Carrito', () => {
         renderCarrito();
 
         expect(screen.getByRole('link', { name: 'Seguir comprando' })).toHaveAttribute('href', '/catalogo');
+    });
+
+    it('solo el contratista puede pagar con credito', () => {
+        localStorage.setItem('sesion', JSON.stringify({ nombre: 'Juan Pérez', rol: 'contratista' }));
+        renderCarrito();
+
+        expect(screen.getByLabelText('Pagar con mi crédito a 30 días')).toBeInTheDocument();
+    });
+
+    it('un cliente no ve la opcion de credito', () => {
+        localStorage.setItem('sesion', JSON.stringify({ nombre: 'María Rojas', rol: 'cliente' }));
+        renderCarrito();
+
+        expect(screen.queryByLabelText('Pagar con mi crédito a 30 días')).not.toBeInTheDocument();
     });
 });

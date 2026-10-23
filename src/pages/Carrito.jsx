@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Validar from '../utils/validaciones.js';
 import { useCarrito } from '../context/CarritoContext.jsx';
+import { useSesion } from '../context/SesionContext.jsx';
 
 const DESPACHO_GRATIS_DESDE = 150000;
 const COSTO_DESPACHO = 6990;
@@ -10,6 +11,7 @@ const formatoPeso = (valor) => `$${valor.toLocaleString('es-CL')}`;
 
 function Carrito() {
     const { items, cambiarCantidad, quitar, vaciar, totalUnidades } = useCarrito();
+    const { usuario } = useSesion();
     const [entrega, setEntrega] = useState('retiro');
     const [direccion, setDireccion] = useState('');
     const [usarCC, setUsarCC] = useState(false);
@@ -173,10 +175,13 @@ function Carrito() {
                                         </div>
                                     )}
 
-                                    <div className="form-check mb-3">
-                                        <input type="checkbox" id="usarCC" name="cuentaCorriente" className="form-check-input" checked={usarCC} onChange={(e) => setUsarCC(e.target.checked)} />
-                                        <label htmlFor="usarCC" className="form-check-label">Cargar a mi cuenta corriente</label>
-                                    </div>
+                                    {/* solo el contratista puede comprar a plazo */}
+                                    {usuario?.rol === 'contratista' && (
+                                        <div className="form-check mb-3">
+                                            <input type="checkbox" id="usarCC" name="cuentaCorriente" className="form-check-input" checked={usarCC} onChange={(e) => setUsarCC(e.target.checked)} />
+                                            <label htmlFor="usarCC" className="form-check-label">Pagar con mi crédito a 30 días</label>
+                                        </div>
+                                    )}
 
                                     <div className="d-flex justify-content-between py-1"><span>Subtotal</span><span>{formatoPeso(subtotal)}</span></div>
                                     <div className="d-flex justify-content-between py-1"><span>Despacho</span><span>{despacho === 0 ? 'Gratis' : formatoPeso(despacho)}</span></div>

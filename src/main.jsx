@@ -13,8 +13,11 @@ import Panel from './pages/Panel.jsx'
 import ProductoDetalle from './pages/ProductoDetalle.jsx'
 import Carrito from './pages/Carrito.jsx'
 import Login from './pages/Login.jsx'
+import Registro from './pages/Registro.jsx'
 import NoEncontrada from './pages/NoEncontrada.jsx'
 import { CarritoProvider } from './context/CarritoContext.jsx'
+import { SesionProvider } from './context/SesionContext.jsx'
+import RutaProtegida from './components/RutaProtegida.jsx'
 
 const router = createBrowserRouter([
   {
@@ -25,11 +28,12 @@ const router = createBrowserRouter([
       { path: 'catalogo', element: <Catalogo /> },
       { path: 'nosotros', element: <Nosotros /> },
       { path: 'contacto', element: <Contacto /> },
-      { path: 'mis-pedidos', element: <MisPedidos /> },
-      { path: 'panel', element: <Panel /> },
+      { path: 'mis-pedidos', element: <RutaProtegida roles={['contratista', 'cliente']}><MisPedidos /></RutaProtegida> },
+      { path: 'panel', element: <RutaProtegida roles={['admin']}><Panel /></RutaProtegida> },
       { path: 'producto/:id', element: <ProductoDetalle /> },
       { path: 'carrito', element: <Carrito /> },
       { path: 'login', element: <Login /> },
+      { path: 'registro', element: <Registro /> },
       { path: '*', element: <NoEncontrada /> }
     ],
   },
@@ -39,8 +43,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <CarritoProvider>
-      <RouterProvider router={router} />
-    </CarritoProvider>
+    <SesionProvider>
+      <CarritoProvider>
+        <RouterProvider router={router} />
+      </CarritoProvider>
+    </SesionProvider>
   </StrictMode>,
 )

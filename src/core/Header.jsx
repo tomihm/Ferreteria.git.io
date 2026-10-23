@@ -1,13 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useCarrito } from '../context/CarritoContext.jsx';
+import { useSesion } from '../context/SesionContext.jsx';
 
 function Header(){
     const { totalUnidades } = useCarrito();
+    const { usuario, salir } = useSesion();
+    const navigate = useNavigate();
     const [menuAbierto, setMenuAbierto] = useState(false);
 
     // al elegir una pagina en el celular se cierra el menu
     const cerrarMenu = () => setMenuAbierto(false);
+
+    const cerrarSesion = () => {
+        salir();
+        cerrarMenu();
+        navigate('/');
+    };
 
     // si el menu esta abierto y se toca fuera del header, se cierra
     const headerRef = useRef(null);
@@ -45,15 +54,27 @@ function Header(){
                             <li className="nav-item"><NavLink to="/catalogo" className="nav-link" onClick={cerrarMenu}>Catálogo</NavLink></li>
                             <li className="nav-item"><NavLink to="/nosotros" className="nav-link" onClick={cerrarMenu}>Nosotros</NavLink></li>
                             <li className="nav-item"><NavLink to="/contacto" className="nav-link" onClick={cerrarMenu}>Contacto</NavLink></li>
-                            <li className="nav-item"><NavLink to="/mis-pedidos" className="nav-link" onClick={cerrarMenu}>Mis pedidos</NavLink></li>
-                            <li className="nav-item"><NavLink to="/panel" className="nav-link" onClick={cerrarMenu}>Panel</NavLink></li>
+                            {/* cada usuario ve solo la pagina de su rol */}
+                            {(usuario?.rol === 'contratista' || usuario?.rol === 'cliente') && (
+                                <li className="nav-item"><NavLink to="/mis-pedidos" className="nav-link" onClick={cerrarMenu}>Mis pedidos</NavLink></li>
+                            )}
+                            {usuario?.rol === 'admin' && (
+                                <li className="nav-item"><NavLink to="/panel" className="nav-link" onClick={cerrarMenu}>Panel</NavLink></li>
+                            )}
                         </ul>
                     </nav>
                     <div className="d-flex align-items-center gap-3 py-2 py-lg-0">
                         <NavLink to="/carrito" className="nav-link text-light" onClick={cerrarMenu}>
                             Carrito{totalUnidades > 0 && <span className="badge bg-primary text-dark ms-1">{totalUnidades}</span>}
                         </NavLink>
-                        <NavLink to="/login" className="btn btn-primary btn-sm" onClick={cerrarMenu}>Iniciar sesión</NavLink>
+                        {usuario ? (
+                            <>
+                                <span className="text-light small">{usuario.nombre}</span>
+                                <button type="button" className="btn btn-outline-light btn-sm" onClick={cerrarSesion}>Cerrar sesión</button>
+                            </>
+                        ) : (
+                            <NavLink to="/login" className="btn btn-primary btn-sm" onClick={cerrarMenu}>Iniciar sesión</NavLink>
+                        )}
                     </div>
                 </div>
             </div>

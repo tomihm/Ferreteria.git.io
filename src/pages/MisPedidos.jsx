@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { cargarMisPedidos } from '../mocks/misPedidosMocks.js';
+import { useSesion } from '../context/SesionContext.jsx';
 
 function MisPedidos() {
+    const { usuario } = useSesion();
+    const rol = usuario?.rol;
     const [datos, setDatos] = useState(null);
     const [error, setError] = useState(false);
 
     useEffect(() => {
         let activo = true;
-        cargarMisPedidos()
+        cargarMisPedidos(rol)
             .then((datosCargados) => {
                 if (activo) setDatos(datosCargados);
             })
@@ -18,9 +21,10 @@ function MisPedidos() {
         return () => {
             activo = false;
         };
-    }, []);
+    }, [rol]);
 
-    const kpis = datos?.kpis ?? [];
+    const credito = datos?.credito ?? [];
+    const facturas = datos?.facturas ?? [];
     const movimientos = datos?.movimientos ?? [];
     const pedidos = datos?.pedidos ?? [];
 
@@ -29,7 +33,7 @@ function MisPedidos() {
             <section className="pagina-titulo">
                 <div className="container">
                     <h1>Mis pedidos</h1>
-                    <p className="mb-0">Juan Pérez · contratista@correo.cl</p>
+                    <p className="mb-0">{usuario?.nombre} · {usuario?.email}</p>
                 </div>
             </section>
 
@@ -51,45 +55,78 @@ function MisPedidos() {
 
                     {datos && (
                         <>
-                            <h2 className="h4 mb-3">Cuenta corriente</h2>
-                            <div className="row row-cols-2 row-cols-lg-4 g-3 mb-5">
-                                {kpis.map((k) => (
-                                    <div className="col" key={k.label}>
-                                        <div className="card card-body h-100">
-                                            <p className="small text-body-secondary mb-1">{k.label}</p>
-                                            <p className="fs-5 fw-bold mb-0">{k.valor}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-
-                            <h2 className="h4 mb-3">Movimientos de cuenta corriente</h2>
-                            <div className="table-responsive bg-white rounded mb-5">
-                                <table className="table table-hover align-middle mb-0">
-                                    <thead className="table-dark">
-                                        <tr>
-                                            <th>Fecha</th>
-                                            <th>Documento</th>
-                                            <th>Detalle</th>
-                                            <th>Cargo</th>
-                                            <th>Abono</th>
-                                            <th>Saldo</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {movimientos.map((m) => (
-                                            <tr key={m.documento + m.fecha}>
-                                                <td>{m.fecha}</td>
-                                                <td>{m.documento}</td>
-                                                <td>{m.detalle}</td>
-                                                <td>{m.cargo}</td>
-                                                <td>{m.abono}</td>
-                                                <td>{m.saldo}</td>
-                                            </tr>
+                            {/* solo el contratista compra a plazo con credito de la empresa */}
+                            {rol === 'contratista' && (
+                                <>
+                                    <h2 className="h4 mb-3">Crédito en la empresa</h2>
+                                    <div className="row row-cols-2 row-cols-lg-4 g-3 mb-5">
+                                        {credito.map((k) => (
+                                            <div className="col" key={k.label}>
+                                                <div className="card card-body h-100">
+                                                    <p className="small text-body-secondary mb-1">{k.label}</p>
+                                                    <p className="fs-5 fw-bold mb-0">{k.valor}</p>
+                                                </div>
+                                            </div>
                                         ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                                    </div>
+
+                                    <h2 className="h4 mb-3">Facturas</h2>
+                                    <div className="table-responsive bg-white rounded mb-5">
+                                        <table className="table table-hover align-middle mb-0">
+                                            <thead className="table-dark">
+                                                <tr>
+                                                    <th>N° factura</th>
+                                                    <th>Fecha</th>
+                                                    <th>Pedido</th>
+                                                    <th>Monto</th>
+                                                    <th>Vence</th>
+                                                    <th>Estado</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {facturas.map((f) => (
+                                                    <tr key={f.numero}>
+                                                        <td>{f.numero}</td>
+                                                        <td>{f.fecha}</td>
+                                                        <td>{f.pedido}</td>
+                                                        <td><strong>{f.monto}</strong></td>
+                                                        <td>{f.vence}</td>
+                                                        <td><span className={`badge ${f.claseBadge}`}>{f.estado}</span></td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <h2 className="h4 mb-3">Movimientos del crédito</h2>
+                                    <div className="table-responsive bg-white rounded mb-5">
+                                        <table className="table table-hover align-middle mb-0">
+                                            <thead className="table-dark">
+                                                <tr>
+                                                    <th>Fecha</th>
+                                                    <th>Documento</th>
+                                                    <th>Detalle</th>
+                                                    <th>Cargo</th>
+                                                    <th>Abono</th>
+                                                    <th>Saldo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {movimientos.map((m) => (
+                                                    <tr key={m.documento + m.fecha}>
+                                                        <td>{m.fecha}</td>
+                                                        <td>{m.documento}</td>
+                                                        <td>{m.detalle}</td>
+                                                        <td>{m.cargo}</td>
+                                                        <td>{m.abono}</td>
+                                                        <td>{m.saldo}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </>
+                            )}
 
                             <h2 className="h4 mb-3">Historial de pedidos</h2>
 

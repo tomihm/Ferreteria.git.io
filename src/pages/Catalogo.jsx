@@ -52,7 +52,6 @@ function Catalogo() {
             <section className="pagina-titulo">
                 <div className="container">
                     <h1>Catálogo de productos</h1>
-                    <p className="mb-0">Precios y disponibilidad actualizados al 8 de septiembre de 2026.</p>
                 </div>
             </section>
 
@@ -90,13 +89,6 @@ function Catalogo() {
                             </div>
                         </div>
                     </form>
-
-                    <p className="text-body-secondary mb-2">Ir directo a una categoría:</p>
-                    <nav className="d-flex flex-wrap gap-2 mb-2" aria-label="Atajos por categoría">
-                        {categorias.map((c) => (
-                            <a key={c.id} href={`#${c.id}`} className="btn btn-outline-dark btn-sm">{c.nombre}</a>
-                        ))}
-                    </nav>
 
                     {filtrados.length === 0 && (
                         <div className="alert alert-info mt-4">

@@ -21,10 +21,12 @@ function renderTienda() {
 
 const iconoCarrito = () => screen.getByRole('link', { name: /^Carrito/ });
 
-// busca el boton "Agregar al carrito" de la tarjeta que tiene ese codigo
+// busca el boton de agregar de la tarjeta que tiene ese codigo:
+// "Agregar al carrito" la primera vez, y despues el + del contador
 const botonAgregar = (codigo) => {
     const tarjeta = screen.getByText(codigo).closest('article');
-    return within(tarjeta).getByRole('button', { name: 'Agregar al carrito' });
+    return within(tarjeta).queryByRole('button', { name: 'Agregar uno' })
+        ?? within(tarjeta).getByRole('button', { name: 'Agregar al carrito' });
 };
 
 describe('Carrito compartido', () => {
