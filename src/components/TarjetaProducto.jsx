@@ -16,22 +16,22 @@ function TarjetaProducto({ producto }) {
     return (
         <article className="card h-100 producto">
             <div className="producto__foto">
+                <span className="producto__marca">{producto.marca}</span>
                 {porcentaje && <span className="producto__descuento">-{porcentaje}%</span>}
                 {producto.imagen
                     ? <img src={import.meta.env.BASE_URL + producto.imagen} alt={producto.nombre} />
                     : <span aria-hidden="true">{producto.icono}</span>}
             </div>
             <div className="card-body d-flex flex-column">
-                <p className="small text-body-secondary mb-1">{producto.codigo}</p>
-                <h3 className="h6 mb-1">{producto.nombre}</h3>
-                <p className="small text-body-secondary mb-2">{producto.marca}</p>
-                <p className="mb-2">
-                    <span className="fs-5 fw-bold">${producto.precio.toLocaleString('es-CL')}</span>
+                <p className="producto__codigo">{producto.codigo}</p>
+                <h3 className="producto__nombre">{producto.nombre}</h3>
+                <p className="producto__precios">
                     {producto.precioNormal && (
-                        <del className="small text-body-secondary ms-2">
+                        <del>
                             <span className="visually-hidden">Antes </span>${producto.precioNormal.toLocaleString('es-CL')}
                         </del>
                     )}
+                    <span className="producto__precio">${producto.precio.toLocaleString('es-CL')}</span>
                 </p>
 
                 <div className="d-grid gap-2 mt-auto pt-3">

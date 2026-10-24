@@ -52,15 +52,30 @@ function Catalogo() {
 
     return (
         <>
-            <section className="pagina-titulo">
-                <div className="container">
-                    <h1>Catálogo de productos</h1>
+            {/* portada tipo afiche de ofertas */}
+            <section className="catalogo-hero">
+                <div className="container catalogo-hero__contenido">
+                    <ul className="catalogo-hero__franja">
+                        <li>Los Maestros</li>
+                        <li>{catalogo.length} productos</li>
+                        <li>Despacho a 12 km</li>
+                    </ul>
+                    <h1 className="catalogo-hero__titulo">
+                        Catálogo <span className="catalogo-hero__sub">de productos</span>
+                    </h1>
+                    <p className="catalogo-hero__vertical" aria-hidden="true">Ofertas</p>
+                    <button type="button" className="catalogo-hero__sello" onClick={() => cambiarFiltro('ofertas', '1')}>
+                        <span>Hasta</span>
+                        <strong>25%</strong>
+                        <span>off</span>
+                        <span className="visually-hidden"> en productos de oferta, ver ofertas</span>
+                    </button>
                 </div>
             </section>
 
-            <section className="py-5">
+            <section className="pb-5">
                 <div className="container">
-                    <form className="card card-body mb-4" onSubmit={(e) => e.preventDefault()}>
+                    <form className="filtros" onSubmit={(e) => e.preventDefault()}>
                         <div className="row g-3 align-items-end">
                             <div className="col-md-6 col-lg-5">
                                 <label htmlFor="buscar" className="form-label">Buscar producto</label>
@@ -108,7 +123,10 @@ function Catalogo() {
 
                     {categorias.filter((c) => filtrados.some((p) => p.categoria === c.id)).map((c) => (
                         <div key={c.id}>
-                            <h2 className="categoria-titulo" id={c.id}>{c.nombre}</h2>
+                            <h2 className="categoria-titulo" id={c.id}>
+                                <span className="etiqueta">{c.nombre}</span>
+                                <span className="categoria-titulo__cuenta">{filtrados.filter((p) => p.categoria === c.id).length} productos</span>
+                            </h2>
                             <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
                                 {filtrados.filter((p) => p.categoria === c.id).map((p) => (
                                     <div className="col" key={p.codigo}>

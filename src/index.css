@@ -459,18 +459,149 @@ a:focus-visible { outline: 3px solid var(--naranja-oscuro); outline-offset: 2px;
 }
 
 /* ---------------- CATALOGO Y PRODUCTO ---------------- */
+/* portada del catalogo como afiche de ofertas: naranja con lineas, esquina negra y sello */
+.catalogo-hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    repeating-radial-gradient(circle at 85% 140%, transparent 0 22px, rgba(0, 0, 0, .07) 22px 24px),
+    var(--naranja);
+  color: var(--gris-900);
+  margin-bottom: 32px;
+}
+/* esquina negra en diagonal arriba a la izquierda */
+.catalogo-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 220px;
+  height: 120px;
+  background: var(--gris-900);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+.catalogo-hero__contenido { position: relative; padding-top: 40px; padding-bottom: 48px; }
+.catalogo-hero__franja {
+  display: inline-flex;
+  gap: 10px;
+  margin: 0 0 18px auto;
+  float: right;
+  background: var(--gris-900);
+  color: var(--blanco);
+  font-family: var(--fuente-titulos);
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  padding: 6px 14px;
+}
+.catalogo-hero__franja { list-style: none; white-space: nowrap; }
+.catalogo-hero__franja li + li::before { content: "|"; color: var(--naranja); margin-right: 10px; }
+.catalogo-hero__titulo {
+  clear: both;
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(3.2rem, 11vw, 7.5rem);
+  font-weight: 800;
+  line-height: .9;
+  letter-spacing: -.03em;
+  text-transform: uppercase;
+  color: var(--blanco);
+  text-shadow: 0 4px 0 rgba(0, 0, 0, .12);
+  margin: 0;
+  max-width: 80%;
+}
+.catalogo-hero__sub { font-size: .32em; letter-spacing: .02em; color: var(--gris-900); text-shadow: none; margin-top: 10px; }
+/* palabra parada al costado, como el "SALE" del afiche */
+.catalogo-hero__vertical {
+  position: absolute;
+  right: 12px;
+  top: 92px;
+  writing-mode: vertical-rl;
+  font-family: var(--fuente-titulos);
+  font-size: 2.4rem;
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--gris-900);
+  margin: 0;
+}
+@media (min-width: 768px) { .catalogo-hero__contenido { min-height: 360px; } }
+/* sello blanco de descuento */
+.catalogo-hero__sello {
+  position: absolute;
+  right: 110px;
+  bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 112px;
+  height: 112px;
+  border: 4px solid var(--gris-900);
+  border-radius: 50%;
+  background: var(--blanco);
+  color: var(--gris-900);
+  font-family: var(--fuente-titulos);
+  font-size: .72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1;
+  transform: rotate(-10deg);
+  transition: transform .2s;
+}
+.catalogo-hero__sello strong { font-size: 2rem; color: var(--naranja-oscuro); margin: 2px 0; }
+.catalogo-hero__sello:hover { transform: rotate(0deg) scale(1.05); }
+@media (max-width: 767.98px) {
+  .catalogo-hero::before { width: 120px; height: 64px; }
+  .catalogo-hero__franja { float: none; font-size: .65rem; margin-bottom: 14px; }
+  .catalogo-hero__franja li:first-child { display: none; }
+  .catalogo-hero__franja li:nth-child(2)::before { content: none; }
+  .categoria-titulo { font-size: .85rem; }
+  .categoria-titulo__cuenta { display: none; }
+  .categoria-titulo .etiqueta { white-space: nowrap; }
+  .catalogo-hero__titulo { max-width: none; }
+  .catalogo-hero__vertical { display: none; }
+  .catalogo-hero__sello { position: relative; right: auto; bottom: auto; margin-top: 20px; width: 92px; height: 92px; }
+}
+@media (prefers-reduced-motion: reduce) { .catalogo-hero__sello { transition: none; } }
+
+/* barra de filtros blanca */
+.filtros {
+  background: var(--blanco);
+  border: 1px solid var(--gris-200);
+  border-top: 4px solid var(--gris-900);
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 8px;
+}
+.filtros .form-label { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+
+/* etiqueta negra con la esquina cortada, como el "PRODUCT NAME" del afiche */
+.etiqueta {
+  display: inline-block;
+  background: var(--gris-900);
+  color: var(--blanco);
+  font-family: var(--fuente-titulos);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  padding: 8px 28px 8px 14px;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+}
 .categoria-titulo {
-  font-size: 1.4rem;
-  border-bottom: 3px solid var(--naranja);
-  padding-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.05rem;
+  border-bottom: 3px solid var(--gris-900);
   margin: 40px 0 20px;
   scroll-margin-top: 24px;
 }
+.categoria-titulo__cuenta { font-family: var(--fuente-base, inherit); font-size: .8rem; font-weight: 600; color: #666; }
 
-/* tarjeta de producto con esquinas casi rectas y botones en mayuscula */
+/* tarjeta de producto: marca en etiqueta negra, acento naranja bajo la foto y precio grande */
 .producto { background: var(--blanco); border-radius: 4px; border-color: var(--gris-200); transition: box-shadow .2s, border-color .2s; }
 .producto:hover { border-color: var(--gris-900); box-shadow: 0 12px 24px rgba(0, 0, 0, .08); }
-.producto h3 { font-family: var(--fuente-titulos); font-weight: 700; }
 .producto .btn {
   font-family: var(--fuente-titulos);
   font-size: .72rem;
@@ -481,6 +612,11 @@ a:focus-visible { outline: 3px solid var(--naranja-oscuro); outline-offset: 2px;
   padding-block: 10px;
 }
 .producto .contador .btn { font-size: 1.1rem; }
+.producto__codigo { font-size: .72rem; color: #666; letter-spacing: .04em; margin-bottom: 4px; }
+.producto__nombre { font-family: var(--fuente-titulos); font-size: 1rem; font-weight: 700; line-height: 1.25; margin-bottom: 10px; }
+.producto__precios { display: flex; flex-direction: column; margin: 0; }
+.producto__precios del { font-size: .8rem; color: #777; }
+.producto__precio { font-family: var(--fuente-titulos); font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
 
 /* foto del producto, los que no tienen foto muestran su icono */
 .producto__foto {
@@ -494,18 +630,50 @@ a:focus-visible { outline: 3px solid var(--naranja-oscuro); outline-offset: 2px;
   border-bottom: 1px solid var(--gris-200);
   overflow: hidden;
 }
-/* porcentaje de descuento en la esquina de la foto */
+/* franja naranja en diagonal bajo la foto */
+.producto__foto::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 45%;
+  height: 7px;
+  background: var(--naranja);
+  clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%);
+}
+.producto__marca {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  background: var(--gris-900);
+  color: var(--blanco);
+  font-family: var(--fuente-titulos);
+  font-size: .68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding: 6px 22px 6px 12px;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+}
+/* porcentaje de descuento como sello redondo */
 .producto__descuento {
   position: absolute;
   top: 10px;
-  left: 10px;
+  right: 10px;
   z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
   background: var(--naranja);
   color: var(--gris-900);
+  font-family: var(--fuente-titulos);
   font-weight: 800;
   font-size: .85rem;
-  padding: 3px 8px;
-  border-radius: 4px;
+  transform: rotate(-10deg);
 }
 /* la foto ocupa todo el cuadro pero se achica entera, sin cortarse */
 .producto__foto img {
@@ -514,7 +682,7 @@ a:focus-visible { outline: 3px solid var(--naranja-oscuro); outline-offset: 2px;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  padding: 12px;
+  padding: 28px 12px 16px;
   background: var(--blanco);
 }
 
