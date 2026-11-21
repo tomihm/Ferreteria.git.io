@@ -1,6 +1,6 @@
 import { pedir } from './cliente.js';
 import { estadoDelPedido, estadosPedido, fecha, formaDePago, peso } from './formatos.js';
-import { leerMensajes } from '../mocks/mensajesMocks.js';
+import { cargarMensajes } from './mensajes.js';
 
 const roles = { ADMIN: 'Administrador', VENDEDOR: 'Vendedor', CONTRATISTA: 'Contratista', CLIENTE: 'Cliente' };
 
@@ -22,12 +22,13 @@ function ranking(facturas, clave, valores) {
 }
 
 export async function cargarPanel() {
-    const [productos, inventario, facturas, usuarios, creditos] = await Promise.all([
+    const [productos, inventario, facturas, usuarios, creditos, mensajes] = await Promise.all([
         pedir('/api/productos?size=500'),
         pedir('/api/inventario?size=500'),
         pedir('/api/facturas?size=500'),
         pedir('/api/usuarios?size=500'),
-        pedir('/api/credito')
+        pedir('/api/credito'),
+        cargarMensajes()
     ]);
 
     const precioPorSku = Object.fromEntries(productos.content.map((p) => [p.sku, p.precio]));
@@ -80,7 +81,7 @@ export async function cargarPanel() {
         masVendidos: masVendidos.map((m, i) => ({ puesto: i + 1, producto: m.producto, unidades: m.cantidad.toLocaleString('es-CL'), monto: peso(m.monto) })),
         clientesFrecuentes: clientesFrecuentes.map((c, i) => ({ puesto: i + 1, cliente: c.cliente, pedidos: c.cantidad, total: peso(c.monto) })),
         porCobrar: creditos.filter((c) => c.saldo > 0).map((c) => ({ rut: c.rut ?? '—', cliente: c.nombre, telefono: c.telefono ?? '—', saldo: peso(c.saldo) })),
-        mensajes: leerMensajes()
+        mensajes
     };
 }
 

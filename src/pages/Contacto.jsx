@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Validar from '../utils/validaciones.js';
 import MapaCobertura from '../components/MapaCobertura.jsx';
-import { enviarMensaje } from '../mocks/mensajesMocks.js';
+import { enviarMensaje } from '../api/mensajes.js';
 
 const formInicial = {
     nombre: '',
@@ -46,7 +46,7 @@ function Contacto() {
         validarCampo(e.target.name, e.target.value);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const nuevosErrores = {};
@@ -61,10 +61,14 @@ function Contacto() {
         }
 
         // queda guardado para que el admin lo vea en el panel
-        enviarMensaje(form);
-        setAviso({ tipo: 'exito', texto: 'Mensaje enviado. Te contactaremos al correo que dejaste.' });
-        setForm(formInicial);
-        setErrores({});
+        try {
+            await enviarMensaje(form);
+            setAviso({ tipo: 'exito', texto: 'Mensaje enviado. Te contactaremos al correo que dejaste.' });
+            setForm(formInicial);
+            setErrores({});
+        } catch (error) {
+            setAviso({ tipo: 'error', texto: error.message });
+        }
     };
 
     // base es form-control o form-select segun el campo

@@ -5,6 +5,10 @@ import Contacto from './Contacto.jsx';
 import Validar from '../utils/validaciones.js';
 
 // Se reemplazan las validaciones para probar solo el comportamiento del formulario
+vi.mock('../api/mensajes.js', () => ({
+    enviarMensaje: async () => ({ id: 1 })
+}));
+
 vi.mock('../utils/validaciones.js', () => ({
     default: {
         requerido: vi.fn(),

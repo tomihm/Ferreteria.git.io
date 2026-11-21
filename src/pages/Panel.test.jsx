@@ -25,6 +25,7 @@ const usuarios = [
 const creditos = [{ usuarioId: 2, nombre: 'Juan Pérez', rut: '33.333.333-3', telefono: '+56911223344', cupo: 500000, saldo: 78960, disponible: 421040 }];
 
 let enviados = [];
+let mensajes = [];
 
 function backendResponde() {
     vi.stubGlobal('fetch', (url, opciones = {}) => {
@@ -37,7 +38,8 @@ function backendResponde() {
             '/api/inventario': { content: inventario },
             '/api/facturas': { content: facturas },
             '/api/usuarios': { content: usuarios },
-            '/api/credito': creditos
+            '/api/credito': creditos,
+            '/api/mensajes': { content: mensajes }
         };
         const ruta = new URL(url).pathname;
         return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(respuestas[ruta]) });
@@ -57,6 +59,7 @@ describe('Panel', () => {
     beforeEach(() => {
         localStorage.clear();
         enviados = [];
+        mensajes = [];
     });
 
     afterEach(() => vi.unstubAllGlobals());
@@ -162,13 +165,14 @@ describe('Panel', () => {
     });
 
     it('muestra los mensajes enviados desde contacto', async () => {
-        localStorage.setItem('mensajes', JSON.stringify([
-            { id: 'm-9', fecha: '23-10-2026', nombre: 'Pedro Soto', email: 'pedro@correo.cl', telefono: '+56912345678', motivo: 'Otro', mensaje: 'Hola, consulta de prueba para el panel.' }
-        ]));
+        mensajes = [
+            { id: 9, fecha: '2026-10-23T10:00:00', nombre: 'Pedro Soto', email: 'pedro@correo.cl', telefono: '+56912345678', motivo: 'Otro', mensaje: 'Hola, consulta de prueba para el panel.' }
+        ];
         await renderPanel();
         await irA('Mensajes');
 
         expect(screen.getByText('Hola, consulta de prueba para el panel.')).toBeInTheDocument();
+        expect(screen.getByText('23-10-2026')).toBeInTheDocument();
     });
 
     it('los roles son los mismos del backend', async () => {
