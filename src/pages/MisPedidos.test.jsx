@@ -17,7 +17,7 @@ const facturasContratista = [
 ];
 
 const facturasCliente = [
-    { numero: 1003, fecha: '2026-09-01T10:00:00', estado: 'EMITIDA', estadoPedido: 'PENDIENTE', formaPago: 'WEBPAY', entrega: 'Retiro en tienda', pagada: true, total: 13740,
+    { numero: 1003, fecha: '2026-09-01T10:00:00', estado: 'EMITIDA', estadoPedido: 'PENDIENTE', formaPago: 'WEBPAY', entrega: 'Despacho a Los Aromos 455', pagada: true, total: 20730, costoDespacho: 6990,
         lineas: [linea('Silicona Transparente 280ml', 2, 4290), linea('Cinta Aisladora Negra 20m', 4, 1290)] }
 ];
 
@@ -94,7 +94,8 @@ describe('MisPedidos del cliente', () => {
 
     it('solo ve sus pedidos, sin credito ni facturas', async () => {
         await renderMisPedidos(cliente, '#1003');
-        expect(screen.getByText('Total: $13.740')).toBeInTheDocument();
+        expect(screen.getByText('Total: $20.730')).toBeInTheDocument();
+        expect(screen.getByText('Despacho')).toBeInTheDocument();
         expect(screen.getByText('Webpay')).toBeInTheDocument();
         expect(screen.getByText('Pendiente')).toBeInTheDocument();
         expect(screen.queryByRole('heading', { name: 'Crédito en la empresa' })).not.toBeInTheDocument();

@@ -1,13 +1,14 @@
 import { pedir } from './cliente.js';
 import { estadoDelPedido, fecha, fechaLarga, formaDePago, peso } from './formatos.js';
 
-export function emitirPedido({ usuarioId, items, credito, entrega }) {
+export function emitirPedido({ usuarioId, items, credito, entrega, despacho = false }) {
     return pedir('/api/facturas', {
         metodo: 'POST',
         cuerpo: {
             usuarioId,
             formaPago: credito ? 'CREDITO' : 'WEBPAY',
             entrega,
+            despacho,
             lineas: items.map((item) => ({ sku: item.codigo, cantidad: Number(item.cantidad) }))
         }
     });
@@ -32,12 +33,17 @@ function aPedido(factura) {
         claseBadge: estado.clase,
         pago: formaDePago(factura),
         total: peso(factura.total),
-        items: factura.lineas.map((linea) => ({
-            producto: linea.nombreProducto,
-            cantidad: linea.cantidad,
-            precio: peso(linea.precioUnitario),
-            subtotal: peso(linea.subtotal)
-        }))
+        items: [
+            ...factura.lineas.map((linea) => ({
+                producto: linea.nombreProducto,
+                cantidad: linea.cantidad,
+                precio: peso(linea.precioUnitario),
+                subtotal: peso(linea.subtotal)
+            })),
+            ...(factura.costoDespacho > 0
+                ? [{ producto: 'Despacho', cantidad: 1, precio: peso(factura.costoDespacho), subtotal: peso(factura.costoDespacho) }]
+                : [])
+        ]
     };
 }
 

@@ -163,6 +163,7 @@ function Carrito() {
                 usuarioId: usuario.id,
                 items,
                 credito: usarCC,
+                despacho: entrega === 'despacho',
                 entrega: entrega === 'despacho' ? `Despacho a ${direccion.trim()}` : 'Retiro en tienda'
             });
             vaciar();

@@ -170,7 +170,7 @@ describe('Carrito', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Confirmar pedido' }));
 
         expect(await screen.findByText('Pedido #15 confirmado. Puedes seguirlo en Mis pedidos.')).toBeInTheDocument();
-        expect(servidor.pedidos[0]).toMatchObject({ usuarioId: 4, credito: false, entrega: 'Despacho a Los Aromos 455, Coquimbo' });
+        expect(servidor.pedidos[0]).toMatchObject({ usuarioId: 4, credito: false, despacho: true, entrega: 'Despacho a Los Aromos 455, Coquimbo' });
         expect(JSON.parse(localStorage.getItem('carrito'))).toEqual([]);
     });
 
@@ -189,7 +189,7 @@ describe('Carrito', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Confirmar pedido' }));
 
         await screen.findByText(/Pedido #15 confirmado/);
-        expect(servidor.pedidos[0]).toMatchObject({ credito: true, entrega: 'Retiro en tienda' });
+        expect(servidor.pedidos[0]).toMatchObject({ credito: true, despacho: false, entrega: 'Retiro en tienda' });
     });
 
     it('muestra el error del servidor y no vacia el carrito', async () => {
