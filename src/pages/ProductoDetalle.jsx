@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { catalogo } from '../products/catalogo.js';
+import { useCatalogo } from '../context/CatalogoContext.jsx';
 import { Link } from 'react-router-dom';
 import { useCarrito } from '../context/CarritoContext.jsx';
 import { estadoStock } from '../utils/stock.js';
@@ -18,6 +18,7 @@ function ProductoDetalle() {
 
     const { id } = useParams();
     const { agregar } = useCarrito();
+    const catalogo = useCatalogo();
 
     const producto = catalogo.find((p) => p.id === id);
 

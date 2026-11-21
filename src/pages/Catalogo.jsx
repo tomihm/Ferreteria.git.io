@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { catalogo } from "../products/catalogo.js";
+import { useCatalogo } from "../context/CatalogoContext.jsx";
 import { categorias } from "../products/categorias.js";
 import TarjetaProducto from "../components/TarjetaProducto.jsx";
 
@@ -14,6 +14,7 @@ const ordenes = {
 function Catalogo() {
     const { hash } = useLocation();
     const [orden, setOrden] = useState('nombre');
+    const catalogo = useCatalogo();
 
     // busqueda, categoria y ofertas van en la url, asi el buscador del header puede llegar con filtros
     const [params, setParams] = useSearchParams();

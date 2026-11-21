@@ -70,7 +70,7 @@ const productos = [
 ];
 
 // id para la url del detalle: nombre en minusculas, sin tildes ni simbolos
-function crearId(nombre) {
+export function crearId(nombre) {
     return nombre
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')

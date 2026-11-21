@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { catalogo } from '../products/catalogo.js';
+import { useCatalogo } from './CatalogoContext.jsx';
 
 const CarritoContext = createContext(null);
 
@@ -17,6 +17,7 @@ function leerCarritoGuardado() {
 
 export function CarritoProvider({ children }) {
     const [items, setItems] = useState(leerCarritoGuardado);
+    const catalogo = useCatalogo();
 
     useEffect(() => {
         try {

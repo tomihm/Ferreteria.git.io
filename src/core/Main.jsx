@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { catalogo } from '../products/catalogo.js';
+import { useCatalogo } from '../context/CatalogoContext.jsx';
 import { categorias } from '../products/categorias.js';
 import { descuento } from '../utils/ofertas.js';
 import TarjetaProducto from '../components/TarjetaProducto.jsx';
@@ -34,14 +34,6 @@ const chips = [
   { id: 'general', nombre: 'Seguridad y ferretería' },
 ];
 
-// las cuatro ofertas con mas descuento van en la franja naranja
-const ofertasDestacadas = catalogo
-  .filter((p) => p.precioNormal)
-  .sort((a, b) => descuento(b) - descuento(a))
-  .slice(0, 4);
-
-const productoHero = catalogo.find((p) => p.codigo === 'HER-003');
-
 function IconoCamion() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -68,6 +60,15 @@ function IconoTarjeta() {
 
 function Main() {
   const [chip, setChip] = useState('');
+  const catalogo = useCatalogo();
+
+  // las cuatro ofertas con mas descuento van en la franja naranja
+  const ofertasDestacadas = catalogo
+    .filter((p) => p.precioNormal)
+    .sort((a, b) => descuento(b) - descuento(a))
+    .slice(0, 4);
+
+  const productoHero = catalogo.find((p) => p.codigo === 'HER-003') ?? catalogo[0];
 
   const destacados = chip === ''
     ? catalogo.filter((p) => masPedidos.includes(p.codigo))
