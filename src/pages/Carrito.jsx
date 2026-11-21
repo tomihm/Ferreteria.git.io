@@ -5,6 +5,7 @@ import { useCarrito } from '../context/CarritoContext.jsx';
 import { useSesion } from '../context/SesionContext.jsx';
 import { revisarDireccion, RADIO_DESPACHO_KM } from '../utils/despacho.js';
 import BuscadorDireccion from '../components/BuscadorDireccion.jsx';
+import { emitirPedido } from '../api/pedidos.js';
 
 const DESPACHO_GRATIS_DESDE = 150000;
 const COSTO_DESPACHO = 6990;
@@ -51,6 +52,7 @@ function Carrito() {
     const [usarCC, setUsarCC] = useState(false);
     const [errorDireccion, setErrorDireccion] = useState(null);
     const [aviso, setAviso] = useState(null);
+    const [enviando, setEnviando] = useState(false);
     // resultado de revisar la direccion con el mapa ({ estado, km })
     const [revision, setRevision] = useState(null);
     // la ultima consulta al mapa ({ texto, promesa }); si se pide la misma direccion se reutiliza
@@ -150,8 +152,25 @@ function Carrito() {
             }
         }
 
-        // TODO: conectar con el backend
-        setAviso({ tipo: 'exito', texto: 'Pedido válido. La confirmación se conectará al backend en la siguiente etapa.' });
+        if (!usuario) {
+            setAviso({ tipo: 'error', texto: 'Inicia sesión para confirmar tu pedido.' });
+            return;
+        }
+
+        setEnviando(true);
+        try {
+            const factura = await emitirPedido({
+                usuarioId: usuario.id,
+                items,
+                credito: usarCC,
+                entrega: entrega === 'despacho' ? `Despacho a ${direccion.trim()}` : 'Retiro en tienda'
+            });
+            vaciar();
+            setAviso({ tipo: 'exito', texto: `Pedido #${factura.numero} confirmado. Puedes seguirlo en Mis pedidos.` });
+        } catch (error) {
+            setAviso({ tipo: 'error', texto: error.message });
+        }
+        setEnviando(false);
     };
 
     return (
@@ -276,7 +295,7 @@ function Carrito() {
                                 {usuario && (
                                     <div className="mb-3">
                                         <p className="compra__etiqueta">Comprador</p>
-                                        <p className="compra__dato">{usuario.nombre}{usuario.correo && <span> · {usuario.correo}</span>}</p>
+                                        <p className="compra__dato">{usuario.nombre}{usuario.email && <span> · {usuario.email}</span>}</p>
                                     </div>
                                 )}
 
@@ -326,7 +345,7 @@ function Carrito() {
                                     <div className="totales__total"><dt>Total</dt><dd>{formatoPeso(total)}</dd></div>
                                 </dl>
 
-                                <button type="submit" className="btn btn-dark btn-lg w-100 compra__pagar">Confirmar pedido</button>
+                                <button type="submit" className="btn btn-dark btn-lg w-100 compra__pagar" disabled={enviando}>Confirmar pedido</button>
                             </form>
 
                             {aviso && (

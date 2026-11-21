@@ -6,6 +6,18 @@ import Carrito from './Carrito.jsx';
 import { CarritoProvider } from '../context/CarritoContext.jsx';
 import { SesionProvider } from '../context/SesionContext.jsx';
 
+const servidor = vi.hoisted(() => ({ pedidos: [], error: null }));
+
+vi.mock('../api/pedidos.js', () => ({
+    emitirPedido: async (pedido) => {
+        if (servidor.error) throw servidor.error;
+        servidor.pedidos.push(pedido);
+        return { numero: 15 };
+    }
+}));
+
+const conSesion = (rol = 'cliente') => localStorage.setItem('sesion', JSON.stringify({ id: 4, nombre: 'María Rojas', rol }));
+
 const itemsPrueba = [
     { codigo: 'CON-001', icono: '🧱', nombre: 'Saco de Cemento Melón 25kg', marca: 'Melón', precio: 5490, cantidad: 20, stock: 120 },
     { codigo: 'MAN-001', icono: '🔨', nombre: 'Martillo Carpintero 16oz', marca: 'Bahco', precio: 7990, cantidad: 3, stock: 45 }
@@ -54,6 +66,8 @@ describe('Carrito', () => {
     beforeEach(() => {
         localStorage.clear();
         mapaResponde(CERCA);
+        servidor.pedidos = [];
+        servidor.error = null;
     });
 
     afterEach(() => vi.unstubAllGlobals());
@@ -149,12 +163,43 @@ describe('Carrito', () => {
     });
 
     it('confirma el pedido si todo es valido', async () => {
+        conSesion();
         renderCarrito();
         await userEvent.click(screen.getByRole('radio', { name: /Despacho a domicilio/ }));
         await userEvent.type(screen.getByLabelText('Dirección de entrega'), 'Los Aromos 455, Coquimbo');
         await userEvent.click(screen.getByRole('button', { name: 'Confirmar pedido' }));
 
-        expect(await screen.findByText(/pedido válido/i)).toBeInTheDocument();
+        expect(await screen.findByText('Pedido #15 confirmado. Puedes seguirlo en Mis pedidos.')).toBeInTheDocument();
+        expect(servidor.pedidos[0]).toMatchObject({ usuarioId: 4, credito: false, entrega: 'Despacho a Los Aromos 455, Coquimbo' });
+        expect(JSON.parse(localStorage.getItem('carrito'))).toEqual([]);
+    });
+
+    it('pide iniciar sesion antes de confirmar', async () => {
+        renderCarrito();
+        await userEvent.click(screen.getByRole('button', { name: 'Confirmar pedido' }));
+
+        expect(screen.getByRole('alert')).toHaveTextContent('Inicia sesión para confirmar tu pedido.');
+        expect(servidor.pedidos).toHaveLength(0);
+    });
+
+    it('el contratista puede pagar con su credito', async () => {
+        conSesion('contratista');
+        renderCarrito();
+        await userEvent.click(screen.getByLabelText('Pagar con mi crédito a 30 días'));
+        await userEvent.click(screen.getByRole('button', { name: 'Confirmar pedido' }));
+
+        await screen.findByText(/Pedido #15 confirmado/);
+        expect(servidor.pedidos[0]).toMatchObject({ credito: true, entrega: 'Retiro en tienda' });
+    });
+
+    it('muestra el error del servidor y no vacia el carrito', async () => {
+        conSesion('contratista');
+        servidor.error = new Error('Cupo insuficiente: disponible $1000, compra $133.780');
+        renderCarrito();
+        await userEvent.click(screen.getByRole('button', { name: 'Confirmar pedido' }));
+
+        expect(await screen.findByText(/Cupo insuficiente/)).toBeInTheDocument();
+        expect(JSON.parse(localStorage.getItem('carrito'))).toHaveLength(2);
     });
 
     it('al salir del campo dice si la direccion esta dentro del radio', async () => {
