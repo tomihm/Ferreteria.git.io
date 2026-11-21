@@ -1,4 +1,7 @@
-const URL_API = (import.meta.env.VITE_API_URL ?? 'http://localhost:8080').replace(/\/$/, '');
+function urlApi() {
+    const url = window.CONFIG?.API_URL || import.meta.env.VITE_API_URL || 'http://localhost:8080';
+    return url.replace(/\/$/, '');
+}
 
 function leerToken() {
     try {
@@ -16,7 +19,7 @@ export async function pedir(ruta, { metodo = 'GET', cuerpo } = {}) {
 
     let respuesta;
     try {
-        respuesta = await fetch(`${URL_API}${ruta}`, {
+        respuesta = await fetch(`${urlApi()}${ruta}`, {
             method: metodo,
             headers,
             body: cuerpo !== undefined ? JSON.stringify(cuerpo) : undefined

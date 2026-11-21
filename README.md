@@ -17,7 +17,7 @@ Sitio publicado: https://tomihm.github.io/Ferreteria.git.io/
 - React Router (`react-router-dom`)
 - Vitest + Testing Library para las pruebas
 - Backend Spring Boot (repo `backend_ferreteria`) con la API REST
-- AWS S3 (sitio estático) para el despliegue, y GitHub Pages como respaldo
+- AWS S3 (sitio estático) o GitHub Pages para el despliegue
 
 ## Páginas
 
@@ -57,7 +57,7 @@ npm run dev
 
 El sitio queda en http://localhost:5173/
 
-Para que el login, los pedidos y el panel funcionen tiene que estar corriendo el backend en http://localhost:8080 (ver su README). Si el backend está en otra dirección, copia `.env.example` como `.env.local` y cambia `VITE_API_URL`.
+Para que el login, los pedidos y el panel funcionen tiene que estar corriendo el backend en http://localhost:8080 (ver su README). Si el backend está en otra dirección, copia `.env.example` como `.env.local` y cambia `VITE_API_URL` (en producción manda `config.js`).
 
 ## Pruebas
 
@@ -68,7 +68,9 @@ npm test -- --run   # una sola vez
 
 ## Despliegue en AWS (S3)
 
-El backend va en una EC2 por `http://<IP>:8080`. El frontend se publica como sitio estático en un bucket S3, que también es `http://`: si el sitio se sirviera por `https` (como GitHub Pages), el navegador bloquearía las llamadas al backend.
+El backend va en una EC2 con HTTPS (`https://<ip-con-guiones>.sslip.io`, ver `DEPLOY.md` del backend). Como el backend tiene HTTPS, el sitio funciona igual desde S3 o desde GitHub Pages.
+
+La dirección del backend no queda dentro del build: se lee de `config.js`, que está al lado de `index.html`. Si la dirección cambia, basta con cambiar ese archivo, sin recompilar.
 
 1. Crear el bucket y dejarlo público como sitio web (una sola vez, con la AWS CLI del Learner Lab):
 
@@ -81,19 +83,27 @@ aws s3 website s3://$BUCKET --index-document index.html --error-document index.h
 aws s3api put-bucket-policy --bucket $BUCKET --policy "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"s3:GetObject\",\"Resource\":\"arn:aws:s3:::$BUCKET/*\"}]}"
 ```
 
-2. Compilar con la IP pública de la EC2 y subir:
+2. Compilar, poner la dirección del backend y subir:
 
 ```bash
-VITE_API_URL=http://<IP-PUBLICA-EC2>:8080 npm run build:s3
+npm run build:s3
+echo "window.CONFIG = { API_URL: 'https://<ip-con-guiones>.sslip.io' };" > dist/config.js
 aws s3 sync dist s3://$BUCKET --delete
 ```
 
-3. El sitio queda en `http://$BUCKET.s3-website-us-east-1.amazonaws.com`. Esa misma URL va en `CORS_ORIGIN` del `app.env` del backend.
+3. El sitio queda en `http://$BUCKET.s3-website-us-east-1.amazonaws.com`. Esa URL va en `CORS_ORIGIN` del `app.env` del backend.
+
+Para cambiar solo la dirección del backend:
+
+```bash
+echo "window.CONFIG = { API_URL: 'https://<nueva-ip-con-guiones>.sslip.io' };" > config.js
+aws s3 cp config.js s3://$BUCKET/config.js --cache-control no-cache
+```
 
 `--error-document index.html` hace que al recargar `/catalogo` o `/panel` cargue la aplicación en vez de dar error.
-Si se reinicia el laboratorio cambia la IP de la EC2: hay que repetir el paso 2 (o usar una Elastic IP).
 
 ## GitHub Pages
 
 Cada push a `main` ejecuta el workflow `.github/workflows/deploy.yml`, que instala las dependencias, corre las pruebas y, si pasan, compila y publica el sitio en GitHub Pages.
-Si alguna prueba falla, el sitio no se actualiza. En Pages el catálogo se ve con los datos locales; el login y las compras necesitan el sitio en S3.
+Si alguna prueba falla, el sitio no se actualiza.
+La dirección del backend se configura en **Settings → Secrets and variables → Actions → Variables** con el nombre `API_URL` (por ejemplo `https://54-12-34-56.sslip.io`); el workflow la escribe en `config.js`. `https://tomihm.github.io` tiene que estar en `CORS_ORIGIN` del backend.

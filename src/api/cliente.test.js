@@ -25,6 +25,17 @@ describe('pedir', () => {
         expect(JSON.parse(opciones.body)).toEqual({ usuarioId: 1 });
     });
 
+    it('usa la direccion de config.js si esta definida', async () => {
+        window.CONFIG = { API_URL: 'https://api.ejemplo.cl/' };
+        const fetchFalso = vi.fn(() => respuesta(200, {}));
+        vi.stubGlobal('fetch', fetchFalso);
+
+        await pedir('/api/productos');
+
+        expect(fetchFalso.mock.calls[0][0]).toBe('https://api.ejemplo.cl/api/productos');
+        delete window.CONFIG;
+    });
+
     it('usa el mensaje del backend cuando falla', async () => {
         vi.stubGlobal('fetch', () => respuesta(409, { mensaje: 'Stock insuficiente' }));
 
