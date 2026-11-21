@@ -2,10 +2,10 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import MisPedidos from './MisPedidos.jsx';
-import { cargarMisPedidos } from '../mocks/misPedidosMocks.js';
+import { cargarMisPedidos } from '../api/pedidos.js';
 
 // se reemplaza la carga para probar el estado de carga y el de error
-vi.mock('../mocks/misPedidosMocks.js', () => ({
+vi.mock('../api/pedidos.js', () => ({
     cargarMisPedidos: vi.fn(),
 }));
 

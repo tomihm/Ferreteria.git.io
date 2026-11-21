@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { cargarMisPedidos } from '../mocks/misPedidosMocks.js';
+import { cargarMisPedidos } from '../api/pedidos.js';
 import { useSesion } from '../context/SesionContext.jsx';
 
 function MisPedidos() {
