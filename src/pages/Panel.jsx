@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { cargarPanel } from '../mocks/panelMocks.js';
+import { asignarCupo, cambiarEstadoPedido as guardarEstadoPedido, cambiarRol as guardarRol, cargarPanel, guardarStock as guardarStockApi, registrarPago } from '../api/panel.js';
 import { useSesion } from '../context/SesionContext.jsx';
 
 function estadoInventario(item) {
@@ -64,17 +64,37 @@ function Panel() {
         ));
     };
 
-    const guardarStock = (item) => {
-        setAviso(`Stock de "${item.producto}" actualizado a ${item.stock} unidades.`);
+    const avisar = (promesa, texto) => promesa
+        .then(() => setAviso({ tipo: 'exito', texto }))
+        .catch((e) => setAviso({ tipo: 'error', texto: e.message }));
+
+    const guardarStock = (item) => avisar(
+        guardarStockApi(item),
+        `Stock de "${item.producto}" actualizado a ${item.stock} unidades.`
+    );
+
+    const cambiarEstadoPedido = (pedido, estado) => {
+        setPedidos(pedidos.map((p) => (p.id === pedido.id ? { ...p, estado } : p)));
+        avisar(guardarEstadoPedido(pedido.id, estado), `Pedido ${pedido.numero} quedó ${estado.toLowerCase()}.`);
     };
 
-    const cambiarEstadoPedido = (numero, estado) => {
-        setPedidos(pedidos.map((p) => (p.numero === numero ? { ...p, estado } : p)));
+    const pagarPedido = (pedido) => avisar(
+        registrarPago(pedido.id).then(() => {
+            setPedidos(pedidos.map((p) => (p.id === pedido.id ? { ...p, porPagar: false } : p)));
+        }),
+        `Pago del pedido ${pedido.numero} registrado.`
+    );
+
+    const cambiarRol = (usuarioElegido, rol) => {
+        setUsuarios(usuarios.map((u) => (u.id === usuarioElegido.id ? { ...u, rol } : u)));
+        avisar(guardarRol(usuarioElegido, rol), `${usuarioElegido.nombre} ahora es ${rol.toLowerCase()}.`);
     };
 
-    const cambiarRol = (rut, rol) => {
-        setUsuarios(usuarios.map((u) => (u.rut === rut ? { ...u, rol } : u)));
+    const cambiarCupo = (id, valor) => {
+        setUsuarios(usuarios.map((u) => (u.id === id ? { ...u, cupo: Math.max(0, Number(valor)) } : u)));
     };
+
+    const guardarCupo = (u) => avisar(asignarCupo(u.id, u.cupo), `Cupo de ${u.nombre} actualizado.`);
 
     const inventarioFiltrado = inventario.filter((it) => {
         const texto = busqueda.trim().toLowerCase();
@@ -122,6 +142,10 @@ function Panel() {
                                 <div className="alert alert-danger" role="alert">
                                     No se pudieron cargar los datos del panel. Recarga la página para intentar de nuevo.
                                 </div>
+                            )}
+
+                            {aviso && (
+                                <div className={`alert ${aviso.tipo === 'exito' ? 'alert-success' : 'alert-danger'}`} role="status">{aviso.texto}</div>
                             )}
 
                             {!datos && !error && (
@@ -188,7 +212,6 @@ function Panel() {
                                     <section id="inventario">
                                         <h2 className="h3 mb-3">Inventario</h2>
 
-                                        {aviso && <div className="alert alert-success" role="status">{aviso}</div>}
 
                                         <div className="mb-3">
                                             <label htmlFor="buscarInventario" className="form-label">Buscar producto</label>
@@ -290,20 +313,29 @@ function Panel() {
                                                 </thead>
                                                 <tbody>
                                                     {pedidosFiltrados.map((p) => (
-                                                        <tr key={p.numero}>
+                                                        <tr key={p.id}>
                                                             <td>{p.numero}</td>
                                                             <td>{p.cliente}</td>
                                                             <td>{p.fecha}</td>
                                                             <td>{p.entrega}</td>
                                                             <td><strong>{p.total}</strong></td>
-                                                            <td>{p.pago}</td>
+                                                            <td>
+                                                                {p.pago}
+                                                                {p.porPagar && (
+                                                                    <button type="button" className="btn btn-outline-dark btn-sm d-block mt-1" onClick={() => pagarPedido(p)}>
+                                                                        Registrar pago
+                                                                    </button>
+                                                                )}
+                                                            </td>
                                                             <td>
                                                                 <select
                                                                     className="form-select form-select-sm"
                                                                     aria-label={`Estado del pedido ${p.numero}`}
                                                                     value={p.estado}
-                                                                    onChange={(e) => cambiarEstadoPedido(p.numero, e.target.value)}
+                                                                    disabled={p.anulado}
+                                                                    onChange={(e) => cambiarEstadoPedido(p, e.target.value)}
                                                                 >
+                                                                    {p.anulado && <option>Anulado</option>}
                                                                     {estadosPedido.map((e) => (
                                                                         <option key={e}>{e}</option>
                                                                     ))}
@@ -347,7 +379,7 @@ function Panel() {
                                     <section id="usuarios">
                                         <h2 className="h3 mb-3">Usuarios</h2>
                                         <p className="text-body-secondary">
-                                            Cambia el rol de cada usuario desde la tabla.
+                                            Cambia el rol de cada usuario y asigna el cupo de crédito a los contratistas.
                                         </p>
 
                                         <div className="table-responsive bg-white rounded">
@@ -357,13 +389,13 @@ function Panel() {
                                                         <th>RUT</th>
                                                         <th>Usuario</th>
                                                         <th>Rol</th>
-                                                        <th>Crédito usado</th>
+                                                        <th>Crédito</th>
                                                         <th>Estado</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {usuarios.map((u) => (
-                                                        <tr key={u.rut}>
+                                                        <tr key={u.id}>
                                                             <td>{u.rut}</td>
                                                             <td>
                                                                 {u.nombre}
@@ -375,7 +407,7 @@ function Panel() {
                                                                     className="form-select form-select-sm"
                                                                     aria-label={`Rol de ${u.nombre}`}
                                                                     value={u.rol}
-                                                                    onChange={(e) => cambiarRol(u.rut, e.target.value)}
+                                                                    onChange={(e) => cambiarRol(u, e.target.value)}
                                                                 >
                                                                     {roles.map((r) => (
                                                                         <option key={r}>{r}</option>
@@ -383,9 +415,25 @@ function Panel() {
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <span className={u.cuenta ? 'badge text-bg-info' : 'badge text-bg-light border'}>
-                                                                    {u.cuenta ?? 'No tiene'}
-                                                                </span>
+                                                                {u.rol === 'Contratista' ? (
+                                                                    <div className="d-flex gap-2 align-items-center">
+                                                                        <input
+                                                                            type="number"
+                                                                            className="form-control form-control-sm cantidad"
+                                                                            min="0"
+                                                                            step="10000"
+                                                                            value={u.cupo}
+                                                                            aria-label={`Cupo de ${u.nombre}`}
+                                                                            onChange={(e) => cambiarCupo(u.id, e.target.value)}
+                                                                        />
+                                                                        <button type="button" className="btn btn-primary btn-sm" onClick={() => guardarCupo(u)}>
+                                                                            Guardar
+                                                                        </button>
+                                                                    </div>
+                                                                ) : (
+                                                                    <span className="badge text-bg-light border">No tiene</span>
+                                                                )}
+                                                                {u.cuenta && <small className="d-block text-body-secondary">Usado: {u.cuenta}</small>}
                                                             </td>
                                                             <td><span className="badge text-bg-success">Activa</span></td>
                                                         </tr>
