@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { iniciarSesion } from '../mocks/usuariosMocks.js';
+import { iniciarSesion } from '../api/sesion.js';
 
 // sin provider (por ejemplo en algunos tests) se comporta como sesion cerrada
 const SesionContext = createContext({ usuario: null, entrar: async () => null, salir: () => {} });
@@ -8,8 +8,9 @@ const CLAVE_STORAGE = 'sesion';
 
 function leerSesionGuardada() {
     try {
-        const guardada = localStorage.getItem(CLAVE_STORAGE);
-        return guardada ? JSON.parse(guardada) : null;
+        const guardada = JSON.parse(localStorage.getItem(CLAVE_STORAGE));
+        if (guardada?.expiraEn && new Date(guardada.expiraEn) < new Date()) return null;
+        return guardada;
     } catch {
         return null;
     }

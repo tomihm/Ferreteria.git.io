@@ -6,6 +6,13 @@ const Validar = {
     return (valor ?? "").trim().length > 0 ? null : "Este campo es obligatorio.";
   },
 
+  fechaNacimiento(valor) {
+    if (!valor) return "Indica tu fecha de nacimiento.";
+    const fecha = new Date(`${valor}T00:00:00`);
+    if (Number.isNaN(fecha.getTime())) return "La fecha no es válida.";
+    return fecha < new Date() ? null : "La fecha debe ser anterior a hoy.";
+  },
+
   email(valor) {
     const texto = (valor ?? "").trim();
     const patron = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;

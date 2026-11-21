@@ -1,9 +1,24 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { SesionProvider } from '../context/SesionContext.jsx';
 import Login from './Login.jsx';
+
+vi.mock('../api/sesion.js', () => {
+    const usuarios = [
+        { email: 'admin@losmaestros.cl', password: 'Admin2026', nombre: 'Carlos Muñoz', rol: 'admin' },
+        { email: 'contratista@correo.cl', password: 'Contratista2026', nombre: 'Juan Pérez', rol: 'contratista' },
+        { email: 'cliente@correo.cl', password: 'Cliente2026', nombre: 'María Rojas', rol: 'cliente' }
+    ];
+    return {
+        iniciarSesion: async (email, password) => {
+            const encontrado = usuarios.find((u) => u.email === email && u.password === password);
+            if (!encontrado) throw new Error('Correo o contraseña incorrectos.');
+            return { id: 1, nombre: encontrado.nombre, email, rol: encontrado.rol, token: 'token-de-prueba' };
+        }
+    };
+});
 
 // las paginas de destino se reemplazan por un texto para saber a donde llego
 function renderLogin() {

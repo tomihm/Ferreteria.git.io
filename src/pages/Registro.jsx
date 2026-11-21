@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { registrarUsuario } from '../api/sesion.js';
 import { Link } from 'react-router-dom';
 import Validar from '../utils/validaciones.js';
 import { validarTodo, hayErrores, claseCampo } from '../utils/formularios.js';
@@ -8,6 +9,7 @@ const registroInicial = {
     rut: '',
     email: '',
     telefono: '',
+    fechaNacimiento: '',
     direccion: '',
     password: '',
     password2: '',
@@ -20,6 +22,7 @@ const reglasRegistro = {
     rut: Validar.rut,
     email: Validar.email,
     telefono: Validar.telefono,
+    fechaNacimiento: Validar.fechaNacimiento,
     direccion: Validar.requerido,
     password: Validar.password,
     password2: (v, form) => Validar.confirmarPassword(v, form.password)
@@ -33,6 +36,7 @@ function Registro() {
     const [registro, setRegistro] = useState(registroInicial);
     const [erroresRegistro, setErroresRegistro] = useState({});
     const [avisoRegistro, setAvisoRegistro] = useState(null);
+    const [enviando, setEnviando] = useState(false);
 
     const handleChangeRegistro = (e) => {
         const { name, value, type, checked } = e.target;
@@ -50,7 +54,7 @@ function Registro() {
         setErroresRegistro({ ...erroresRegistro, [name]: reglasRegistro[name](value, registro) });
     };
 
-    const handleSubmitRegistro = (e) => {
+    const handleSubmitRegistro = async (e) => {
         e.preventDefault();
 
         const nuevosErrores = validarTodo(reglasRegistro, registro);
@@ -61,10 +65,21 @@ function Registro() {
             return;
         }
 
-        // TODO: conectar con el backend
-        setAvisoRegistro({ tipo: 'exito', texto: 'Cuenta válida. El registro se conectará al backend en la siguiente etapa.' });
-        setRegistro(registroInicial);
-        setErroresRegistro({});
+        setEnviando(true);
+        try {
+            await registrarUsuario(registro);
+            setAvisoRegistro({
+                tipo: 'exito',
+                texto: registro.contratista
+                    ? 'Cuenta creada. Ya puedes entrar; el cupo de crédito lo asigna la tienda después de revisar tus datos.'
+                    : 'Cuenta creada. Ya puedes entrar con tu correo y contraseña.'
+            });
+            setRegistro(registroInicial);
+            setErroresRegistro({});
+        } catch (error) {
+            setAvisoRegistro({ tipo: 'error', texto: error.message });
+        }
+        setEnviando(false);
     };
 
     return (
@@ -111,6 +126,14 @@ function Registro() {
                         </div>
 
                         <div className="mb-3">
+                            <label htmlFor="regFechaNacimiento" className="form-label">Fecha de nacimiento</label>
+                            <input type="date" id="regFechaNacimiento" name="fechaNacimiento" autoComplete="bday"
+                                value={registro.fechaNacimiento} onChange={handleChangeRegistro} onBlur={handleBlurRegistro}
+                                className={claseCampo(erroresRegistro, 'fechaNacimiento')} aria-invalid={!!erroresRegistro.fechaNacimiento} />
+                            <ErrorCampo mensaje={erroresRegistro.fechaNacimiento} />
+                        </div>
+
+                        <div className="mb-3">
                             <label htmlFor="regDireccion" className="form-label">Dirección</label>
                             <input type="text" id="regDireccion" name="direccion" placeholder="Calle, número, comuna" autoComplete="street-address"
                                 value={registro.direccion} onChange={handleChangeRegistro} onBlur={handleBlurRegistro}
@@ -141,7 +164,7 @@ function Registro() {
                             <label htmlFor="regContratista" className="form-check-label">Soy contratista o maestro de obra</label>
                         </div>
 
-                        <button type="submit" className="btn btn-primary w-100">Crear cuenta</button>
+                        <button type="submit" className="btn btn-primary w-100" disabled={enviando}>{enviando ? 'Creando cuenta...' : 'Crear cuenta'}</button>
                         <p className="form-text text-center mb-0 mt-3">¿Ya tienes cuenta? <Link to="/login">Entrar</Link></p>
                     </form>
                 </div>

@@ -29,7 +29,7 @@ const router = createBrowserRouter([
       { path: 'catalogo', element: <Catalogo /> },
       { path: 'nosotros', element: <Nosotros /> },
       { path: 'contacto', element: <Contacto /> },
-      { path: 'mis-pedidos', element: <RutaProtegida roles={['contratista', 'cliente']}><MisPedidos /></RutaProtegida> },
+      { path: 'mis-pedidos', element: <RutaProtegida roles={['contratista', 'cliente', 'vendedor']}><MisPedidos /></RutaProtegida> },
       { path: 'panel', element: <RutaProtegida roles={['admin']}><Panel /></RutaProtegida> },
       { path: 'producto/:id', element: <ProductoDetalle /> },
       { path: 'carrito', element: <Carrito /> },

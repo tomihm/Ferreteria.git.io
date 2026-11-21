@@ -27,6 +27,14 @@ describe('Validar.email', () => {
     });
 });
 
+describe('Validar.fechaNacimiento', () => {
+    it('pide la fecha y que sea anterior a hoy', () => {
+        expect(Validar.fechaNacimiento('')).toBe('Indica tu fecha de nacimiento.');
+        expect(Validar.fechaNacimiento('1990-05-01')).toBeNull();
+        expect(Validar.fechaNacimiento('2999-01-01')).toBe('La fecha debe ser anterior a hoy.');
+    });
+});
+
 describe('Validar.telefono', () => {
     it('acepta celular con y sin +56', () => {
         expect(Validar.telefono('+569 1234 5678')).toBeNull();
