@@ -29,7 +29,6 @@ jobs:
         env:
           # el token de Mapbox no esta en el repo: se guarda en Settings > Secrets and variables > Actions
           VITE_MAPBOX_TOKEN: ${{ secrets.MAPBOX_TOKEN }}
-      # la direccion del backend se guarda en Settings > Secrets and variables > Actions > Variables (API_URL)
       - run: echo "window.CONFIG = { API_URL: '${{ vars.API_URL }}' };" > dist/config.js
       # para que al recargar /contacto o /nosotros no de 404
       - run: cp dist/index.html dist/404.html
