@@ -1,19 +1,27 @@
 import { pedir } from './cliente.js';
 
+function aSesion(datos) {
+    return {
+        id: datos.usuarioId,
+        nombre: datos.nombre,
+        email: datos.email,
+        rol: datos.rol.toLowerCase(),
+        token: datos.token,
+        expiraEn: datos.expiraEn
+    };
+}
+
+export async function renovarSesion() {
+    return aSesion(await pedir('/api/auth/renovar', { metodo: 'POST' }));
+}
+
 export async function iniciarSesion(email, password) {
     try {
         const datos = await pedir('/api/auth/login', {
             metodo: 'POST',
             cuerpo: { email: email.trim().toLowerCase(), password }
         });
-        return {
-            id: datos.usuarioId,
-            nombre: datos.nombre,
-            email: datos.email,
-            rol: datos.rol.toLowerCase(),
-            token: datos.token,
-            expiraEn: datos.expiraEn
-        };
+        return aSesion(datos);
     } catch (error) {
         if (error.status === 401) throw new Error('Correo o contraseña incorrectos.', { cause: error });
         throw error;

@@ -1,10 +1,11 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { iniciarSesion } from '../api/sesion.js';
+import { iniciarSesion, renovarSesion } from '../api/sesion.js';
 
 // sin provider (por ejemplo en algunos tests) se comporta como sesion cerrada
 const SesionContext = createContext({ usuario: null, entrar: async () => null, salir: () => {} });
 
 const CLAVE_STORAGE = 'sesion';
+const RENOVAR_ANTES_MS = 5 * 60 * 1000;
 
 function leerSesionGuardada() {
     try {
@@ -27,6 +28,22 @@ export function SesionProvider({ children }) {
             // si el navegador no deja guardar, la sesion dura hasta recargar
         }
     }, [usuario]);
+
+    useEffect(() => {
+        const cerrar = () => setUsuario(null);
+        window.addEventListener('sesion-vencida', cerrar);
+        return () => window.removeEventListener('sesion-vencida', cerrar);
+    }, []);
+
+    const expiraEn = usuario?.expiraEn;
+    useEffect(() => {
+        if (!expiraEn) return;
+        const espera = Math.max(new Date(expiraEn) - Date.now() - RENOVAR_ANTES_MS, 0);
+        const temporizador = setTimeout(() => {
+            renovarSesion().then(setUsuario).catch(() => {});
+        }, espera);
+        return () => clearTimeout(temporizador);
+    }, [expiraEn]);
 
     const entrar = async (email, password) => {
         const encontrado = await iniciarSesion(email, password);

@@ -31,6 +31,7 @@ export async function pedir(ruta, { metodo = 'GET', cuerpo } = {}) {
     if (respuesta.status === 204) return null;
     const datos = await respuesta.json().catch(() => null);
     if (!respuesta.ok) {
+        if (respuesta.status === 401 && token) window.dispatchEvent(new Event('sesion-vencida'));
         const error = new Error(datos?.mensaje ?? 'Ocurrió un error, intenta de nuevo.');
         error.status = respuesta.status;
         error.errores = datos?.errores ?? null;
